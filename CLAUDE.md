@@ -50,7 +50,8 @@ scripts/                             → media pipeline (images, video grading)
 - Every EN string needs an AR counterpart. AR is a draft until Mohamad or a native speaker approves it (see `content/ar.ts` header).
 - Hero copy follows Mohamad's brief verbatim (see `BRIEF.md`).
 - Binghatti appears **only** as the last row of the career timeline. Never in the hero, meta tags or elsewhere.
-- Do not use photos with other public figures, family or children, or company team shots. Approved photos are listed in `CONTENT.md`.
+- Photos with notable people (e.g. Jean-Claude Van Damme) appear only in the "In good company" section and only as originals supplied by the owner in `assets/company/` (see the README there). Never pull them from the web.
+- Do not use family or children photos, or company team shots. Approved photos are listed in `CONTENT.md`.
 - Never invent achievements, clients, awards or press. If a fact is not in `CONTENT.md` or confirmed by the owner, it doesn't ship.
 - Placeholders (WhatsApp number, email, signature) are marked `TODO` in `site.config.ts`. Search for `TODO` before launch.
 
