@@ -79,6 +79,15 @@ export const ar: Dict = {
       },
     ],
   },
+  company: {
+    kicker: "لقاءات",
+    heading: "في صحبة مميزة.",
+    items: [
+      { key: "van-damme", name: "جان كلود فان دام", note: "خلال غداء خاص" },
+      { key: "geiss", name: "روبرت وكارمن غايس", note: "نوفمبر 2025" },
+      { key: "sesay", name: "سعادة رشيد سيساي", note: "سفير جمهورية سيراليون لدى الإمارات" },
+    ],
+  },
   international: {
     kicker: "حضور دولي",
     heading: "شبكة عملاء تمتد عبر القارات.",
