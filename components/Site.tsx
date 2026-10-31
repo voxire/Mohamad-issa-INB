@@ -31,7 +31,8 @@ export function Site({ t }: { t: Dict }) {
           <Arrow />
         </a>
       </div>
-      <Analytics t={t} />
+      {/* Pass only the consent strings so the whole dictionary isn't shipped to the browser */}
+      <Analytics t={{ consent: t.consent }} />
       <Motion />
     </>
   );

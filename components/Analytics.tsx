@@ -27,7 +27,7 @@ function loadGA(id: string) {
  * Google Analytics, loaded only after the visitor accepts.
  * Disabled entirely while site.gaId is empty.
  */
-export function Analytics({ t }: { t: Dict }) {
+export function Analytics({ t }: { t: Pick<Dict, "consent"> }) {
   const [ask, setAsk] = useState(false);
 
   useEffect(() => {
