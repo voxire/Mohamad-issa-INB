@@ -1284,6 +1284,24 @@ ul {
   clip-path: inset(0 0 0 0);
 }
 
+.gallery__hint {
+  display: none;
+}
+@keyframes hint-nudge {
+  50% {
+    transform: translateX(6px);
+  }
+}
+@keyframes hint-nudge-rtl {
+  0%,
+  100% {
+    transform: scaleX(-1);
+  }
+  50% {
+    transform: scaleX(-1) translateX(6px);
+  }
+}
+
 /* ---------- Mobile refinements (≤ 860px) ----------
    From the mobile review: tighter vertical rhythm, readable micro-labels,
    44px tap targets, cities stacked without orphaned separators, centred footer,
@@ -1342,6 +1360,27 @@ ul {
   }
   .intl__sep {
     display: none;
+  }
+
+  /* Gallery: a quiet swipe cue under the heading */
+  .gallery__hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-block-start: 18px;
+    color: var(--ink-3);
+  }
+  .gallery__hint .btn__arrow {
+    width: 16px;
+    height: 16px;
+    /* nudges three times, then rests (only the hero video loops) */
+    animation: hint-nudge 1.6s var(--ease) 1.2s 3;
+  }
+  [dir="rtl"] .gallery__hint .btn__arrow {
+    animation-name: hint-nudge-rtl;
+  }
+  .gallery__head {
+    gap: 0;
   }
 
   /* Gallery: bring the caption closer and keep it readable */
