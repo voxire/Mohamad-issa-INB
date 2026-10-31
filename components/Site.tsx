@@ -237,18 +237,22 @@ function Career({ t }: { t: Dict }) {
             {t.career.heading}
           </h2>
         </div>
-        <ol className="timeline">
-          {t.career.items.map((item, i) => (
-            <li className="timeline__row" key={item.year + item.company} data-reveal style={d(i, 0.08)}>
-              <span className="timeline__year">
-                {item.year}
-                {i === last && <span className="timeline__present">{t.career.present}</span>}
-              </span>
-              <span className="timeline__role">{item.role}</span>
-              <span className="timeline__company label">{item.company}</span>
-            </li>
-          ))}
-        </ol>
+        <div className="timeline-wrap">
+          {/* A light line draws down the track as you scroll; each row lights up as it passes */}
+          <span className="timeline__line" aria-hidden="true" />
+          <ol className="timeline">
+            {t.career.items.map((item, i) => (
+              <li className="timeline__row" key={item.year + item.company} data-reveal style={d(i, 0.08)}>
+                <span className="timeline__year">
+                  {item.year}
+                  {i === last && <span className="timeline__present">{t.career.present}</span>}
+                </span>
+                <span className="timeline__role">{item.role}</span>
+                <span className="timeline__company label">{item.company}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   );
