@@ -88,6 +88,7 @@ export const ar: Dict = {
   gallery: {
     kicker: "حضورٌ شخصي",
     heading: "حيثما تكون الفرصة.",
+    hint: "اسحب",
     captions: { singapore: "سنغافورة", "london-sofa": "لندن", "london-street": "لندن", "terrace-coat": "إسطنبول" },
   },
   press: {
