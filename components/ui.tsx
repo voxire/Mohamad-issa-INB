@@ -70,12 +70,15 @@ export function Arrow() {
 
 export function Monogram({ className = "monogram" }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 48 48" aria-hidden="true">
-      <circle cx="24" cy="24" r="23" fill="none" stroke="currentColor" strokeWidth="0.6" />
-      <circle cx="24" cy="24" r="20.5" fill="none" stroke="currentColor" strokeWidth="0.3" opacity="0.5" />
-      <text x="24" y="29.2" textAnchor="middle" fontSize="15" letterSpacing="0.6">
-        MI
-      </text>
+    // The Spire: the I rises through the M like a tower, with a blue tip and a horizon line beneath.
+    <svg className={className} viewBox="0 0 200 200" aria-hidden="true" fill="none">
+      <g className="monogram__mi" strokeWidth="7" strokeLinecap="square">
+        <path d="M52 158V62l48 62 48-62v96" />
+        <path d="M100 158V40" />
+        <path d="M40 158h24M136 158h24M88 158h24" />
+      </g>
+      <path d="M100 40V18" stroke="currentColor" strokeWidth="4.5" />
+      <path d="M28 176h144" stroke="currentColor" strokeWidth="3" />
     </svg>
   );
 }
