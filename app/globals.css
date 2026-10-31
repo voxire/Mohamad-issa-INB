@@ -406,10 +406,8 @@ ul {
   height: 46px;
   color: var(--accent);
 }
-.monogram text {
-  font-family: "Cormorant Garamond", serif;
-  font-weight: 300;
-  fill: var(--ink);
+.monogram__mi {
+  stroke: var(--ink);
 }
 
 /* ---------- Hero ---------- */
