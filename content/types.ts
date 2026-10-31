@@ -6,6 +6,8 @@ export type Dict = {
   meta: { title: string; description: string };
   nav: { switchLabel: string; switchHref: string; switchLang: string; skip: string };
   whatsappMessage: string;
+  /** The words the intro particles gather into at the end. */
+  intro: { words: string };
   hero: {
     name: string;
     nameAlt: string;
