@@ -56,6 +56,7 @@ Top skills: Team Leadership, Team Management, Negotiation, International Sales, 
   - `geiss.jpg`: with Robert and Carmen Geiss at an event, November 2025 (cropped from `originals/supplied-6.jpg`)
   - `sesay.jpg`: with H.E. Rashid Sesay outside the Sierra Leone embassy (cropped from `originals/supplied-5.jpg`)
   - Unused alternates kept in `originals/`: a second Geiss shot and two lunch photos with Van Damme (one includes another guest).
+- `assets/earth/black-marble-2016.jpg`: NASA Earth Observatory "Earth at Night" (Black Marble 2016, record 144898, 3600×1800), public domain. Graded into `public/media/earth-night-2048.webp` by `scripts/earth-texture.py` for the International globe.
 - Not used: the family and children photo, the Binghatti team photo, and the Sobha anniversary letter.
 
 ## Claims to fix before publishing
