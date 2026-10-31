@@ -51,7 +51,12 @@ Top skills: Team Leadership, Team Management, Negotiation, International Sales, 
   - `DGYZ0dLPnLv` London lawn (1440×1440)
   - `DLZ68cHPUzS` white tee, leather armchair (1424×1779): casual, use last if at all
 - `instagram/thumbs/`: 640px square crops of the same posts
-- Deliberately not used: the photos with Jean-Claude Van Damme and with the Sierra Leone ambassador (other public figures), the family and children photo, the Binghatti team photo, and the Sobha anniversary letter.
+- `assets/company/` (supplied by the owner on 31 Oct 2026, used only in "In good company"):
+  - `van-damme.jpg`: with Jean-Claude Van Damme in a marble lobby (cropped 4:5 from `originals/supplied-9.jpg`)
+  - `geiss.jpg`: with Robert and Carmen Geiss at an event, November 2025 (cropped from `originals/supplied-6.jpg`)
+  - `sesay.jpg`: with H.E. Rashid Sesay outside the Sierra Leone embassy (cropped from `originals/supplied-5.jpg`)
+  - Unused alternates kept in `originals/`: a second Geiss shot and two lunch photos with Van Damme (one includes another guest).
+- Not used: the family and children photo, the Binghatti team photo, and the Sobha anniversary letter.
 
 ## Claims to fix before publishing
 - "11+ years in Dubai real estate": his first Dubai real estate role started Feb 2016, which is about 10.7 years. Use **"10+ years"** or "A decade", which his own copy already says.
