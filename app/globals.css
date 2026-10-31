@@ -421,7 +421,17 @@ ul {
   min-height: 100svh;
   display: flex;
   overflow: hidden;
-  background: #0d0d0d;
+  background: var(--bg);
+}
+
+/* Video + veil share one layer so the scroll zoom-out can frame them as a panel */
+.hero__media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(0% 0% 0% 0% round 0px);
+  background: #0d0d0d url(/media/hero-poster.jpg) center / cover no-repeat;
+  will-change: clip-path;
 }
 
 .hero__video {
@@ -431,7 +441,7 @@ ul {
   height: 100%;
   object-fit: cover;
   opacity: 1;
-  transform: scale(1.04);
+  transform: scale(1.06);
 }
 
 .hero__veil {
@@ -1362,6 +1372,169 @@ ul {
   }
 }
 
+/* ---------- Opening intro (once per visit) ---------- */
+
+.intro {
+  display: none;
+}
+.js:not(.intro-seen) .intro {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  background: var(--bg);
+  clip-path: inset(0% 0% 0% 0%);
+  cursor: pointer;
+}
+.js:not(.intro-seen) body {
+  overflow: hidden;
+}
+.intro__mark {
+  width: 96px;
+  height: 96px;
+  color: var(--accent);
+}
+.intro__ring {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.8;
+  stroke-dasharray: 352;
+  stroke-dashoffset: 352;
+  transform: rotate(-90deg);
+  transform-origin: 60px 60px;
+}
+.intro__mi {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 300;
+  font-size: 32px;
+  letter-spacing: 1px;
+  fill: var(--ink);
+  opacity: 0;
+}
+.intro__name {
+  display: flex;
+  overflow: hidden;
+  padding-block: 0.08em;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(26px, 3.6vw, 48px);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+[dir="rtl"] .intro__name {
+  gap: 0.35em;
+  letter-spacing: 0;
+  font-weight: 400;
+  font-size: clamp(32px, 4.4vw, 56px);
+  line-height: 1.5;
+}
+.intro__char {
+  display: inline-block;
+  transform: translateY(110%);
+}
+.intro__line {
+  display: block;
+  width: 120px;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+}
+
+/* ---------- Living hero: chrome sheen across the name, every ~10s ---------- */
+
+.hero__name.is-live {
+  background: linear-gradient(100deg, var(--ink) 0%, var(--ink) 42%, #fffaf0 50%, var(--ink) 58%, var(--ink) 100%);
+  background-size: 260% 100%;
+  background-position: 130% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: sheen 10s cubic-bezier(0.45, 0, 0.25, 1) 2.2s infinite;
+}
+.hero__name.is-live .hero__alt {
+  -webkit-text-fill-color: var(--accent);
+}
+@keyframes sheen {
+  0% {
+    background-position: 130% 0;
+  }
+  24%,
+  100% {
+    background-position: -30% 0;
+  }
+}
+/* GSAP drives the portrait's transform on scroll; keep only the fade transition */
+.js .hero__portrait[data-reveal] {
+  transition: opacity 1.4s var(--ease) var(--d, 0s);
+}
+
+/* ---------- Quote, word by word ---------- */
+
+.statement__quote .w {
+  display: inline;
+}
+
+/* ---------- Career line ---------- */
+
+.timeline-wrap {
+  position: relative;
+  padding-inline-start: 32px;
+}
+.timeline-wrap::before,
+.timeline__line {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 1px;
+  background: var(--line);
+}
+.timeline__line {
+  background: var(--accent);
+  transform-origin: top;
+}
+.js .timeline__line {
+  transform: scaleY(0);
+}
+.timeline__row {
+  position: relative;
+}
+/* the reveal's clip-path would hide the dot, which sits outside the row box */
+.js .timeline__row[data-reveal] {
+  clip-path: none;
+}
+.timeline__row::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: -36px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  margin-block-start: -4.5px;
+  border-radius: 50%;
+  border: 1px solid var(--line-accent);
+  background: var(--bg-2);
+  transition: background-color 0.8s var(--ease), border-color 0.8s var(--ease), box-shadow 0.8s var(--ease);
+}
+.timeline__row.is-active::before {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 5px rgba(157, 184, 204, 0.12);
+}
+.js .timeline__row .timeline__year,
+.js .timeline__row .timeline__role {
+  transition: color 0.8s var(--ease);
+}
+.js .timeline__row:not(.is-active) .timeline__year,
+.js .timeline__row:not(.is-active) .timeline__role {
+  color: var(--ink-3);
+}
+
 /* ---------- Mobile refinements (≤ 860px) ----------
    From the mobile review: tighter vertical rhythm, readable micro-labels,
    44px tap targets, cities stacked without orphaned separators, centred footer,
@@ -1510,5 +1683,11 @@ ul {
   }
   .hero__video {
     display: none;
+  }
+  .hero__name.is-live {
+    animation: none;
+  }
+  .timeline__line {
+    transform: none !important;
   }
 }
