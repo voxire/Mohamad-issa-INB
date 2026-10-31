@@ -80,6 +80,16 @@ export const en: Dict = {
       },
     ],
   },
+  // Photos are supplied by the owner (see assets/company/README.md); captions come from his own posts.
+  company: {
+    kicker: "Encounters",
+    heading: "In good company.",
+    items: [
+      { key: "van-damme", name: "Jean-Claude Van Damme", note: "Over a private lunch" },
+      { key: "geiss", name: "Robert and Carmen Geiss", note: "November 2025" },
+      { key: "sesay", name: "H.E. Rashid Sesay", note: "Ambassador of Sierra Leone to the UAE" },
+    ],
+  },
   international: {
     kicker: "International",
     heading: "A client network that spans continents.",
