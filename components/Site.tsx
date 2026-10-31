@@ -103,22 +103,15 @@ function ContactLinks({ t }: { t: Dict }) {
 function Hero({ t, wa }: { t: Dict; wa: string }) {
   const portrait = srcSet("portrait-hero");
   return (
-    <section className="hero" aria-label={t.hero.name} style={{ backgroundImage: "url(/media/hero-poster.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}>
-      <video
-        className="hero__video"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster="/media/hero-poster.jpg"
-        aria-hidden="true"
-      >
-        <source src="/media/hero-mobile.mp4" type="video/mp4" media="(max-width: 860px)" />
-        <source src="/media/hero-desktop.mp4" type="video/mp4" />
-      </video>
-
-      <div className="hero__veil" aria-hidden="true" />
+    <section className="hero" aria-label={t.hero.name}>
+      {/* City video + veil in one layer, so the scroll zoom-out can frame them together */}
+      <div className="hero__media" aria-hidden="true">
+        <video className="hero__video" autoPlay muted loop playsInline preload="metadata" poster="/media/hero-poster.jpg">
+          <source src="/media/hero-mobile.mp4" type="video/mp4" media="(max-width: 860px)" />
+          <source src="/media/hero-desktop.mp4" type="video/mp4" />
+        </video>
+        <div className="hero__veil" />
+      </div>
       {/* Sits above the veil so the portrait stays at full strength */}
       <div className="hero__portrait" data-reveal="fade" style={d(0, 0, 0.2)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
