@@ -61,10 +61,20 @@ export function rotationY(a: number): Mat4 {
   return m;
 }
 
-/** A WebGL context with additive-friendly defaults, or null when WebGL is unavailable. */
-export function context(canvas: HTMLCanvasElement): WebGLRenderingContext | null {
+/**
+ * A WebGL context, or null when WebGL is unavailable.
+ * With `gpuOnly` it is also null when the browser would draw in software (no GPU acceleration):
+ * there the animation would stutter and block the page, so callers fall back to something still.
+ */
+export function context(canvas: HTMLCanvasElement, gpuOnly = true): WebGLRenderingContext | null {
   try {
-    return canvas.getContext("webgl", { alpha: true, antialias: false, premultipliedAlpha: true, powerPreference: "high-performance" });
+    return canvas.getContext("webgl", {
+      alpha: true,
+      antialias: false,
+      premultipliedAlpha: true,
+      powerPreference: "high-performance",
+      failIfMajorPerformanceCaveat: gpuOnly,
+    });
   } catch {
     return null;
   }
