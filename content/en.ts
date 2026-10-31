@@ -15,6 +15,7 @@ export const en: Dict = {
   nav: { switchLabel: "العربية", switchHref: "/ar/", switchLang: "ar", skip: "Skip to content" },
   whatsappMessage:
     "Hi Mohamad, I visited your website and would like to discuss property investment opportunities in Dubai.",
+  intro: { words: "Let’s talk." },
   hero: {
     name: "Mohamad Issa",
     nameAlt: "محمد عيسى",
