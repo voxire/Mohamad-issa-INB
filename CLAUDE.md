@@ -8,7 +8,7 @@ Read `BRIEF.md` (agreed creative decisions) and `CONTENT.md` (gathered facts and
 - Next.js 16 (App Router) with `output: "export"`. The site is fully static: no server, no API routes, no runtime data fetching.
 - TypeScript, React 19. Plain CSS in one file (`app/globals.css`, sectioned by component). No Tailwind, no UI kit.
 - Fonts are self-hosted via `@fontsource`: Cormorant Garamond (display), Manrope (UI), Noto Naskh Arabic (AR). Nothing loads from Google at runtime.
-- Smooth scroll: `lenis`. All other motion is hand-written (IntersectionObserver + CSS). Don't add animation libraries without asking.
+- Motion: `gsap` + `ScrollTrigger` (scroll choreography, intro) and `lenis` (smooth scroll, driven by the GSAP ticker). Simple reveals stay on IntersectionObserver + CSS. Don't add other animation libraries without asking.
 - Images are pre-optimised into `public/media/` (WebP, several widths) because static export disables `next/image` optimisation.
 - Hosting: Vercel (static). Domain mohamadissa.com is registered at GoDaddy.
 
@@ -40,7 +40,7 @@ scripts/                             → media pipeline (images, video grading)
 - **Palette (his brief):** charcoal `#121212` background, warm beige `#E8DCC8` text, restrained light blue `#9DB8CC` accent. The accent is used sparingly: hairlines, the monogram, small labels. Never as large fills.
 - **Typography:** large, light-weight Cormorant for names and statements; Manrope at small sizes, uppercase, wide tracking (0.2–0.32em) for labels. Body text is never bold. Use at most two weights per family.
 - **Space is the luxury.** Generous padding (sections ≥ 18vh vertical on desktop). One idea per screen. If a section feels full, remove something.
-- **Motion:** slow and eased (600–1400ms, `cubic-bezier(.22,1,.36,1)`). Reveal on scroll, gentle parallax on photos, one magnetic button. Nothing bounces, spins or loops except the hero video. Respect `prefers-reduced-motion`.
+- **Motion (Apple-style, precise and scroll-driven):** slow and eased (600–1400ms, `cubic-bezier(.22,1,.36,1)`). The set pieces are: the opening intro (once per tab session, tap to skip), the living hero (name sheen every ~10s, pointer depth on desktop, stats count up), the pinned hero zoom-out (unpinned and lighter on phones), the quote lighting up word by word, and the career line drawing down the timeline. Plus reveals, gentle photo parallax and magnetic buttons. Normal cursor. Nothing bounces or spins; only the hero video and the name sheen loop. Under `prefers-reduced-motion` everything shows in its final state.
 - **No stock-template tells:** no icons in circles, no card grids with shadows, no gradients except the dark veil over the video and photo masks, no emojis.
 - **WhatsApp button** must be visible on the first mobile screen without scrolling, and stays reachable (sticky on mobile after the hero).
 - Every component must work in RTL. Use logical CSS properties (`margin-inline-start`, `inset-inline-end`, `text-align: start`).
