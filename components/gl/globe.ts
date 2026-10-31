@@ -122,8 +122,11 @@ const inverse3 = (m: Mat4) => {
   return o;
 };
 
-export function createGlobe(canvas: HTMLCanvasElement, { reduce }: { reduce: boolean }): (() => void) | null {
-  const gl = context(canvas);
+export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }): (() => void) | null {
+  // Without GPU acceleration, draw one still frame instead of animating
+  const fast = context(canvas);
+  const gl = fast ?? context(canvas, false);
+  const reduce = opts.reduce || !fast;
   const earth = gl && program(gl, EARTH_VS, EARTH_FS);
   const pts = gl && program(gl, PTS_VS, PTS_FS);
   if (!gl || !earth || !pts) return null;
