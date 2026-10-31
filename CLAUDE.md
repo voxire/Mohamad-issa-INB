@@ -72,4 +72,4 @@ scripts/                             → media pipeline (images, video grading)
 4. **Format:** short imperative subject, no conventional-commit prefixes (no `feat:`, `fix:`, `chore:`).
 5. **No `Co-Authored-By` trailers.** The owner is the sole author.
 6. **Never use em dashes in commit messages**, and do not substitute a hyphen. Restructure the sentence or use a colon.
-7. **Commit or push only when asked.**
+7. **Always commit and push** once a change is complete and the build passes (the owner's standing instruction). A push to `main` deploys to production on Vercel automatically.
