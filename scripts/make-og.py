@@ -37,8 +37,17 @@ def spaced(x, y, text, font, fill, track):
         d.text((x, y), ch, font=font, fill=fill)
         x += d.textlength(ch, font=font) + track
 
-d.ellipse((70, 60, 118, 108), outline=ACC, width=1)
-d.text((94, 84), "MI", font=ImageFont.truetype("/tmp/f/cg-latin-300-normal.ttf", 19), fill=INK, anchor="mm")
+# The Spire monogram (same geometry as components/ui.tsx, 200-unit box scaled to 60px)
+def spire(ox, oy, size):
+    s = size / 200
+    P = lambda pts: [(ox + x * s, oy + y * s) for x, y in pts]
+    d.line(P([(52, 158), (52, 62), (100, 124), (148, 62), (148, 158)]), fill=INK, width=2, joint="curve")
+    d.line(P([(100, 158), (100, 40)]), fill=INK, width=2)
+    for a, b in ((40, 64), (136, 160), (88, 112)):
+        d.line(P([(a, 158), (b, 158)]), fill=INK, width=2)
+    d.line(P([(100, 40), (100, 18)]), fill=ACC, width=1)
+    d.line(P([(28, 176), (172, 176)]), fill=ACC, width=1)
+spire(66, 52, 64)
 spaced(72, 200, "DUBAI REAL ESTATE  |  INVESTMENT ADVISORY", small, ACC, 4.2)
 spaced(66, 238, "MOHAMAD", serif, INK, 4)
 spaced(66, 340, "ISSA", serif, INK, 4)
