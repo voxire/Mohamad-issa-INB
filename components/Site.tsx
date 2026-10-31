@@ -291,6 +291,48 @@ function Gallery({ t }: { t: Dict }) {
   );
 }
 
+/**
+ * "In good company": photos with notable people. Each photo is supplied by the owner
+ * (assets/company/<key>.jpg → npm run media:images). Checked at build time, so the
+ * section shows only the photos that exist, and disappears entirely if there are none.
+ */
+function Company({ t }: { t: Dict }) {
+  const items = t.company.items.filter((i) =>
+    existsSync(join(process.cwd(), "public", "media", `company-${i.key}-960.webp`)),
+  );
+  if (items.length === 0) return null;
+  return (
+    <section className="section company">
+      <div className="container">
+        <div className="company__head">
+          <Kicker>{t.company.kicker}</Kicker>
+          <h2 className="display h2" data-reveal="mask">
+            {t.company.heading}
+          </h2>
+        </div>
+        <div className="company__grid">
+          {items.map((item, i) => (
+            <figure className="company__fig" key={item.key}>
+              <Photo
+                name={`company-${item.key}`}
+                alt={`${t.hero.name}, ${item.name}`}
+                sizes="(max-width: 860px) 78vw, 30vw"
+                shape="tall"
+                parallax={0.06}
+                delay={i * 0.12}
+              />
+              <figcaption data-reveal style={d(i, 0.12, 0.2)}>
+                <span className="company__name">{item.name}</span>
+                <span className="company__note label">{item.note}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function International({ t }: { t: Dict }) {
   return (
     <section className="section intl">
