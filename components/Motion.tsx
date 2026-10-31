@@ -4,11 +4,13 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { createParticleStory, type ParticleStory } from "./gl/particles";
 
 /**
  * The single motion engine.
  *  - Lenis smooth scrolling, driven by the GSAP ticker so ScrollTrigger stays in sync
- *  - Opening intro (once per tab session): monogram draws, name rises, curtain lifts
+ *  - Opening intro (once per tab session): particles form his portrait, a tower, a globe and "Let's talk", then the curtain lifts
+ *  - Investor globe in the International section (WebGL, lazy-loaded, renders only while on screen)
  *  - Living hero: chrome sheen on the name (CSS), pointer depth on portrait and city, stats count up
  *  - Apple-style pinned zoom-out of the hero on scroll (lighter, unpinned on phones)
  *  - Scroll storytelling: quote lights up word by word, career line draws and lights each year
@@ -78,18 +80,46 @@ export function Motion() {
       startHero();
       ScrollTrigger.refresh();
     };
+    let story: ParticleStory | null = null;
     if (introVisible && intro && !reduce) {
       lenis?.stop();
-      const ring = intro.querySelector(".intro__ring");
+      const canvas = intro.querySelector<HTMLCanvasElement>(".intro__stage");
+      const rtl = root.dir === "rtl";
+      story = canvas
+        ? createParticleStory(canvas, {
+            portrait: intro.dataset.portrait || "",
+            words: intro.dataset.words || "",
+            font: rtl ? '"Noto Naskh Arabic", serif' : '"Cormorant Garamond", Georgia, serif',
+            rtl,
+          })
+        : null;
       introTl = gsap
-        .timeline({ defaults: { ease: "power3.out" }, onComplete: finishIntro })
-        .to(ring, { strokeDashoffset: 0, duration: 1.0, ease: "power2.inOut" })
-        .to(".intro__mi", { opacity: 1, duration: 0.6 }, 0.45)
-        .to(".intro__char", { y: "0%", duration: 0.9, stagger: 0.035 }, 0.45)
-        .to(".intro__line", { scaleX: 1, duration: 0.7, ease: "power2.inOut" }, 1.0)
-        .to(".intro__mark, .intro__name, .intro__line", { y: -30, opacity: 0, duration: 0.6, ease: "power2.in" }, 1.75)
-        .to(intro, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.95, ease: "power4.inOut" }, 1.9);
-      const skip = () => introTl?.timeScale(5);
+        .timeline({
+          paused: true,
+          defaults: { ease: "power3.out" },
+          onComplete: () => {
+            story?.destroy();
+            finishIntro();
+          },
+        })
+        .to(".intro__char", { y: "0%", duration: 0.9, stagger: 0.035 }, 0.2)
+        .to(".intro__line", { scaleX: 1, duration: 0.7, ease: "power2.inOut" }, 0.7);
+      if (story) {
+        // Dust → portrait → tower → globe → words, each morph eased, with short holds between
+        const s = story.state;
+        introTl
+          .to(s, { v: 1, duration: 1.6, ease: "power3.inOut" }, 0)
+          .to(s, { v: 2, duration: 1.0, ease: "power2.inOut" }, "+=0.5")
+          .to(s, { v: 3, duration: 1.0, ease: "power2.inOut" }, "+=0.2")
+          .to(s, { v: 4, duration: 1.0, ease: "power2.inOut" }, "+=0.2")
+          .to(".intro__stage, .intro__name, .intro__line", { y: -30, opacity: 0, duration: 0.6, ease: "power2.in" }, "+=0.7");
+      } else {
+        introTl.to(".intro__name, .intro__line", { y: -30, opacity: 0, duration: 0.6, ease: "power2.in" }, 1.75);
+      }
+      introTl.to(intro, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.95, ease: "power4.inOut" }, "-=0.45");
+      // Start once his portrait is ready to form (never wait more than 1.2s)
+      Promise.race([story?.ready ?? Promise.resolve(), new Promise((r) => setTimeout(r, 1200))]).then(() => introTl?.play());
+      const skip = () => introTl?.timeScale(5).play();
       intro.addEventListener("pointerdown", skip, { once: true });
       window.addEventListener("keydown", skip, { once: true });
     } else {
@@ -190,6 +220,25 @@ export function Motion() {
       document.querySelectorAll(".timeline__row").forEach((r) => r.classList.add("is-active"));
     }
 
+    /* ---------- Investor globe (loaded only when the section is near) ---------- */
+    let globeOff: (() => void) | null = null;
+    let disposed = false;
+    const globeBox = document.querySelector<HTMLElement>(".intl__globe");
+    const globeIo = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting || !globeBox) return;
+        globeIo.disconnect();
+        import("./gl/globe").then(({ createGlobe }) => {
+          if (disposed) return;
+          const canvas = globeBox.querySelector("canvas");
+          globeOff = canvas ? createGlobe(canvas, { reduce }) : null;
+          if (!globeOff) globeBox.classList.add("is-off");
+        });
+      },
+      { rootMargin: "600px 0px" },
+    );
+    if (globeBox) globeIo.observe(globeBox);
+
     /* ---------- Per-frame: header, dock, image parallax ---------- */
     const header = document.querySelector(".header");
     const dock = document.querySelector(".dock");
@@ -233,7 +282,11 @@ export function Motion() {
     root.classList.add("motion-ready");
 
     return () => {
+      disposed = true;
       io.disconnect();
+      globeIo.disconnect();
+      globeOff?.();
+      story?.destroy();
       introTl?.kill();
       mm.revert();
       ScrollTrigger.getAll().forEach((s) => s.kill());
