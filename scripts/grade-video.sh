@@ -23,8 +23,9 @@ ffmpeg -v error -y -i /tmp/hero-base.mp4 -filter_complex "\
 [body][head]xfade=transition=fade:duration=$XF:offset=$(echo "$DUR-2*$XF" | bc),format=yuv420p[v]" \
   -map "[v]" -an -c:v libx264 -preset slow -crf 26 -movflags +faststart $OUT/hero-desktop.mp4
 
-# mobile: centre crop to 9:16
-ffmpeg -v error -y -i $OUT/hero-desktop.mp4 -vf "crop=406:720:(iw-406)/2:0" -an -c:v libx264 -preset slow -crf 26 -movflags +faststart $OUT/hero-mobile.mp4
+# mobile: 9:16 crop from the lower part of the frame (the towers, not the night sky),
+# slightly zoomed so the skyline reads behind the portrait on a phone
+ffmpeg -v error -y -i $OUT/hero-desktop.mp4 -vf "crop=330:587:(iw-330)/2:ih-587,scale=406:720:flags=lanczos,setsar=1" -an -c:v libx264 -preset slow -crf 26 -movflags +faststart $OUT/hero-mobile.mp4
 # poster frames (first frame, so the poster matches the moment playback starts)
 ffmpeg -v error -y -i $OUT/hero-desktop.mp4 -frames:v 1 -q:v 3 $OUT/hero-poster.jpg
 ffmpeg -v error -y -i $OUT/hero-mobile.mp4 -frames:v 1 -q:v 3 $OUT/hero-poster-mobile.jpg
