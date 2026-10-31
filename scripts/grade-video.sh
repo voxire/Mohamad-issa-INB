@@ -1,22 +1,31 @@
 #!/usr/bin/env bash
 # Builds the hero loop from the free Pexels clip in assets/video (marina.mp4, Pexels #34529274).
-# Grade: desaturated, cool shadows, slightly darkened, slowed, with a dip to black for a seamless loop.
+# Grade: softly desaturated with cool shadows, gently slowed, and a seamless crossfade loop
+# (the last 1.5s dissolves into the first frames, so there is no dip to black).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 IN=assets/video
 OUT=public/media
-GRADE="eq=saturation=0.38:contrast=1.06:brightness=-0.05:gamma=0.95,colorbalance=rs=-0.04:bs=0.07:rm=-0.02:bm=0.04"
-ffmpeg -v error -y \
-  -ss 2 -t 10 -i $IN/marina.mp4 \
-  -vf "setpts=1.6*PTS,fps=30,scale=1382:778,crop=1280:720:51:20,setsar=1,$GRADE,fade=t=in:st=0:d=1.2,format=yuv420p" \
-  -an -c:v libx264 -preset slow -crf 27 -movflags +faststart -t 16 $OUT/hero-desktop.mp4
-DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 $OUT/hero-desktop.mp4)
-# fade out at the end so the loop dips through black
-ffmpeg -v error -y -i $OUT/hero-desktop.mp4 -vf "fade=t=out:st=$(echo "$DUR-1.0" | bc):d=1.0" -an -c:v libx264 -preset slow -crf 27 -movflags +faststart $OUT/hero-desktop.tmp.mp4
-mv $OUT/hero-desktop.tmp.mp4 $OUT/hero-desktop.mp4
+GRADE="eq=saturation=0.5:contrast=1.08:brightness=0.0:gamma=1.0,colorbalance=rs=-0.03:bs=0.06:rm=-0.01:bm=0.03"
+XF=1.5
+
+# 1) graded, slowed base clip (~16s)
+ffmpeg -v error -y -ss 1.5 -t 13 -i $IN/marina.mp4 \
+  -vf "setpts=1.25*PTS,fps=30,scale=1382:778,crop=1280:720:51:20,setsar=1,$GRADE,format=yuv420p" \
+  -an -c:v libx264 -preset slow -crf 20 /tmp/hero-base.mp4
+DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 /tmp/hero-base.mp4)
+
+# 2) seamless loop: body = [XF..end], head = [0..XF]; dissolve body's tail into head
+ffmpeg -v error -y -i /tmp/hero-base.mp4 -filter_complex "\
+[0:v]split[a][b];\
+[a]trim=start=$XF,setpts=PTS-STARTPTS[body];\
+[b]trim=end=$XF,setpts=PTS-STARTPTS[head];\
+[body][head]xfade=transition=fade:duration=$XF:offset=$(echo "$DUR-2*$XF" | bc),format=yuv420p[v]" \
+  -map "[v]" -an -c:v libx264 -preset slow -crf 26 -movflags +faststart $OUT/hero-desktop.mp4
+
 # mobile: centre crop to 9:16
-ffmpeg -v error -y -i $OUT/hero-desktop.mp4 -vf "crop=406:720:(iw-406)/2:0" -an -c:v libx264 -preset slow -crf 27 -movflags +faststart $OUT/hero-mobile.mp4
-# poster frames
-ffmpeg -v error -y -ss 3 -i $OUT/hero-desktop.mp4 -frames:v 1 -q:v 3 $OUT/hero-poster.jpg
-ffmpeg -v error -y -ss 3 -i $OUT/hero-mobile.mp4 -frames:v 1 -q:v 3 $OUT/hero-poster-mobile.jpg
-ls -la $OUT
+ffmpeg -v error -y -i $OUT/hero-desktop.mp4 -vf "crop=406:720:(iw-406)/2:0" -an -c:v libx264 -preset slow -crf 26 -movflags +faststart $OUT/hero-mobile.mp4
+# poster frames (first frame, so the poster matches the moment playback starts)
+ffmpeg -v error -y -i $OUT/hero-desktop.mp4 -frames:v 1 -q:v 3 $OUT/hero-poster.jpg
+ffmpeg -v error -y -i $OUT/hero-mobile.mp4 -frames:v 1 -q:v 3 $OUT/hero-poster-mobile.jpg
+ls -la $OUT/hero-*
