@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import type { Dict } from "@/content/types";
 import { site, whatsappLink } from "@/site.config";
 import { Arrow, Kicker, Monogram, Photo, d, srcSet } from "./ui";
@@ -21,6 +23,7 @@ export function Site({ t }: { t: Dict }) {
         <Career t={t} />
         <Advisory t={t} />
         <Gallery t={t} />
+        <Company t={t} />
         <International t={t} />
         <Press t={t} />
         <Close t={t} wa={wa} />
@@ -268,6 +271,10 @@ function Gallery({ t }: { t: Dict }) {
               {t.gallery.heading}
             </h2>
           </div>
+          <p className="gallery__hint label" aria-hidden="true">
+            {t.gallery.hint}
+            <Arrow />
+          </p>
         </div>
         <div className="gallery__grid">
           {GALLERY.map((g) => {
