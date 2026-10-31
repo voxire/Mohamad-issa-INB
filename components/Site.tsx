@@ -168,8 +168,14 @@ function Statement({ t }: { t: Dict }) {
       <div className="container">
         <Kicker>{t.statement.kicker}</Kicker>
         <blockquote>
-          <p className="statement__quote" data-reveal="mask">
-            {t.statement.quote}
+          {/* Split on spaces only, so Arabic words stay joined; Motion lights them up on scroll */}
+          <p className="statement__quote">
+            {t.statement.quote.split(" ").map((w, i, all) => (
+              <span className="w" key={i}>
+                {w}
+                {i < all.length - 1 ? " " : ""}
+              </span>
+            ))}
           </p>
           <p className="statement__body lede" data-reveal style={d(1, 0.2)}>
             {t.statement.body}
