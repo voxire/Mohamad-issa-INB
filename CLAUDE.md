@@ -28,6 +28,7 @@ app/globals.css                      → all styles, design tokens at the top
 components/Site.tsx                  → every section of the page, in order
 components/Document.tsx              → <html> shell, fonts, metadata, JSON-LD
 components/Motion.tsx                → the only motion engine (Lenis, reveals, parallax, dock)
+components/gl/                       → plain WebGL 3D (no three.js): particles.ts (intro), globe.ts (International), core.ts
 components/Magnetic.tsx, ui.tsx      → small primitives (Photo, Kicker, Monogram, Arrow)
 content/en.ts, content/ar.ts         → every user-facing string
 site.config.ts                       → contact details, links, stats: the ONLY place to edit them
@@ -40,7 +41,8 @@ scripts/                             → media pipeline (images, video grading)
 - **Palette (his brief):** charcoal `#121212` background, warm beige `#E8DCC8` text, restrained light blue `#9DB8CC` accent. The accent is used sparingly: hairlines, the monogram, small labels. Never as large fills.
 - **Typography:** large, light-weight Cormorant for names and statements; Manrope at small sizes, uppercase, wide tracking (0.2–0.32em) for labels. Body text is never bold. Use at most two weights per family.
 - **Space is the luxury.** Generous padding (sections ≥ 18vh vertical on desktop). One idea per screen. If a section feels full, remove something.
-- **Motion (Apple-style, precise and scroll-driven):** slow and eased (600–1400ms, `cubic-bezier(.22,1,.36,1)`). The set pieces are: the opening intro (once per tab session, tap to skip), the living hero (name sheen every ~10s, pointer depth on desktop, stats count up), the pinned hero zoom-out (unpinned and lighter on phones), the quote lighting up word by word, and the career line drawing down the timeline. Plus reveals, gentle photo parallax and magnetic buttons. Normal cursor. Nothing bounces or spins; only the hero video and the name sheen loop. Under `prefers-reduced-motion` everything shows in its final state.
+- **Motion (Apple-style, precise and scroll-driven):** slow and eased (600–1400ms, `cubic-bezier(.22,1,.36,1)`). The set pieces are: the opening intro (once per tab session, tap to skip: particles form his portrait, a tower, a globe and "Let's talk"), the living hero (name sheen every ~10s, pointer depth on desktop, stats count up), the pinned hero zoom-out (unpinned and lighter on phones), the quote lighting up word by word, the career line drawing down the timeline, and the investor globe in the International section. Plus reveals, gentle photo parallax and magnetic buttons. Normal cursor. Nothing bounces or spins; only the hero video, the name sheen and the globe's arcs loop.
+- **3D:** plain WebGL in `components/gl/`, no three.js. Phones get fewer points. The globe is lazy-loaded near its section and renders only while on screen. If WebGL is unavailable, the intro falls back to the name alone and the globe is hidden. Under `prefers-reduced-motion` everything shows in its final state.
 - **No stock-template tells:** no icons in circles, no card grids with shadows, no gradients except the dark veil over the video and photo masks, no emojis.
 - **WhatsApp button** must be visible on the first mobile screen without scrolling, and stays reachable (sticky on mobile after the hero).
 - Every component must work in RTL. Use logical CSS properties (`margin-inline-start`, `inset-inline-end`, `text-align: start`).
