@@ -30,9 +30,13 @@ for key in ("van-damme", "geiss", "sesay"):
 
 for name, src in PHOTOS.items():
     im = ImageOps.exif_transpose(Image.open(ROOT / src)).convert("RGB")
-    sizes = [w for w in WIDTHS if w <= im.width]
-    if im.width < WIDTHS[-1] and im.width not in sizes:
-        sizes.append(im.width)  # keep the native size of smaller sources
+    if name.startswith("company-"):
+        # Fixed sizes so the site can rely on -480 and -960 existing (small crops are upscaled gently).
+        sizes = [480, 960]
+    else:
+        sizes = [w for w in WIDTHS if w <= im.width]
+        if im.width < WIDTHS[-1] and im.width not in sizes:
+            sizes.append(im.width)  # keep the native size of smaller sources
     for w in sizes:
         h = round(im.height * w / im.width)
         im.resize((w, h), Image.LANCZOS).save(OUT / f"{name}-{w}.webp", "WEBP", quality=80, method=6)
