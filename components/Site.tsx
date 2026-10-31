@@ -15,6 +15,7 @@ export function Site({ t }: { t: Dict }) {
       <a className="skip label" href="#story">
         {t.nav.skip}
       </a>
+      <Intro t={t} />
       <Header t={t} />
       <main>
         <Hero t={t} wa={wa} />
@@ -38,6 +39,32 @@ export function Site({ t }: { t: Dict }) {
       <Analytics t={{ consent: t.consent }} />
       <Motion />
     </>
+  );
+}
+
+/**
+ * Opening intro, once per visit (see the inline script in Document.tsx and Motion.tsx).
+ * English animates letter by letter; Arabic animates word by word so the script stays joined.
+ */
+function Intro({ t }: { t: Dict }) {
+  const parts = t.locale === "ar" ? t.hero.name.split(" ") : Array.from(t.hero.name);
+  return (
+    <div className="intro" aria-hidden="true">
+      <svg className="intro__mark" viewBox="0 0 120 120">
+        <circle className="intro__ring" cx="60" cy="60" r="56" />
+        <text className="intro__mi" x="60" y="71" textAnchor="middle">
+          MI
+        </text>
+      </svg>
+      <p className="intro__name">
+        {parts.map((p, i) => (
+          <span className="intro__char" key={i}>
+            {p === " " ? " " : p}
+          </span>
+        ))}
+      </p>
+      <span className="intro__line" />
+    </div>
   );
 }
 
