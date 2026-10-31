@@ -55,7 +55,14 @@ export function Document({ t, children }: { t: Dict; children: ReactNode }) {
     <html lang={t.locale} dir={t.dir} suppressHydrationWarning>
       <head>
         {/* Gate reveal animations on JS so content is never hidden without it */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <script
+          dangerouslySetInnerHTML={{
+            // 'js' gates reveal animations; 'intro-seen' skips the opening intro on repeat
+            // views in this tab session, or when the visitor prefers reduced motion.
+            __html:
+              "(function(d){d.classList.add('js');try{if(sessionStorage.getItem('mi-intro')||matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('intro-seen')}catch(e){d.classList.add('intro-seen')}})(document.documentElement)",
+          }}
+        />
         <link rel="preload" as="image" href="/media/hero-poster.jpg" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
