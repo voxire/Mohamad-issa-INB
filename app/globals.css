@@ -1284,6 +1284,121 @@ ul {
   clip-path: inset(0 0 0 0);
 }
 
+/* ---------- Mobile refinements (≤ 860px) ----------
+   From the mobile review: tighter vertical rhythm, readable micro-labels,
+   44px tap targets, cities stacked without orphaned separators, centred footer,
+   a slimmer sticky WhatsApp bar. */
+
+@media (max-width: 860px) {
+  :root {
+    --section: clamp(80px, 11vh, 104px);
+  }
+
+  /* Hero: keep the face clear of the copy and the labels legible */
+  .hero__portrait {
+    inset-block-start: 44px;
+    width: min(96vw, 500px);
+  }
+  .hero__inner {
+    padding-block-start: 96px;
+  }
+  .stats__label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    line-height: 1.5;
+  }
+  [dir="rtl"] .stats__label {
+    font-size: 12px;
+  }
+
+  /* Tap targets: grow the hit area without moving the layout */
+  .header__lang,
+  .links .textlink {
+    padding-block: 13px;
+    margin-block: -13px;
+  }
+  .header__lang {
+    padding-inline: 10px;
+    margin-inline: -10px;
+  }
+
+  /* Advisory: kicker and heading belong together */
+  .advisory__head {
+    gap: 0;
+    margin-block-end: 36px;
+  }
+
+  /* Career: readable "Present" label */
+  .timeline__present {
+    font-size: 11px;
+  }
+
+  /* International: one city per line, no dangling separators */
+  .intl__cities {
+    flex-direction: column;
+    gap: 2px;
+    margin-block-start: 44px;
+    font-size: clamp(34px, 10vw, 44px);
+  }
+  .intl__sep {
+    display: none;
+  }
+
+  /* Gallery: bring the caption closer and keep it readable */
+  .gallery__fig figcaption {
+    margin-block-start: 10px;
+    font-size: 11px;
+  }
+
+  /* Close and footer: centred stack instead of a ragged wrap */
+  .close__sign {
+    margin-block-start: 64px;
+  }
+  .footer {
+    margin-block-start: 64px;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 12px;
+    padding-block: 32px calc(32px + env(safe-area-inset-bottom));
+  }
+  .footer .monogram {
+    order: -1;
+    margin-block-end: 6px;
+  }
+
+  /* Sticky WhatsApp: slimmer and calmer */
+  .dock .btn {
+    min-height: 52px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Short phones (iPhone SE, small Androids): shrink the portrait and tighten the
+   copy so his face stays clear of the text and the WhatsApp button still shows. */
+@media (max-width: 860px) and (max-height: 760px) {
+  .hero__portrait {
+    inset-block-start: 40px;
+    width: min(92vw, 50svh);
+  }
+  .hero__name {
+    font-size: clamp(36px, 10.5vw, 44px);
+  }
+  .hero__eyebrow {
+    margin-block-end: 10px;
+  }
+  .hero__tagline {
+    margin-block-start: 12px;
+    font-size: 17px;
+  }
+  .stats {
+    margin-block-start: 16px;
+  }
+  .hero__actions {
+    margin-block-start: 18px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .js [data-reveal] {
     opacity: 1 !important;
