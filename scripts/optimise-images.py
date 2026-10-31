@@ -21,6 +21,13 @@ PHOTOS = {
 }
 WIDTHS = [480, 960, 1440]
 
+# Photos with notable people, supplied by the owner (see assets/company/README.md).
+# Added only when the source file exists: assets/company/<key>.jpg
+for key in ("van-damme", "geiss", "sesay"):
+    src = f"assets/company/{key}.jpg"
+    if (ROOT / src).exists():
+        PHOTOS[f"company-{key}"] = src
+
 for name, src in PHOTOS.items():
     im = ImageOps.exif_transpose(Image.open(ROOT / src)).convert("RGB")
     sizes = [w for w in WIDTHS if w <= im.width]
