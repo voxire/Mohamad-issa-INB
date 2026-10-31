@@ -60,3 +60,15 @@ scripts/                             → media pipeline (images, video grading)
 - Check every change at 390px (mobile), 1440px (desktop), in both EN and AR.
 - Lighthouse targets: Performance ≥ 90 on mobile, Accessibility ≥ 95.
 - No secrets in the repo. There is no backend, so there should be none.
+
+## Git workflow
+- **Never commit secrets.** No `.env`, credentials, tokens or keys. If one is already committed, stop and tell the owner immediately. Do not quietly rewrite history.
+
+### Commit messages (every commit, every session, no exceptions)
+1. **Atomic commits.** One commit per file or logical unit. Never batch unrelated changes. Each migrated file, bug fix, config change, i18n update and test change gets its own commit.
+2. **Split in dependency order:** types → API → hook/service → component → test → i18n (EN) → i18n (AR). Each is a separate commit.
+3. **Separate fix commits.** A bug found while doing something else gets its own commit, never folded into feature work.
+4. **Format:** short imperative subject, no conventional-commit prefixes (no `feat:`, `fix:`, `chore:`).
+5. **No `Co-Authored-By` trailers.** The owner is the sole author.
+6. **Never use em dashes in commit messages**, and do not substitute a hyphen. Restructure the sentence or use a colon.
+7. **Commit or push only when asked.**
