@@ -102,23 +102,23 @@ export function Motion() {
             finishIntro();
           },
         })
-        .to(".intro__char", { y: "0%", duration: 0.9, stagger: 0.035 }, 0.2)
-        .to(".intro__line", { scaleX: 1, duration: 0.7, ease: "power2.inOut" }, 0.7);
+        .to(".intro__char", { y: "0%", duration: 0.8, stagger: 0.03 }, 0.1)
+        .to(".intro__line", { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, 0.45);
       if (story) {
-        // Dust → portrait → tower → globe → words, each morph eased, with short holds between
+        // Dust → portrait → tower → globe → words in about 4.5s, each morph eased, with short holds between
         const s = story.state;
         introTl
-          .to(s, { v: 1, duration: 1.6, ease: "power3.inOut" }, 0)
-          .to(s, { v: 2, duration: 1.0, ease: "power2.inOut" }, "+=0.5")
-          .to(s, { v: 3, duration: 1.0, ease: "power2.inOut" }, "+=0.2")
-          .to(s, { v: 4, duration: 1.0, ease: "power2.inOut" }, "+=0.2")
-          .to(".intro__stage, .intro__name, .intro__line", { y: -30, opacity: 0, duration: 0.6, ease: "power2.in" }, "+=0.7");
+          .to(s, { v: 1, duration: 1.1, ease: "power3.inOut" }, 0)
+          .to(s, { v: 2, duration: 0.65, ease: "power2.inOut" }, "+=0.25")
+          .to(s, { v: 3, duration: 0.65, ease: "power2.inOut" }, "+=0.1")
+          .to(s, { v: 4, duration: 0.7, ease: "power2.inOut" }, "+=0.1")
+          .to(".intro__stage, .intro__name, .intro__line", { y: -30, opacity: 0, duration: 0.45, ease: "power2.in" }, "+=0.35");
       } else {
-        introTl.to(".intro__name, .intro__line", { y: -30, opacity: 0, duration: 0.6, ease: "power2.in" }, 1.75);
+        introTl.to(".intro__name, .intro__line", { y: -30, opacity: 0, duration: 0.5, ease: "power2.in" }, 1.4);
       }
-      introTl.to(intro, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.95, ease: "power4.inOut" }, "-=0.45");
-      // Start once his portrait is ready to form (never wait more than 1.2s)
-      Promise.race([story?.ready ?? Promise.resolve(), new Promise((r) => setTimeout(r, 1200))]).then(() => introTl?.play());
+      introTl.to(intro, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.8, ease: "power4.inOut" }, "-=0.3");
+      // Start once his portrait is ready to form (never wait more than 0.8s)
+      Promise.race([story?.ready ?? Promise.resolve(), new Promise((r) => setTimeout(r, 800))]).then(() => introTl?.play());
       const skip = () => introTl?.timeScale(5).play();
       intro.addEventListener("pointerdown", skip, { once: true });
       window.addEventListener("keydown", skip, { once: true });
