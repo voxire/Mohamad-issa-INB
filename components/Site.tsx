@@ -44,18 +44,14 @@ export function Site({ t }: { t: Dict }) {
 
 /**
  * Opening intro, once per visit (see the inline script in Document.tsx and Motion.tsx).
- * English animates letter by letter; Arabic animates word by word so the script stays joined.
+ * Particles of light form his portrait, a tower, a globe and the closing words (components/gl/particles.ts).
+ * The name sits beneath: English animates letter by letter; Arabic word by word so the script stays joined.
  */
 function Intro({ t }: { t: Dict }) {
   const parts = t.locale === "ar" ? t.hero.name.split(" ") : Array.from(t.hero.name);
   return (
-    <div className="intro" aria-hidden="true">
-      <svg className="intro__mark" viewBox="0 0 120 120">
-        <circle className="intro__ring" cx="60" cy="60" r="56" />
-        <text className="intro__mi" x="60" y="71" textAnchor="middle">
-          MI
-        </text>
-      </svg>
+    <div className="intro" aria-hidden="true" data-words={t.intro.words} data-portrait="/media/portrait-hero-480.webp">
+      <canvas className="intro__stage" />
       <p className="intro__name">
         {parts.map((p, i) => (
           <span className="intro__char" key={i}>
@@ -381,6 +377,9 @@ function International({ t }: { t: Dict }) {
         <p className="intl__text label" data-reveal style={d(1, 0.2)}>
           {t.international.text}
         </p>
+        <div className="intl__globe" aria-hidden="true" data-reveal="fade">
+          <canvas />
+        </div>
         <ul className="intl__cities">
           {t.international.cities.map((c, i) => (
             <li key={c} style={{ display: "contents" }}>
