@@ -70,7 +70,7 @@ function ContactLinks({ t }: { t: Dict }) {
 }
 
 function Hero({ t, wa }: { t: Dict; wa: string }) {
-  const portrait = srcSet("portrait");
+  const portrait = srcSet("portrait-hero");
   return (
     <section className="hero" aria-label={t.hero.name} style={{ backgroundImage: "url(/media/hero-poster.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}>
       <video
@@ -87,11 +87,12 @@ function Hero({ t, wa }: { t: Dict; wa: string }) {
         <source src="/media/hero-desktop.mp4" type="video/mp4" />
       </video>
 
+      <div className="hero__veil" aria-hidden="true" />
+      {/* Sits above the veil so the portrait stays at full strength */}
       <div className="hero__portrait" data-reveal="fade" style={d(0, 0, 0.2)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={portrait.src} srcSet={portrait.srcSet} sizes="(max-width: 860px) 100vw, 46vw" alt={t.hero.name} fetchPriority="high" />
+        <img src={portrait.src} srcSet={portrait.srcSet} sizes="(max-width: 860px) 100vw, 54vw" alt={t.hero.name} fetchPriority="high" />
       </div>
-      <div className="hero__veil" aria-hidden="true" />
 
       <div className="hero__inner">
         <div className="hero__copy">

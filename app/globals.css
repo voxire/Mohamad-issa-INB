@@ -430,7 +430,7 @@ ul {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.62;
+  opacity: 0.88;
   transform: scale(1.04);
 }
 
@@ -438,30 +438,34 @@ ul {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(to top, var(--bg) 0%, rgba(18, 18, 18, 0.82) 22%, rgba(18, 18, 18, 0.25) 58%, rgba(18, 18, 18, 0.55) 100%),
-    linear-gradient(to right, rgba(18, 18, 18, 0.78) 0%, rgba(18, 18, 18, 0.2) 55%, rgba(18, 18, 18, 0.1) 100%);
+    radial-gradient(ellipse 34% 68% at 78% 58%, rgba(16, 16, 17, 0.95) 0%, rgba(16, 16, 17, 0.75) 50%, rgba(16, 16, 17, 0) 100%),
+    linear-gradient(to top, var(--bg) 0%, rgba(18, 18, 18, 0.74) 18%, rgba(18, 18, 18, 0.12) 55%, rgba(18, 18, 18, 0.42) 100%),
+    linear-gradient(to right, rgba(18, 18, 18, 0.82) 0%, rgba(18, 18, 18, 0.3) 48%, rgba(18, 18, 18, 0) 100%);
 }
 [dir="rtl"] .hero__veil {
   background:
-    linear-gradient(to top, var(--bg) 0%, rgba(18, 18, 18, 0.82) 22%, rgba(18, 18, 18, 0.25) 58%, rgba(18, 18, 18, 0.55) 100%),
-    linear-gradient(to left, rgba(18, 18, 18, 0.78) 0%, rgba(18, 18, 18, 0.2) 55%, rgba(18, 18, 18, 0.1) 100%);
+    radial-gradient(ellipse 34% 68% at 22% 58%, rgba(16, 16, 17, 0.95) 0%, rgba(16, 16, 17, 0.75) 50%, rgba(16, 16, 17, 0) 100%),
+    linear-gradient(to top, var(--bg) 0%, rgba(18, 18, 18, 0.74) 18%, rgba(18, 18, 18, 0.12) 55%, rgba(18, 18, 18, 0.42) 100%),
+    linear-gradient(to left, rgba(18, 18, 18, 0.82) 0%, rgba(18, 18, 18, 0.3) 48%, rgba(18, 18, 18, 0) 100%);
 }
 
+/* Full-strength portrait above the veil. The graded file's backdrop already
+   matches the charcoal, so only the outer edges and the bottom are feathered. */
 .hero__portrait {
   position: absolute;
+  z-index: 1;
   inset-block-end: 0;
   inset-inline-end: clamp(-60px, -1vw, 0px);
   width: min(54vw, 82vh, 940px);
   aspect-ratio: 1 / 1;
   -webkit-mask-image:
-    radial-gradient(ellipse 48% 60% at 50% 46%, #000 42%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, #000 12%, #000 68%, transparent 100%);
+    linear-gradient(to right, transparent 0%, #000 22%, #000 80%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 8%, #000 72%, transparent 100%);
   -webkit-mask-composite: source-in;
   mask-image:
-    radial-gradient(ellipse 48% 60% at 50% 46%, #000 42%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, #000 12%, #000 68%, transparent 100%);
+    linear-gradient(to right, transparent 0%, #000 22%, #000 80%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 8%, #000 72%, transparent 100%);
   mask-composite: intersect;
-  filter: saturate(0.8) contrast(1.06) brightness(0.9);
 }
 .hero__portrait img {
   width: 100%;
@@ -625,8 +629,12 @@ ul {
     inset-inline: 0;
     margin-inline: auto;
     width: min(108vw, 560px);
-    -webkit-mask-image: radial-gradient(ellipse 50% 52% at 50% 42%, #000 46%, transparent 100%);
-    mask-image: radial-gradient(ellipse 50% 52% at 50% 42%, #000 46%, transparent 100%);
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 8%, #000 58%, transparent 92%);
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 8%, #000 58%, transparent 92%);
   }
   .hero__veil,
   [dir="rtl"] .hero__veil {
