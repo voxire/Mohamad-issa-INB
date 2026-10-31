@@ -14,6 +14,7 @@ export const ar: Dict = {
   },
   nav: { switchLabel: "English", switchHref: "/", switchLang: "en", skip: "انتقل إلى المحتوى" },
   whatsappMessage: "مرحبًا محمد، زرت موقعك الإلكتروني وأودّ مناقشة فرص الاستثمار العقاري في دبي.",
+  intro: { words: "لنتحدّث." },
   hero: {
     name: "محمد عيسى",
     nameAlt: "Mohamad Issa",
