@@ -14,6 +14,7 @@ Read `CLAUDE.md` before changing anything. Copy is in `content/`, and contact de
 - `npm run media:images` regenerates WebP sizes from `assets/` into `public/media/` (needs Python + Pillow).
 - `npm run media:video` regrades the hero loop from `assets/video/marina.mp4` (needs ffmpeg). Source: Pexels #34529274, free licence.
 - `python3 scripts/make-og.py` rebuilds the 1200×630 link preview image.
+- Hero portrait: `swift scripts/cutout.swift assets/linkedin-portrait-800.jpg assets/portrait-cutout.png` (macOS, removes the background on-device), then `npm run media:portrait` to grade it into `public/media/portrait-hero-*.webp`. Run both again when a higher-resolution portrait arrives.
 
 ## Launch checklist
 - [ ] `site.config.ts`: real WhatsApp number (`whatsappNumber`)
