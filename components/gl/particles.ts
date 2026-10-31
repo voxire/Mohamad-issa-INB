@@ -49,7 +49,7 @@ export function createParticleStory(canvas: HTMLCanvasElement, opts: Options): P
 
   const mobile = window.matchMedia("(max-width: 860px)").matches;
   const N = mobile ? 7000 : 14000;
-  const halfW = mobile ? 1.85 : 2.45; // the widest shape must fit inside ±halfW
+  const halfW = mobile ? 1.6 : 2.45; // the widest shape must fit inside ±halfW
   const rnd = Math.random;
 
   /* ---------- Shapes ---------- */
