@@ -89,6 +89,7 @@ export const en: Dict = {
   gallery: {
     kicker: "In person",
     heading: "Wherever the opportunity is.",
+    hint: "Swipe",
     captions: { singapore: "Singapore", "london-sofa": "London", "london-street": "London", "terrace-coat": "Istanbul" },
   },
   press: {
