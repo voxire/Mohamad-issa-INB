@@ -13,7 +13,7 @@ import { createParticleStory, type ParticleStory } from "./gl/particles";
  *  - Investor globe in the International section (WebGL, lazy-loaded, renders only while on screen)
  *  - Living hero: chrome sheen on the name (CSS), pointer depth on portrait and city, stats count up
  *  - Apple-style pinned zoom-out of the hero on scroll (lighter, unpinned on phones)
- *  - Scroll storytelling: quote lights up word by word, career line draws and lights each year
+ *  - Scroll storytelling: the quote lights up word by word
  *  - [data-reveal] reveals (IntersectionObserver), [data-parallax] drift, header and dock state
  * Under prefers-reduced-motion everything is shown in its final state and nothing moves.
  */
@@ -198,26 +198,6 @@ export function Motion() {
           },
         );
       }
-
-      /* ---------- Career line ---------- */
-      const wrap = document.querySelector(".timeline-wrap");
-      if (wrap) {
-        gsap.fromTo(
-          ".timeline__line",
-          { scaleY: 0 },
-          { scaleY: 1, ease: "none", scrollTrigger: { trigger: wrap, start: "top 62%", end: "bottom 62%", scrub: 0.5 } },
-        );
-        gsap.utils.toArray<HTMLElement>(".timeline__row").forEach((row) =>
-          ScrollTrigger.create({
-            trigger: row,
-            start: "top 62%",
-            onEnter: () => row.classList.add("is-active"),
-            onLeaveBack: () => row.classList.remove("is-active"),
-          }),
-        );
-      }
-    } else {
-      document.querySelectorAll(".timeline__row").forEach((r) => r.classList.add("is-active"));
     }
 
     /* ---------- Investor globe (loaded only when the section is near) ---------- */
