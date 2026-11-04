@@ -56,6 +56,10 @@ function Intro({ t }: { t: Dict }) {
         ))}
       </p>
       <span className="intro__line" />
+      <p className="intro__skip label">
+        <span className="cue-touch">{t.intro.skip.touch}</span>
+        <span className="cue-mouse">{t.intro.skip.click}</span>
+      </p>
     </div>
   );
 }
@@ -147,10 +151,14 @@ function Hero({ t, wa }: { t: Dict; wa: string }) {
             </Magnetic>
             <ContactLinks t={t} />
           </div>
+          {/* Phones: the scroll cue sits in the flow, under the copy */}
+          <a className="hero__scroll hero__scroll--inline label" href="#story" data-reveal="fade" style={d(0, 0, 1.6)}>
+            {t.hero.scroll}
+          </a>
         </div>
       </div>
 
-      <a className="hero__scroll label" href="#story" data-reveal="fade" style={d(0, 0, 1.6)}>
+      <a className="hero__scroll hero__scroll--corner label" href="#story" data-reveal="fade" style={d(0, 0, 1.6)}>
         {t.hero.scroll}
       </a>
     </section>
@@ -276,6 +284,10 @@ function International({ t }: { t: Dict }) {
         <h2 className="display h2 intl__heading" data-reveal="mask">
           {t.international.heading}
         </h2>
+        <p className="intl__hint label" data-reveal style={d(1, 0.2)}>
+          <span className="cue-mouse">{t.international.hint.hover}</span>
+          <span className="cue-touch">{t.international.hint.tap}</span>
+        </p>
         <div className="intl__stage">
           <div className="intl__globe" data-reveal="fade">
             <canvas aria-hidden="true" />
@@ -309,6 +321,10 @@ function International({ t }: { t: Dict }) {
               </li>
             ))}
           </ul>
+          <p className="intl__swipe label" aria-hidden="true">
+            {t.international.hint.swipe}
+            <Arrow />
+          </p>
         </div>
       </div>
     </section>
