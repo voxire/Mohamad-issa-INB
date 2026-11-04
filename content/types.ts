@@ -10,7 +10,6 @@ export type Dict = {
   intro: { words: string };
   hero: {
     name: string;
-    nameAlt: string;
     eyebrow: string;
     tagline: string;
     positioning: string;
@@ -19,23 +18,24 @@ export type Dict = {
     scroll: string;
   };
   links: { linkedin: string; email: string; instagram: string };
-  statement: { kicker: string; quote: string; body: string };
-  about: { kicker: string; heading: string; paragraphs: string[] };
-  career: {
+  /** A line in his own words, lit up word by word, signed with his name. */
+  statement: { quote: string; by: string };
+  /** The developers he has worked with, in order, under one small label. */
+  career: { kicker: string; developers: string[] };
+  advisory: { items: { title: string; text: string }[] };
+  /** Anonymised deals supplied by the owner. The section is hidden while `items` is empty. */
+  transactions: {
     kicker: string;
     heading: string;
-    present: string;
-    items: { year: string; role: string; company: string }[];
+    items: { title: string; detail: string; year: string }[];
   };
-  advisory: { kicker: string; heading: string; items: { title: string; text: string }[] };
-  company: {
+  international: { heading: string; countries: { name: string; cities: string[] }[] };
+  /** Interviews and articles. Add more items as the owner supplies them. */
+  press: {
     kicker: string;
-    heading: string;
-    items: { key: string; name: string; note: string }[];
+    cta: string;
+    items: { outlet: string; title: string; date: string; url: string }[];
   };
-  international: { kicker: string; heading: string; text: string; cities: string[] };
-  gallery: { kicker: string; heading: string; hint: string; captions: Record<string, string> };
-  press: { kicker: string; outlet: string; title: string; date: string; cta: string };
   consent: { text: string; accept: string; decline: string };
   close: { kicker: string; heading: string; text: string; cta: string; footer: string; location: string };
 };
