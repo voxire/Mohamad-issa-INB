@@ -49,6 +49,7 @@ Top skills: Team Leadership, Team Management, Negotiation, International Sales, 
 ## Photos downloaded (assets/)
 - `linkedin-portrait-800.jpg`: **studio portrait on a charcoal background, navy suit.** A perfect match for the palette. Best choice for the hero and About sections (800px, so fine at portrait size, not full-bleed).
 - Removed at the owner's request (Nov 2026), from the site and the project: all Instagram lifestyle photos (`instagram/`), and the "In good company" photos with Van Damme, the Geiss family and H.E. Rashid Sesay (`assets/company/`). Do not bring them back unless he asks.
+- Hero video (Nov 2026, at the owner's request for something sharper): "Stunning Aerial Night View of Dubai Skyscrapers" by Magda Ehlers, Pexels #35027116, 4K, free to use with no credit required. Source kept locally in `assets/video/dubai-night-towers-4k.mp4` (not committed); graded by `scripts/grade-video.sh`.
 - `assets/earth/black-marble-2016.jpg`: NASA Earth Observatory "Earth at Night" (Black Marble 2016, record 144898, 3600×1800), public domain. Graded into `public/media/earth-night-2048.webp` by `scripts/earth-texture.py` for the International globe.
 - Not used: the family and children photo, the Binghatti team photo, and the Sobha anniversary letter.
 
