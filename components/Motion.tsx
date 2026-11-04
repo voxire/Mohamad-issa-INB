@@ -186,8 +186,8 @@ export function Motion() {
 
       /* ---------- Roadshows: hold the globe and its lists on screen while you explore (desktop) ---------- */
       mm.add("(min-width: 861px)", () => {
-        if (!document.querySelector(".intl__stage")) return;
-        ScrollTrigger.create({ trigger: ".intl__stage", start: "center center", end: "+=45%", pin: true });
+        if (!document.querySelector(".intl")) return;
+        ScrollTrigger.create({ trigger: ".intl", start: "top top", end: "+=40%", pin: true });
       });
 
       /* ---------- Quote, word by word ---------- */
@@ -244,6 +244,7 @@ export function Motion() {
       const show = (el: HTMLElement | null) => {
         focus(el ? pinsOf(el) : null);
         list?.classList.toggle("has-focus", !!el);
+        if (el) list?.closest(".intl")?.classList.add("is-explored"); // the hint has done its job
         triggers.forEach((t) => t.classList.toggle("is-focused", t === el));
         list?.querySelectorAll(".intl__country").forEach((li) => li.classList.toggle("is-focused", !!el && li.contains(el)));
       };
@@ -285,6 +286,20 @@ export function Motion() {
       };
     }
 
+    /* ---------- Phones: the roadshow row's swipe cue goes once the row has been swiped ---------- */
+    const row = document.querySelector<HTMLElement>(".intl__countries");
+    let touched = false; // only a swipe by the visitor counts, not the browser settling the row
+    const onTouch = () => (touched = true);
+    row?.addEventListener("pointerdown", onTouch, { passive: true });
+    row?.addEventListener("wheel", onTouch, { passive: true });
+    const onSwipe = () => {
+      if (!row || !touched || Math.abs(row.scrollLeft) < 30) return;
+      row.classList.add("is-swiped");
+      row.closest(".intl")?.classList.add("is-swiped");
+      row.removeEventListener("scroll", onSwipe);
+    };
+    row?.addEventListener("scroll", onSwipe, { passive: true });
+
     /* ---------- Per-frame: header, dock, image parallax ---------- */
     const header = document.querySelector(".header");
     const dock = document.querySelector(".dock");
@@ -293,6 +308,7 @@ export function Motion() {
     const frame = () => {
       const vh = window.innerHeight;
       header?.classList.toggle("is-scrolled", window.scrollY > 40);
+      root.classList.toggle("has-scrolled", window.scrollY > 60); // hides the hero's scroll cue
       if (dock && hero) {
         const heroBottom = (hero.parentElement?.classList.contains("pin-spacer") ? hero.parentElement : hero).getBoundingClientRect().bottom;
         const closeTop = close ? close.getBoundingClientRect().top : Infinity;
@@ -329,6 +345,7 @@ export function Motion() {
 
     return () => {
       disposed = true;
+      row?.removeEventListener("scroll", onSwipe);
       io.disconnect();
       globeIo.disconnect();
       globeOff?.();
