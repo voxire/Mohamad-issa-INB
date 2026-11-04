@@ -63,6 +63,8 @@ uniform float camZ;
 uniform float tanH;
 uniform float aspect;
 uniform float ready;
+uniform vec3 fdir;
+uniform float famt;
 const float R = ${R.toFixed(2)};
 const float PI = 3.14159265;
 const vec3 ATM = vec3(0.616, 0.722, 0.800);
@@ -85,6 +87,9 @@ void main() {
   vec3 col = texture2D(map, uv).rgb;
   float ndv = max(dot(n, -d), 0.0);
   col *= mix(0.3, 1.0, pow(ndv, 0.55));
+  // Focus: a soft pool of light around the focused place, the rest of the earth steps back
+  float pool = smoothstep(0.82, 0.995, dot(s, fdir));
+  col *= mix(1.0, 0.45 + 1.25 * pool, famt);
   col += ATM * pow(1.0 - ndv, 3.0) * 0.5;
   gl_FragColor = vec4(col * ready, ready);
 }`;
@@ -203,14 +208,22 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: Options): Globe | n
   };
   const dubai = ll(DUBAI, R * 1.003);
   const pinPos = PINS.map((c) => ll(c, R * 1.003));
+  // Arcs follow the great circle from each city to Dubai, lifted gently (longer flights fly a little higher),
+  // so even the transatlantic ones stay close to the earth and inside the frame.
+  const unit = (p: V3): V3 => {
+    const l = Math.hypot(...p);
+    return [p[0] / l, p[1] / l, p[2] / l];
+  };
+  const ud = unit(dubai);
   pinPos.forEach((s, i) => {
-    const dist = Math.hypot(s[0] - dubai[0], s[1] - dubai[1], s[2] - dubai[2]);
-    const mid = s.map((v, k) => (v + dubai[k]) / 2) as V3;
-    const lift = (R * (1.22 + dist * 0.08)) / Math.hypot(...mid);
-    const m = mid.map((v) => v * lift) as V3;
+    const us = unit(s);
+    const om = Math.acos(Math.min(1, us[0] * ud[0] + us[1] * ud[1] + us[2] * ud[2]));
+    const amp = 0.05 + (0.15 * om) / Math.PI;
     for (let j = 0; j <= ARC_POINTS; j++) {
-      const u = j / ARC_POINTS, a = (1 - u) * (1 - u), b = 2 * (1 - u) * u, cc = u * u;
-      add([a * s[0] + b * m[0] + cc * dubai[0], a * s[1] + b * m[1] + cc * dubai[1], a * s[2] + b * m[2] + cc * dubai[2]], 3, u, (i * 6) / PINS.length, mobile ? 1.6 : 1.8, i);
+      const u = j / ARC_POINTS;
+      const k1 = Math.sin((1 - u) * om) / Math.sin(om), k2 = Math.sin(u * om) / Math.sin(om);
+      const r = R * (1.003 + amp * Math.sin(Math.PI * u));
+      add([(k1 * us[0] + k2 * ud[0]) * r, (k1 * us[1] + k2 * ud[1]) * r, (k1 * us[2] + k2 * ud[2]) * r], 3, u, (i * 6) / PINS.length, mobile ? 1.6 : 1.8, i);
     }
     add(s, 2, 0, 0, mobile ? 4.5 : 5, i);
     add(s, 5, 0, 0, 8, i);
@@ -245,7 +258,7 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: Options): Globe | n
   };
   const ue = (n: string) => gl.getUniformLocation(earth, n);
   const up = (n: string) => gl.getUniformLocation(pts, n);
-  const E = { map: ue("map"), inv: ue("inv"), camZ: ue("camZ"), tanH: ue("tanH"), aspect: ue("aspect"), ready: ue("ready") };
+  const E = { map: ue("map"), inv: ue("inv"), camZ: ue("camZ"), tanH: ue("tanH"), aspect: ue("aspect"), ready: ue("ready"), fdir: ue("fdir"), famt: ue("famt") };
   const P = {
     vp: up("vp"),
     model: up("model"),
@@ -300,7 +313,8 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: Options): Globe | n
     return a + turn(a, yawFor(TOUR[(i + 1) % TOUR.length])) * ease((local - HOLD) / MOVE);
   };
 
-  const cam = { yaw: yawFor(TOUR[0]), pitch: tourPitch, zoom: 1 };
+  const cam = { yaw: yawFor(TOUR[0]), pitch: tourPitch, zoom: 1, light: 0 };
+  let lightDir: V3 = [0, 0, 1]; // object-space direction of the focused place, for the pool of light
   const focusMask = new Float32Array(PINS.length + 1);
   let focused: number[] | null = null;
   let focusTarget = { yaw: 0, pitch: 0, zoom: 1 };
@@ -308,7 +322,7 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: Options): Globe | n
   let tourT = 0; // the tour clock only runs while nothing is focused
   let elapsed = 0;
 
-  let dpr = 1, aspect = 1, baseZ = 5.9;
+  let dpr = 1, aspect = 1, baseZ = 6.3;
   const tanH = Math.tan((FOV * Math.PI) / 360);
   const ptr = { x: 0, y: 0, tx: 0, ty: 0 };
   const move = (e: PointerEvent) => {
@@ -359,16 +373,17 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: Options): Globe | n
       dpr = d;
       gl!.viewport(0, 0, canvas.width, canvas.height);
       aspect = canvas.width / canvas.height;
-      baseZ = 5.9 / Math.min(1, aspect);
+      baseZ = 6.3 / Math.min(1, aspect); // leaves room round the earth for its glow and the arcs
     }
     if (!loaded) return;
     if (!focused) tourT += dt;
     const target = focused ? focusTarget : { yaw: tourYaw(tourT), pitch: tourPitch, zoom: 1 };
     // Ease toward the target; jump straight there for still frames
-    const k = reduce ? 1 : 1 - Math.exp(-dt * (focused ? 3.2 : 1.6));
+    const k = reduce ? 1 : 1 - Math.exp(-dt * (focused ? 2.4 : 1.2));
     cam.yaw += turn(cam.yaw, target.yaw) * k;
     cam.pitch += (target.pitch - cam.pitch) * k;
     cam.zoom += (target.zoom - cam.zoom) * k;
+    cam.light += ((focused ? 1 : 0) - cam.light) * (reduce ? 1 : 1 - Math.exp(-dt * 2.6));
     ptr.x += (ptr.tx - ptr.x) * 0.05;
     ptr.y += (ptr.ty - ptr.y) * 0.05;
 
@@ -390,6 +405,8 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: Options): Globe | n
     g.uniform1f(E.tanH, tanH);
     g.uniform1f(E.aspect, aspect);
     g.uniform1f(E.ready, fade);
+    g.uniform3fv(E.fdir, lightDir);
+    g.uniform1f(E.famt, cam.light);
     g.drawArrays(g.TRIANGLES, 0, 6);
 
     g.useProgram(pts!);
@@ -446,7 +463,8 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: Options): Globe | n
         focused.forEach((i) => (focusMask[i] = 1));
         // Aim at the middle of the focused pins; move in closer for a single city
         const c = focused.reduce<V3>((s, i) => [s[0] + pinPos[i][0], s[1] + pinPos[i][1], s[2] + pinPos[i][2]], [0, 0, 0]);
-        focusTarget = { yaw: yawOf(c), pitch: pitchOf(c), zoom: focused.length === 1 ? 0.8 : 0.88 };
+        focusTarget = { yaw: yawOf(c), pitch: pitchOf(c), zoom: focused.length === 1 ? 0.93 : 0.96 };
+        lightDir = unit(c);
         focusAt = elapsed;
       }
       if (reduce) still();
