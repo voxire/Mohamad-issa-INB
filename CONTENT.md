@@ -34,28 +34,21 @@ Top skills: Team Leadership, Team Management, Negotiation, International Sales, 
 - UAE Stories (19 Aug 2025): moved to Dubai in 2015, "crossed AED 2 billion in personal sales", grew up believing in the "American Dream" and found his version in Dubai, "always be transparent and honest", wants a legacy of "integrity, innovation, and trust". It also says he founded **Yieldhaus Real Estate L.L.C.** (incorporated July 2025) with "AED 3 billion" in exclusive listings.
 - International roadshows (IG): Russia 2022 (Moscow, Kaliningrad, St Petersburg), Singapore 2024, Istanbul, UK. This backs up the "International client network" stat.
 
+## Confirmed by the owner (WhatsApp, Nov 2026)
+- **International Roadshows & Investor Meetings**, in his order: Russia (Moscow, Kaliningrad, St. Petersburg); United States (Los Angeles, Miami, Texas); United Kingdom (London, Manchester); Saudi Arabia (Riyadh, Jeddah); Switzerland (Zurich, Geneva); Turkey (Istanbul, Bodrum); Singapore; Lebanon; Italy; Iraq.
+- **Developers, 2016 to present** (names only, in his order): Damac Properties, Arada Developments, Sobha Realty, Binghatti Holding. Azizi and The Heart of Europe are left off.
+- Hero line: "Dubai & Global Real Estate | Investment Advisory". No Arabic name under his name.
+- Removed sections: the story ("From Lebanon to Dubai"), the gallery, "In good company", the old philosophy quote, and "Ready and secondary" in Advisory.
+- New quote, from his own IG caption above: "From humble beginnings to a portfolio exceeding AED 3 billion."
+- Still to collect: selected transactions (anonymised) and any interviews or articles. Their sections stay hidden until he sends them.
+
 ## Press and media found
 1. UAE Stories, "How Mohamad Issa Turned Grit into Real Estate Gold" (19 Aug 2025): https://uaestories.com/how-mohamad-issa-turned-grit/
    - The only press feature found. The outlet sells "Sponsored News", so it reads as promotional.
 
 ## Photos downloaded (assets/)
 - `linkedin-portrait-800.jpg`: **studio portrait on a charcoal background, navy suit.** A perfect match for the palette. Best choice for the hero and About sections (800px, so fine at portrait size, not full-bleed).
-- `instagram/hd/` (1424–1760px wide), professional only:
-  - `Da7t0LWMKy2` cream suit, cigar lounge (1760×2347): editorial, best IG shot
-  - `C71qCQCPmai` teal armchair, lit shelves (1440×1800)
-  - `DCttOEKPtkg` navy overcoat, restaurant terrace (1440×1440)
-  - `DHioSA1NuG6` black outfit, hotel sofa, London (1440×1800)
-  - `DKRdxlJBMVy` navy suit, sunglasses, Singapore (1440×959)
-  - `DQgNi0XjCOj` office desk, leather jacket (1440×808)
-  - `DGV68BCPdZo` London street walk (1440×1794)
-  - `DGYZ0dLPnLv` London lawn (1440×1440)
-  - `DLZ68cHPUzS` white tee, leather armchair (1424×1779): casual, use last if at all
-- `instagram/thumbs/`: 640px square crops of the same posts
-- `assets/company/` (supplied by the owner on 31 Oct 2026, used only in "In good company"):
-  - `van-damme.jpg`: with Jean-Claude Van Damme in a marble lobby (cropped 4:5 from `originals/supplied-9.jpg`)
-  - `geiss.jpg`: with Robert and Carmen Geiss at an event, November 2025 (cropped from `originals/supplied-6.jpg`)
-  - `sesay.jpg`: with H.E. Rashid Sesay outside the Sierra Leone embassy (cropped from `originals/supplied-5.jpg`)
-  - Unused alternates kept in `originals/`: a second Geiss shot and two lunch photos with Van Damme (one includes another guest).
+- Removed at the owner's request (Nov 2026), from the site and the project: all Instagram lifestyle photos (`instagram/`), and the "In good company" photos with Van Damme, the Geiss family and H.E. Rashid Sesay (`assets/company/`). Do not bring them back unless he asks.
 - `assets/earth/black-marble-2016.jpg`: NASA Earth Observatory "Earth at Night" (Black Marble 2016, record 144898, 3600×1800), public domain. Graded into `public/media/earth-night-2048.webp` by `scripts/earth-texture.py` for the International globe.
 - Not used: the family and children photo, the Binghatti team photo, and the Sobha anniversary letter.
 
