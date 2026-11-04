@@ -1,6 +1,6 @@
 # mohamadissa.com: creative brief (locked 31 Oct 2026)
 
-Purpose: a personal link for his Instagram and LinkedIn bios. It is about Mohamad, not his employer. **No mention of Binghatti anywhere.** Binghatti's hypercar look is a mood reference only.
+Purpose: a personal link for his Instagram and LinkedIn bios. It is about Mohamad, not his employer. Binghatti's hypercar look is a mood reference only. **Binghatti appears only as "Binghatti Holding" in his list of developers** (his request, Nov 2026); see CONTENT.md for the other changes he asked for.
 
 ## Visual
 - Look: B "Hypercar noir" (black, chrome light streaks, cinematic) + C "Champagne monogram" (Didone serif, MI monogram, Arabic).
