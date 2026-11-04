@@ -15,7 +15,7 @@ export const ar: Dict = {
   },
   nav: { switchLabel: "English", switchHref: "/", switchLang: "en", skip: "انتقل إلى المحتوى" },
   whatsappMessage: "مرحبًا محمد، زرت موقعك الإلكتروني وأودّ مناقشة فرص الاستثمار العقاري في دبي.",
-  intro: { words: "لنتحدّث." },
+  intro: { words: "لنتحدّث.", skip: { touch: "اضغط للتخطي", click: "انقر للتخطي" } },
   hero: {
     name: "محمد عيسى",
     eyebrow: "عقارات دبي والعالم | الاستشارات الاستثمارية",
@@ -62,6 +62,7 @@ export const ar: Dict = {
   },
   international: {
     heading: "جولات ترويجية دولية ولقاءات مع المستثمرين",
+    hint: { hover: "مرّر المؤشر فوق دولة لاستكشافها", tap: "اضغط على دولة لاستكشافها", swipe: "اسحب" },
     countries: [
       { name: "روسيا", cities: ["موسكو", "كالينينغراد", "سانت بطرسبرغ"] },
       { name: "الولايات المتحدة", cities: ["لوس أنجلوس", "ميامي", "تكساس"] },
