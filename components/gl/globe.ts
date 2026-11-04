@@ -2,18 +2,21 @@ import { context, fit, multiply, perspective, program, release, rotationX, rotat
 
 /**
  * The investor globe in the International section: the real earth at night (NASA Black Marble 2016,
- * graded to the palette by scripts/earth-texture.py), turning slowly from Dubai to Europe to the Americas, with arcs of light flying into Dubai
- * from the roadshow cities in CONTENT.md.
+ * graded to the palette by scripts/earth-texture.py), with arcs of light flying into Dubai from the
+ * roadshow cities in CONTENT.md.
+ *  - Idle: turns slowly from Dubai to Europe to the Americas and back.
+ *  - Focus (hover or tap a country or city in the list): turns and moves in to those pins, redraws
+ *    their arcs into Dubai, pulses them, labels them, and dims everything else.
  * The sphere is ray-traced in a fragment shader on one quad, so there is no mesh to build or download.
- * Renders only while on screen. Under reduced motion it draws one still frame with every arc in place.
+ * Renders only while on screen. Under reduced motion it draws still frames, with every arc in place.
  */
 
 /**
- * [lat, lon] of every roadshow city in content/en.ts (his list, Nov 2026), in the same order.
- * Where he named only a country or a state, the arc starts at its main city:
- * Texas: Houston, Lebanon: Beirut, Italy: Milan, Iraq: Baghdad.
+ * [lat, lon] of every roadshow pin, in the same order as the countries and cities in content/en.ts
+ * (his list, Nov 2026). A country with no cities gets one pin at its main city:
+ * Texas: Houston, Singapore, Lebanon: Beirut, Italy: Milan, Iraq: Baghdad.
  */
-const CITIES: [number, number][] = [
+const PINS: [number, number][] = [
   [55.75, 37.62], // Moscow
   [54.71, 20.51], // Kaliningrad
   [59.93, 30.36], // St Petersburg
@@ -29,10 +32,11 @@ const CITIES: [number, number][] = [
   [41.01, 28.98], // Istanbul
   [37.03, 27.43], // Bodrum
   [1.35, 103.82], // Singapore
-  [33.89, 35.5], // Beirut
-  [45.46, 9.19], // Milan
-  [33.31, 44.36], // Baghdad
+  [33.89, 35.5], // Beirut, Lebanon
+  [45.46, 9.19], // Milan, Italy
+  [33.31, 44.36], // Baghdad, Iraq
 ];
+export const PIN_COUNT = PINS.length;
 /** The globe turns slowly between these longitudes: Dubai, Europe, the Americas, then back. */
 const TOUR = [55, 20, -25, 20];
 const HOLD = 4.5; // seconds resting on each view
@@ -42,6 +46,7 @@ const R = 1.6;
 const FOV = 35;
 const ARC_POINTS = 260;
 const TEXTURE = "/media/earth-night-2048.webp";
+const DUBAI_SLOT = PINS.length; // focus slot that is never set, for Dubai's own points
 
 /* ---------- The earth: a ray-traced sphere ---------- */
 const EARTH_VS = `
@@ -84,34 +89,52 @@ void main() {
   gl_FragColor = vec4(col * ready, ready);
 }`;
 
-/* ---------- Arcs and markers: points. info = (kind, u along the arc, delay, size in CSS px) ---------- */
-// Kinds: 1 Dubai, 2 city, 3 arc, 4 halo
+/* ---------- Arcs and markers: points ---------- */
+// info = (kind, u along the arc, delay, size in CSS px); pin = which roadshow pin the point belongs to.
+// Kinds: 1 Dubai, 2 city, 3 arc, 4 Dubai halo, 5 city halo (only while focused)
 const PTS_VS = `
 attribute vec3 pos;
 attribute vec4 info;
+attribute float pin;
 uniform mat4 vp;
 uniform mat4 model;
 uniform float t;
 uniform float dpr;
 uniform float ready;
 uniform float still;
+uniform float hasFocus;
+uniform float focusT;
+uniform float uFocus[${PINS.length + 1}];
 varying float vKind;
 varying float vAlpha;
 void main() {
   vec4 w = model * vec4(pos, 1.0);
   gl_Position = vp * w;
   float kind = info.x;
+  float f = uFocus[int(pin + 0.5)];
   float a = smoothstep(-0.05, 0.3, w.z / length(w.xyz)) * ready;
   float size = info.w;
-  if (kind > 2.5 && kind < 3.5 && still < 0.5) {
-    float c = mod(max(t - info.z, 0.0), 6.0);
-    float k = clamp(c / 2.2, 0.0, 1.0);
-    a *= step(info.y, k) * (0.45 + 0.55 * smoothstep(k - 0.22, k, info.y)) * (1.0 - smoothstep(4.6, 6.0, c));
+  if (kind > 2.5 && kind < 3.5) {
+    if (hasFocus > 0.5) {
+      // Focused arcs draw again from the city into Dubai; the rest fade back
+      float k = still > 0.5 ? 1.0 : clamp((t - focusT) / 1.6, 0.0, 1.0);
+      a *= f > 0.5 ? step(info.y, k) * (0.55 + 0.45 * smoothstep(k - 0.22, k, info.y)) : 0.1;
+      size *= f > 0.5 ? 1.3 : 1.0;
+    } else if (still < 0.5) {
+      float c = mod(max(t - info.z, 0.0), 6.0);
+      float k = clamp(c / 2.2, 0.0, 1.0);
+      a *= step(info.y, k) * (0.45 + 0.55 * smoothstep(k - 0.22, k, info.y)) * (1.0 - smoothstep(4.6, 6.0, c));
+    }
+  }
+  if (kind > 1.5 && kind < 2.5 && hasFocus > 0.5) {
+    a *= f > 0.5 ? 1.0 : 0.3;
+    size *= f > 0.5 ? 1.5 : 1.0;
   }
   if (kind > 3.5) {
     float ph = fract(t * 0.6);
     size *= 1.0 + ph * 2.2;
     a *= 1.0 - ph;
+    if (kind > 4.5) a *= f * hasFocus;
   }
   vKind = kind;
   vAlpha = a;
@@ -144,8 +167,23 @@ const inverse3 = (m: Mat4) => {
   return o;
 };
 
-export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }): (() => void) | null {
-  // Without GPU acceleration, draw one still frame instead of animating
+/** Shortest signed angle from a to b. */
+const turn = (a: number, b: number) => Math.atan2(Math.sin(b - a), Math.cos(b - a));
+
+export type Globe = {
+  /** Focus on these pins (indices into PINS), or pass null to return to the slow tour. */
+  focus: (pins: number[] | null) => void;
+  destroy: () => void;
+};
+
+type Options = {
+  reduce: boolean;
+  /** One label element per pin, positioned over the globe while its pin is focused. */
+  labels: (HTMLElement | null)[];
+};
+
+export function createGlobe(canvas: HTMLCanvasElement, opts: Options): Globe | null {
+  // Without GPU acceleration, draw still frames instead of animating
   const fast = context(canvas);
   const gl = fast ?? context(canvas, false);
   const reduce = opts.reduce || !fast;
@@ -157,25 +195,28 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }
   /* ---------- Geometry ---------- */
   const pos: number[] = [];
   const info: number[] = [];
-  const add = (p: V3, kind: number, u: number, delay: number, size: number) => {
+  const pinOf: number[] = [];
+  const add = (p: V3, kind: number, u: number, delay: number, size: number, pin: number) => {
     pos.push(...p);
     info.push(kind, u, delay, size);
+    pinOf.push(pin);
   };
   const dubai = ll(DUBAI, R * 1.003);
-  CITIES.forEach((c, i) => {
-    const s = ll(c, R * 1.003);
+  const pinPos = PINS.map((c) => ll(c, R * 1.003));
+  pinPos.forEach((s, i) => {
     const dist = Math.hypot(s[0] - dubai[0], s[1] - dubai[1], s[2] - dubai[2]);
     const mid = s.map((v, k) => (v + dubai[k]) / 2) as V3;
     const lift = (R * (1.22 + dist * 0.08)) / Math.hypot(...mid);
     const m = mid.map((v) => v * lift) as V3;
     for (let j = 0; j <= ARC_POINTS; j++) {
       const u = j / ARC_POINTS, a = (1 - u) * (1 - u), b = 2 * (1 - u) * u, cc = u * u;
-      add([a * s[0] + b * m[0] + cc * dubai[0], a * s[1] + b * m[1] + cc * dubai[1], a * s[2] + b * m[2] + cc * dubai[2]], 3, u, (i * 6) / CITIES.length, mobile ? 1.6 : 1.8);
+      add([a * s[0] + b * m[0] + cc * dubai[0], a * s[1] + b * m[1] + cc * dubai[1], a * s[2] + b * m[2] + cc * dubai[2]], 3, u, (i * 6) / PINS.length, mobile ? 1.6 : 1.8, i);
     }
-    add(s, 2, 0, 0, mobile ? 4.5 : 5);
+    add(s, 2, 0, 0, mobile ? 4.5 : 5, i);
+    add(s, 5, 0, 0, 8, i);
   });
-  add(dubai, 1, 0, 0, mobile ? 5.5 : 6.5);
-  add(dubai, 4, 0, 0, 9);
+  add(dubai, 1, 0, 0, mobile ? 5.5 : 6.5, DUBAI_SLOT);
+  add(dubai, 4, 0, 0, 9, DUBAI_SLOT);
   const count = pos.length / 3;
 
   const buf = (data: Float32Array) => {
@@ -187,10 +228,12 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }
   const quad = buf(new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]));
   const posBuf = buf(new Float32Array(pos));
   const infoBuf = buf(new Float32Array(info));
+  const pinBuf = buf(new Float32Array(pinOf));
   const loc = {
     q: gl.getAttribLocation(earth, "q"),
     pos: gl.getAttribLocation(pts, "pos"),
     info: gl.getAttribLocation(pts, "info"),
+    pin: gl.getAttribLocation(pts, "pin"),
   };
   const bind = (l: number, b: WebGLBuffer, size: number) => {
     gl.bindBuffer(gl.ARRAY_BUFFER, b);
@@ -203,7 +246,17 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }
   const ue = (n: string) => gl.getUniformLocation(earth, n);
   const up = (n: string) => gl.getUniformLocation(pts, n);
   const E = { map: ue("map"), inv: ue("inv"), camZ: ue("camZ"), tanH: ue("tanH"), aspect: ue("aspect"), ready: ue("ready") };
-  const P = { vp: up("vp"), model: up("model"), t: up("t"), dpr: up("dpr"), ready: up("ready"), still: up("still") };
+  const P = {
+    vp: up("vp"),
+    model: up("model"),
+    t: up("t"),
+    dpr: up("dpr"),
+    ready: up("ready"),
+    still: up("still"),
+    hasFocus: up("hasFocus"),
+    focusT: up("focusT"),
+    focus: up("uFocus"),
+  };
 
   /* ---------- Texture ---------- */
   const tex = gl.createTexture();
@@ -221,7 +274,7 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }
     loaded = true;
     if (reduce) {
       fade = 1;
-      draw(4.1);
+      still();
     }
   };
   img.src = TEXTURE;
@@ -230,12 +283,12 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-  // Turning to a longitude: undo its azimuth. The tilt stays a little north of Dubai's latitude so the arcs sit in frame.
-  const yawFor = (lon: number) => {
-    const p = ll([0, lon]);
-    return -Math.atan2(p[0], p[2]);
-  };
-  const rx = ((DUBAI[0] + 10) * Math.PI) / 180;
+  /* ---------- Camera: tour when idle, ease to a focus target when asked ---------- */
+  // Turning to a point: undo its azimuth (yaw), then tilt it to the centre (pitch).
+  const yawOf = (p: V3) => -Math.atan2(p[0], p[2]);
+  const pitchOf = (p: V3) => Math.atan2(p[1], Math.hypot(p[0], p[2]));
+  const yawFor = (lon: number) => yawOf(ll([0, lon]));
+  const tourPitch = ((DUBAI[0] + 10) * Math.PI) / 180; // a little north of Dubai, so the arcs sit in frame
   const ease = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
   /** Rest on each view in TOUR, then turn the short way round to the next. Starts facing Dubai. */
   const tourYaw = (t: number) => {
@@ -244,12 +297,18 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }
     const local = t % step;
     const a = yawFor(TOUR[i]);
     if (local < HOLD) return a;
-    let delta = yawFor(TOUR[(i + 1) % TOUR.length]) - a;
-    delta = Math.atan2(Math.sin(delta), Math.cos(delta));
-    return a + delta * ease((local - HOLD) / MOVE);
+    return a + turn(a, yawFor(TOUR[(i + 1) % TOUR.length])) * ease((local - HOLD) / MOVE);
   };
 
-  let dpr = 1, aspect = 1, camZ = 5.9, vp = perspective(FOV, 1);
+  const cam = { yaw: yawFor(TOUR[0]), pitch: tourPitch, zoom: 1 };
+  const focusMask = new Float32Array(PINS.length + 1);
+  let focused: number[] | null = null;
+  let focusTarget = { yaw: 0, pitch: 0, zoom: 1 };
+  let focusAt = 0;
+  let tourT = 0; // the tour clock only runs while nothing is focused
+  let elapsed = 0;
+
+  let dpr = 1, aspect = 1, baseZ = 5.9;
   const tanH = Math.tan((FOV * Math.PI) / 360);
   const ptr = { x: 0, y: 0, tx: 0, ty: 0 };
   const move = (e: PointerEvent) => {
@@ -262,19 +321,60 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }
   canvas.addEventListener("pointermove", move);
   canvas.addEventListener("pointerleave", leave);
 
-  function draw(t: number) {
+  /** Place each focused pin's label over the globe (above the pin, or below it when that would overlap another); hide the rest. */
+  const placeLabels = (model: Mat4, vp: Mat4) => {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    const placed: { x: number; y: number; w: number; h: number }[] = [];
+    opts.labels.forEach((el, i) => {
+      if (!el) return;
+      const on = !!focused && focusMask[i] > 0.5;
+      if (!on) {
+        el.style.opacity = "0";
+        return;
+      }
+      const p = pinPos[i];
+      const wx = model[0] * p[0] + model[4] * p[1] + model[8] * p[2];
+      const wy = model[1] * p[0] + model[5] * p[1] + model[9] * p[2];
+      const wz = model[2] * p[0] + model[6] * p[1] + model[10] * p[2];
+      const cx = vp[0] * wx + vp[4] * wy + vp[8] * wz + vp[12];
+      const cy = vp[1] * wx + vp[5] * wy + vp[9] * wz + vp[13];
+      const cw = vp[3] * wx + vp[7] * wy + vp[11] * wz + vp[15];
+      const facing = wz / Math.hypot(wx, wy, wz);
+      el.style.opacity = facing > 0.15 ? String(Math.min(1, (facing - 0.15) * 4)) : "0";
+      const x = ((cx / cw) * 0.5 + 0.5) * w, y = (0.5 - (cy / cw) * 0.5) * h;
+      const lw = el.offsetWidth, lh = el.offsetHeight;
+      const box = (dy: number) => ({ x: x - lw / 2, y: y + dy, w: lw, h: lh });
+      const hits = (b: { x: number; y: number; w: number; h: number }) =>
+        placed.some((o) => b.x < o.x + o.w + 6 && o.x < b.x + b.w + 6 && b.y < o.y + o.h && o.y < b.y + b.h);
+      let b = box(-lh * 2); // centred just above the pin
+      if (hits(b)) b = box(lh); // or just below it
+      placed.push(b);
+      el.style.transform = `translate(${b.x}px, ${b.y}px)`;
+    });
+  };
+
+  function draw(dt: number) {
     const d = fit(canvas, mobile ? 1.5 : 2);
     if (d) {
       dpr = d;
       gl!.viewport(0, 0, canvas.width, canvas.height);
       aspect = canvas.width / canvas.height;
-      camZ = 5.9 / Math.min(1, aspect);
-      vp = multiply(perspective(FOV, aspect), translation(0, 0, -camZ));
+      baseZ = 5.9 / Math.min(1, aspect);
     }
     if (!loaded) return;
+    if (!focused) tourT += dt;
+    const target = focused ? focusTarget : { yaw: tourYaw(tourT), pitch: tourPitch, zoom: 1 };
+    // Ease toward the target; jump straight there for still frames
+    const k = reduce ? 1 : 1 - Math.exp(-dt * (focused ? 3.2 : 1.6));
+    cam.yaw += turn(cam.yaw, target.yaw) * k;
+    cam.pitch += (target.pitch - cam.pitch) * k;
+    cam.zoom += (target.zoom - cam.zoom) * k;
     ptr.x += (ptr.tx - ptr.x) * 0.05;
     ptr.y += (ptr.ty - ptr.y) * 0.05;
-    const model = multiply(rotationX(rx + ptr.y * 0.25), rotationY(tourYaw(t) + ptr.x * 0.5));
+
+    const camZ = baseZ * cam.zoom;
+    const vp = multiply(perspective(FOV, aspect), translation(0, 0, -camZ));
+    const model = multiply(rotationX(cam.pitch + ptr.y * 0.2), rotationY(cam.yaw + ptr.x * 0.4));
     const g = gl!;
     g.clearColor(0, 0, 0, 0);
     g.clear(g.COLOR_BUFFER_BIT);
@@ -296,16 +396,22 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }
     reset();
     bind(loc.pos, posBuf, 3);
     bind(loc.info, infoBuf, 4);
+    bind(loc.pin, pinBuf, 1);
     g.uniformMatrix4fv(P.vp, false, vp);
     g.uniformMatrix4fv(P.model, false, model);
-    g.uniform1f(P.t, t);
+    g.uniform1f(P.t, reduce ? 4.1 : elapsed);
     g.uniform1f(P.dpr, dpr);
     g.uniform1f(P.ready, fade);
     g.uniform1f(P.still, reduce ? 1 : 0); // a still frame shows every arc at once
+    g.uniform1f(P.hasFocus, focused ? 1 : 0);
+    g.uniform1f(P.focusT, focusAt);
+    g.uniform1fv(P.focus, focusMask);
     g.drawArrays(g.POINTS, 0, count);
+    placeLabels(model, vp);
   }
+  const still = () => draw(0);
 
-  let raf = 0, elapsed = 0, last = 0;
+  let raf = 0, last = 0;
   const frame = (now: number) => {
     raf = requestAnimationFrame(frame);
     const dt = Math.min(0.05, (now - (last || now)) / 1000);
@@ -314,10 +420,10 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }
       elapsed += dt;
       fade = Math.min(1, fade + dt / 0.9);
     }
-    draw(elapsed);
+    draw(loaded ? dt : 0);
   };
   const io = new IntersectionObserver(([e]) => {
-    if (reduce) return draw(4.1);
+    if (reduce) return still();
     if (e.isIntersecting && !raf) {
       last = 0;
       raf = requestAnimationFrame(frame);
@@ -327,15 +433,31 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }
     }
   });
   io.observe(canvas);
-  const onResize = () => reduce && draw(4.1);
+  const onResize = () => reduce && still();
   window.addEventListener("resize", onResize);
 
-  return () => {
-    io.disconnect();
-    cancelAnimationFrame(raf);
-    canvas.removeEventListener("pointermove", move);
-    canvas.removeEventListener("pointerleave", leave);
-    window.removeEventListener("resize", onResize);
-    release(gl);
+  return {
+    focus(pins) {
+      const next = pins && pins.length ? pins.filter((i) => i >= 0 && i < PINS.length) : null;
+      if (String(next) === String(focused)) return;
+      focused = next && next.length ? next : null;
+      focusMask.fill(0);
+      if (focused) {
+        focused.forEach((i) => (focusMask[i] = 1));
+        // Aim at the middle of the focused pins; move in closer for a single city
+        const c = focused.reduce<V3>((s, i) => [s[0] + pinPos[i][0], s[1] + pinPos[i][1], s[2] + pinPos[i][2]], [0, 0, 0]);
+        focusTarget = { yaw: yawOf(c), pitch: pitchOf(c), zoom: focused.length === 1 ? 0.8 : 0.88 };
+        focusAt = elapsed;
+      }
+      if (reduce) still();
+    },
+    destroy() {
+      io.disconnect();
+      cancelAnimationFrame(raf);
+      canvas.removeEventListener("pointermove", move);
+      canvas.removeEventListener("pointerleave", leave);
+      window.removeEventListener("resize", onResize);
+      release(gl);
+    },
   };
 }
