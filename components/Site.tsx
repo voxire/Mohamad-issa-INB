@@ -256,25 +256,60 @@ function Transactions({ t }: { t: Dict }) {
   );
 }
 
+/**
+ * His roadshow list around the globe: the first five countries on one side, the rest on the other
+ * (a swipe row under the globe on phones). Each country and city is a button that focuses the globe
+ * on its pins (components/gl/globe.ts); a country with no cities has one pin at its main city.
+ * Pins are numbered in list order, so they line up with PINS in globe.ts.
+ */
 function International({ t }: { t: Dict }) {
+  let next = 0;
+  const countries = t.international.countries.map((c) => {
+    const pins = Array.from({ length: Math.max(1, c.cities.length) }, () => next++);
+    return { ...c, pins };
+  });
+  // One label per pin for the globe: the city name, or the country name when it has no cities
+  const labels = countries.flatMap((c) => (c.cities.length ? c.cities : [c.name]));
   return (
     <section className="section intl">
       <div className="container">
         <h2 className="display h2 intl__heading" data-reveal="mask">
           {t.international.heading}
         </h2>
-        <div className="intl__globe" aria-hidden="true" data-reveal="fade">
-          <canvas />
+        <div className="intl__stage">
+          <div className="intl__globe" data-reveal="fade">
+            <canvas aria-hidden="true" />
+            <div className="intl__labels" aria-hidden="true">
+              {labels.map((name, i) => (
+                <span className="intl__label label" key={i} data-label={i}>
+                  {name}
+                </span>
+              ))}
+            </div>
+          </div>
+          {/* His list, in his order: each country large, its cities small beneath */}
+          <ul className="intl__countries">
+            {countries.map((c, i) => (
+              <li className="intl__country" key={c.name} data-reveal style={d(i % 5, 0.06)}>
+                <button type="button" className="intl__name" data-pins={c.pins.join(",")}>
+                  {c.name}
+                </button>
+                {c.cities.length > 0 && (
+                  <span className="intl__cities label">
+                    {c.cities.map((city, j) => (
+                      <span key={city}>
+                        {j > 0 && <span aria-hidden="true"> · </span>}
+                        <button type="button" className="intl__city" data-pins={c.pins[j]}>
+                          {city}
+                        </button>
+                      </span>
+                    ))}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
-        {/* His list, in his order: each country large, its cities small beneath */}
-        <ul className="intl__countries">
-          {t.international.countries.map((c, i) => (
-            <li className="intl__country" key={c.name} data-reveal style={d(i, 0.06)}>
-              <span className="intl__name">{c.name}</span>
-              {c.cities.length > 0 && <span className="intl__cities label">{c.cities.join(" · ")}</span>}
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   );
