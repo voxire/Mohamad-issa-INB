@@ -184,6 +184,12 @@ export function Motion() {
           .to(".hero__copy", { y: -40, opacity: 0.2, ease: "none" }, 0);
       });
 
+      /* ---------- Roadshows: hold the globe and its lists on screen while you explore (desktop) ---------- */
+      mm.add("(min-width: 861px)", () => {
+        if (!document.querySelector(".intl__stage")) return;
+        ScrollTrigger.create({ trigger: ".intl__stage", start: "center center", end: "+=45%", pin: true });
+      });
+
       /* ---------- Quote, word by word ---------- */
       const words = gsap.utils.toArray<HTMLElement>(".statement__quote .w");
       if (words.length) {
@@ -208,16 +214,76 @@ export function Motion() {
       ([e]) => {
         if (!e.isIntersecting || !globeBox) return;
         globeIo.disconnect();
-        import("./gl/globe").then(({ createGlobe }) => {
+        import("./gl/globe").then(({ createGlobe, PIN_COUNT }) => {
           if (disposed) return;
           const canvas = globeBox.querySelector("canvas");
-          globeOff = canvas ? createGlobe(canvas, { reduce }) : null;
-          if (!globeOff) globeBox.classList.add("is-off");
+          const labels = Array.from({ length: PIN_COUNT }, (_, i) =>
+            globeBox.querySelector<HTMLElement>(`[data-label="${i}"]`),
+          );
+          const globe = canvas ? createGlobe(canvas, { reduce, labels }) : null;
+          if (!globe) {
+            globeBox.classList.add("is-off");
+            return;
+          }
+          globeOff = wireGlobe(globe.focus, globe.destroy);
         });
       },
       { rootMargin: "600px 0px" },
     );
     if (globeBox) globeIo.observe(globeBox);
+
+    /**
+     * Countries and cities focus the globe: hover or keyboard focus previews, click or tap locks,
+     * and clicking anywhere else (or the locked item again) releases it back to the slow tour.
+     */
+    function wireGlobe(focus: (pins: number[] | null) => void, destroy: () => void) {
+      const list = document.querySelector<HTMLElement>(".intl__countries");
+      const triggers = Array.from(document.querySelectorAll<HTMLElement>(".intl [data-pins]"));
+      const pinsOf = (el: HTMLElement) => (el.dataset.pins || "").split(",").map(Number);
+      let locked: HTMLElement | null = null;
+      const show = (el: HTMLElement | null) => {
+        focus(el ? pinsOf(el) : null);
+        list?.classList.toggle("has-focus", !!el);
+        triggers.forEach((t) => t.classList.toggle("is-focused", t === el));
+        list?.querySelectorAll(".intl__country").forEach((li) => li.classList.toggle("is-focused", !!el && li.contains(el)));
+      };
+      const preview = (e: Event) => show(e.currentTarget as HTMLElement);
+      const restore = () => show(locked);
+      const lock = (e: Event) => {
+        e.stopPropagation();
+        const el = e.currentTarget as HTMLElement;
+        locked = locked === el ? null : el;
+        show(locked ?? el);
+        // Phones: bring the tapped country to the middle of the swipe row
+        if (window.matchMedia("(max-width: 860px)").matches) {
+          el.closest(".intl__country")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", inline: "center", block: "nearest" });
+        }
+      };
+      const release = (e: MouseEvent) => {
+        if (!locked || (e.target as HTMLElement).closest(".intl__globe")) return;
+        locked = null;
+        show(null);
+      };
+      triggers.forEach((t) => {
+        t.addEventListener("pointerenter", preview);
+        t.addEventListener("pointerleave", restore);
+        t.addEventListener("focus", preview);
+        t.addEventListener("blur", restore);
+        t.addEventListener("click", lock);
+      });
+      document.addEventListener("click", release);
+      return () => {
+        triggers.forEach((t) => {
+          t.removeEventListener("pointerenter", preview);
+          t.removeEventListener("pointerleave", restore);
+          t.removeEventListener("focus", preview);
+          t.removeEventListener("blur", restore);
+          t.removeEventListener("click", lock);
+        });
+        document.removeEventListener("click", release);
+        destroy();
+      };
+    }
 
     /* ---------- Per-frame: header, dock, image parallax ---------- */
     const header = document.querySelector(".header");
