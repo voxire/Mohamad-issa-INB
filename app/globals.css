@@ -888,42 +888,95 @@ ul {
   margin-inline: auto;
   max-width: 16ch;
 }
+/* Desktop: five countries on each side of the globe. The list is one <ul> in his order;
+   display: contents lets its items join the stage grid, so the halves sit either side. */
+.intl__stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-rows: repeat(5, auto);
+  grid-auto-flow: dense;
+  align-items: center;
+  align-content: center;
+  column-gap: clamp(24px, 3.5vw, 64px);
+  row-gap: clamp(14px, 2.6vh, 30px);
+  margin-block-start: clamp(32px, 6vh, 72px);
+}
+.intl__countries {
+  display: contents;
+}
 .intl__globe {
   display: none;
+  position: relative;
+  grid-column: 2;
+  grid-row: 1 / span 5;
 }
 .js .intl__globe {
   display: block;
-  width: min(620px, 88vw);
+  width: min(720px, 40vw, 78vh);
   aspect-ratio: 1;
-  margin: clamp(24px, 5vh, 64px) auto calc(-1 * clamp(8px, 3vh, 40px));
 }
 .intl__globe canvas {
   display: block;
   width: 100%;
   height: 100%;
+  /* a soft round edge, so the earth never meets the square canvas when it moves in close */
+  -webkit-mask-image: radial-gradient(circle closest-side, #000 90%, transparent 100%);
+  mask-image: radial-gradient(circle closest-side, #000 90%, transparent 100%);
 }
 .intl__globe.is-off {
   display: none;
 }
-/* His list: each country large, its cities small beneath */
-.intl__countries {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(24px, 3.6vh, 42px);
-  margin-block-start: clamp(48px, 8vh, 90px);
+/* Labels for focused pins, placed over the canvas in pixels by globe.ts */
+.intl__labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.intl__label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  color: var(--ink);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.9);
 }
 .intl__country {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
+  gap: 8px;
+  transition: opacity 0.6s var(--ease);
+}
+.intl__country:nth-child(-n + 5) {
+  grid-column: 1;
+  align-items: flex-end;
+  text-align: end;
+}
+.intl__country:nth-child(n + 6) {
+  grid-column: 3;
+  align-items: flex-start;
+  text-align: start;
+}
+.intl__name,
+.intl__city {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  transition: color 0.4s var(--ease);
 }
 .intl__name {
   font-family: var(--serif);
   font-weight: 300;
-  font-size: clamp(34px, 4.2vw, 64px);
+  font-size: clamp(24px, 2.3vw, 40px);
   line-height: 1.1;
+  white-space: nowrap;
 }
 .intl__country:nth-child(even) .intl__name {
   font-style: italic;
@@ -933,10 +986,29 @@ ul {
   font-weight: 400;
   font-style: normal !important;
   line-height: 1.5;
+  /* Arabic names run longer ("المملكة العربية السعودية"), so let them wrap rather than slide under the globe */
+  white-space: normal;
+  font-size: clamp(22px, 2vw, 34px);
 }
 .intl__cities {
   color: var(--ink-3);
 }
+.intl__city:hover,
+.intl__name:hover,
+.intl__city.is-focused,
+.intl__country .intl__name.is-focused {
+  color: var(--ink);
+}
+.intl__name:focus-visible,
+.intl__city:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 6px;
+}
+/* While something is focused, the other countries step back */
+.intl__countries.has-focus .intl__country:not(.is-focused) {
+  opacity: 0.32;
+}
+
 /* ---------- Press ---------- */
 
 .press {
@@ -1303,13 +1375,45 @@ ul {
     margin-inline: -10px;
   }
 
-  /* International: a little tighter on phones */
+  /* International: the globe on top, his countries in a swipe row beneath it; tap to focus */
+  .intl__stage {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .js .intl__globe {
+    width: min(88vw, 520px);
+    margin-inline: auto;
+  }
   .intl__countries {
-    gap: 22px;
-    margin-block-start: 44px;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    margin-block-start: 28px;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 4px var(--gutter);
+    scrollbar-width: none;
+  }
+  .intl__countries::-webkit-scrollbar {
+    display: none;
+  }
+  .intl__country,
+  .intl__country:nth-child(-n + 5),
+  .intl__country:nth-child(n + 6) {
+    flex: 0 0 auto;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    padding: 14px 18px;
+    border: 1px solid var(--line);
+    scroll-snap-align: center;
+  }
+  .intl__country.is-focused {
+    border-color: var(--line-accent);
   }
   .intl__name {
-    font-size: clamp(30px, 9vw, 40px);
+    font-size: 26px;
   }
 
 
