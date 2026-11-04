@@ -2,20 +2,41 @@ import { context, fit, multiply, perspective, program, release, rotationX, rotat
 
 /**
  * The investor globe in the International section: the real earth at night (NASA Black Marble 2016,
- * graded to the palette by scripts/earth-texture.py), turned to face Dubai, with arcs of light flying in
+ * graded to the palette by scripts/earth-texture.py), turning slowly from Dubai to Europe to the Americas, with arcs of light flying into Dubai
  * from the roadshow cities in CONTENT.md.
  * The sphere is ray-traced in a fragment shader on one quad, so there is no mesh to build or download.
  * Renders only while on screen. Under reduced motion it draws one still frame with every arc in place.
  */
 
-/** [lat, lon]. Same order as the cities in content/en.ts, Dubai excluded. */
+/**
+ * [lat, lon] of every roadshow city in content/en.ts (his list, Nov 2026), in the same order.
+ * Where he named only a country or a state, the arc starts at its main city:
+ * Texas: Houston, Lebanon: Beirut, Italy: Milan, Iraq: Baghdad.
+ */
 const CITIES: [number, number][] = [
-  [51.5, -0.13], // London
   [55.75, 37.62], // Moscow
+  [54.71, 20.51], // Kaliningrad
   [59.93, 30.36], // St Petersburg
-  [41.0, 28.98], // Istanbul
+  [34.05, -118.24], // Los Angeles
+  [25.76, -80.19], // Miami
+  [29.76, -95.37], // Houston, Texas
+  [51.51, -0.13], // London
+  [53.48, -2.24], // Manchester
+  [24.71, 46.68], // Riyadh
+  [21.49, 39.19], // Jeddah
+  [47.37, 8.54], // Zurich
+  [46.2, 6.14], // Geneva
+  [41.01, 28.98], // Istanbul
+  [37.03, 27.43], // Bodrum
   [1.35, 103.82], // Singapore
+  [33.89, 35.5], // Beirut
+  [45.46, 9.19], // Milan
+  [33.31, 44.36], // Baghdad
 ];
+/** The globe turns slowly between these longitudes: Dubai, Europe, the Americas, then back. */
+const TOUR = [55, 20, -25, 20];
+const HOLD = 4.5; // seconds resting on each view
+const MOVE = 3.5; // seconds turning between views
 const DUBAI: [number, number] = [25.2, 55.27];
 const R = 1.6;
 const FOV = 35;
@@ -73,6 +94,7 @@ uniform mat4 model;
 uniform float t;
 uniform float dpr;
 uniform float ready;
+uniform float still;
 varying float vKind;
 varying float vAlpha;
 void main() {
@@ -81,7 +103,7 @@ void main() {
   float kind = info.x;
   float a = smoothstep(-0.05, 0.3, w.z / length(w.xyz)) * ready;
   float size = info.w;
-  if (kind > 2.5 && kind < 3.5) {
+  if (kind > 2.5 && kind < 3.5 && still < 0.5) {
     float c = mod(max(t - info.z, 0.0), 6.0);
     float k = clamp(c / 2.2, 0.0, 1.0);
     a *= step(info.y, k) * (0.45 + 0.55 * smoothstep(k - 0.22, k, info.y)) * (1.0 - smoothstep(4.6, 6.0, c));
@@ -148,7 +170,7 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }
     const m = mid.map((v) => v * lift) as V3;
     for (let j = 0; j <= ARC_POINTS; j++) {
       const u = j / ARC_POINTS, a = (1 - u) * (1 - u), b = 2 * (1 - u) * u, cc = u * u;
-      add([a * s[0] + b * m[0] + cc * dubai[0], a * s[1] + b * m[1] + cc * dubai[1], a * s[2] + b * m[2] + cc * dubai[2]], 3, u, i * 0.45, mobile ? 1.6 : 1.8);
+      add([a * s[0] + b * m[0] + cc * dubai[0], a * s[1] + b * m[1] + cc * dubai[1], a * s[2] + b * m[2] + cc * dubai[2]], 3, u, (i * 6) / CITIES.length, mobile ? 1.6 : 1.8);
     }
     add(s, 2, 0, 0, mobile ? 4.5 : 5);
   });
@@ -181,7 +203,7 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }
   const ue = (n: string) => gl.getUniformLocation(earth, n);
   const up = (n: string) => gl.getUniformLocation(pts, n);
   const E = { map: ue("map"), inv: ue("inv"), camZ: ue("camZ"), tanH: ue("tanH"), aspect: ue("aspect"), ready: ue("ready") };
-  const P = { vp: up("vp"), model: up("model"), t: up("t"), dpr: up("dpr"), ready: up("ready") };
+  const P = { vp: up("vp"), model: up("model"), t: up("t"), dpr: up("dpr"), ready: up("ready"), still: up("still") };
 
   /* ---------- Texture ---------- */
   const tex = gl.createTexture();
@@ -208,9 +230,24 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-  // Face Dubai toward the camera: undo its azimuth, then tilt by its latitude (a little further north so the arcs sit in frame)
-  const ry = -Math.atan2(dubai[0], dubai[2]);
+  // Turning to a longitude: undo its azimuth. The tilt stays a little north of Dubai's latitude so the arcs sit in frame.
+  const yawFor = (lon: number) => {
+    const p = ll([0, lon]);
+    return -Math.atan2(p[0], p[2]);
+  };
   const rx = ((DUBAI[0] + 10) * Math.PI) / 180;
+  const ease = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+  /** Rest on each view in TOUR, then turn the short way round to the next. Starts facing Dubai. */
+  const tourYaw = (t: number) => {
+    const step = HOLD + MOVE;
+    const i = Math.floor(t / step) % TOUR.length;
+    const local = t % step;
+    const a = yawFor(TOUR[i]);
+    if (local < HOLD) return a;
+    let delta = yawFor(TOUR[(i + 1) % TOUR.length]) - a;
+    delta = Math.atan2(Math.sin(delta), Math.cos(delta));
+    return a + delta * ease((local - HOLD) / MOVE);
+  };
 
   let dpr = 1, aspect = 1, camZ = 5.9, vp = perspective(FOV, 1);
   const tanH = Math.tan((FOV * Math.PI) / 360);
@@ -237,7 +274,7 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }
     if (!loaded) return;
     ptr.x += (ptr.tx - ptr.x) * 0.05;
     ptr.y += (ptr.ty - ptr.y) * 0.05;
-    const model = multiply(rotationX(rx + ptr.y * 0.25), rotationY(ry + Math.sin(t * 0.12) * 0.28 + ptr.x * 0.7));
+    const model = multiply(rotationX(rx + ptr.y * 0.25), rotationY(tourYaw(t) + ptr.x * 0.5));
     const g = gl!;
     g.clearColor(0, 0, 0, 0);
     g.clear(g.COLOR_BUFFER_BIT);
@@ -264,6 +301,7 @@ export function createGlobe(canvas: HTMLCanvasElement, opts: { reduce: boolean }
     g.uniform1f(P.t, t);
     g.uniform1f(P.dpr, dpr);
     g.uniform1f(P.ready, fade);
+    g.uniform1f(P.still, reduce ? 1 : 0); // a still frame shows every arc at once
     g.drawArrays(g.POINTS, 0, count);
   }
 
