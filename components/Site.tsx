@@ -1,8 +1,6 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
 import type { Dict } from "@/content/types";
 import { site, whatsappLink } from "@/site.config";
-import { Arrow, Kicker, Monogram, Photo, d, srcSet } from "./ui";
+import { Arrow, Kicker, Monogram, d, srcSet } from "./ui";
 import { Magnetic } from "./Magnetic";
 import { Motion } from "./Motion";
 import { Analytics } from "./Analytics";
@@ -20,11 +18,9 @@ export function Site({ t }: { t: Dict }) {
       <main>
         <Hero t={t} wa={wa} />
         <Statement t={t} />
-        <About t={t} />
         <Career t={t} />
         <Advisory t={t} />
-        <Gallery t={t} />
-        <Company t={t} />
+        <Transactions t={t} />
         <International t={t} />
         <Press t={t} />
         <Close t={t} wa={wa} />
@@ -117,13 +113,16 @@ function Hero({ t, wa }: { t: Dict; wa: string }) {
       <div className="hero__inner">
         <div className="hero__copy">
           <p className="hero__eyebrow label" data-reveal style={d(0, 0, 0.3)}>
-            {t.hero.eyebrow}
+            {/* Two parts, so phones can break cleanly at the divider */}
+            {t.hero.eyebrow.split(" | ").map((part, i) => (
+              <span className="hero__eyebrow-part" key={part}>
+                {i > 0 && <span className="hero__eyebrow-sep"> | </span>}
+                {part}
+              </span>
+            ))}
           </p>
           <h1 className="hero__name" data-reveal="mask" style={d(0, 0, 0.45)}>
             {t.hero.name}
-            <span className="hero__alt" lang={t.locale === "en" ? "ar" : "en"}>
-              {t.hero.nameAlt}
-            </span>
           </h1>
           <p className="hero__tagline" data-reveal style={d(0, 0, 0.75)}>
             {t.hero.tagline}
@@ -162,21 +161,22 @@ function Statement({ t }: { t: Dict }) {
   return (
     <section className="section statement" id="story">
       <div className="container">
-        <Kicker>{t.statement.kicker}</Kicker>
-        <blockquote>
-          {/* Split on spaces only, so Arabic words stay joined; Motion lights them up on scroll */}
-          <p className="statement__quote">
-            {t.statement.quote.split(" ").map((w, i, all) => (
-              <span className="w" key={i}>
-                {w}
-                {i < all.length - 1 ? " " : ""}
-              </span>
-            ))}
-          </p>
-          <p className="statement__body lede" data-reveal style={d(1, 0.2)}>
-            {t.statement.body}
-          </p>
-        </blockquote>
+        <figure>
+          <blockquote>
+            {/* Split on spaces only, so Arabic words stay joined; Motion lights them up on scroll */}
+            <p className="statement__quote">
+              {t.statement.quote.split(" ").map((w, i, all) => (
+                <span className="w" key={i}>
+                  {w}
+                  {i < all.length - 1 ? " " : ""}
+                </span>
+              ))}
+            </p>
+          </blockquote>
+          <figcaption className="statement__by label" data-reveal style={d(1, 0.2)}>
+            {t.statement.by}
+          </figcaption>
+        </figure>
       </div>
     </section>
   );
@@ -196,59 +196,19 @@ function Signature() {
   );
 }
 
-function About({ t }: { t: Dict }) {
-  return (
-    <section className="section about">
-      <div className="container about__grid">
-        <div className="about__media">
-          <Photo name="lounge-cream" alt={t.hero.name} sizes="(max-width: 860px) 90vw, 40vw" shape="tall" parallax={0.14} />
-        </div>
-        <div className="about__text">
-          <Kicker>{t.about.kicker}</Kicker>
-          <h2 className="display h2" data-reveal="mask">
-            {t.about.heading}
-          </h2>
-          {t.about.paragraphs.map((p, i) => (
-            <p className="body" key={i} data-reveal style={d(i, 0.12, 0.15)}>
-              {p}
-            </p>
-          ))}
-          <div className="about__sign" data-reveal style={d(0, 0, 0.5)}>
-            <Signature />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
+/** The developers he has worked with, in his order, under "2016 to present". */
 function Career({ t }: { t: Dict }) {
-  const last = t.career.items.length - 1;
   return (
-    <section className="section career">
-      <div className="container career__grid">
-        <div className="career__intro">
-          <Kicker>{t.career.kicker}</Kicker>
-          <h2 className="display h2" data-reveal="mask">
-            {t.career.heading}
-          </h2>
-        </div>
-        <div className="timeline-wrap">
-          {/* A light line draws down the track as you scroll; each row lights up as it passes */}
-          <span className="timeline__line" aria-hidden="true" />
-          <ol className="timeline">
-            {t.career.items.map((item, i) => (
-              <li className="timeline__row" key={item.year + item.company} data-reveal style={d(i, 0.08)}>
-                <span className="timeline__year">
-                  {item.year}
-                  {i === last && <span className="timeline__present">{t.career.present}</span>}
-                </span>
-                <span className="timeline__role">{item.role}</span>
-                <span className="timeline__company label">{item.company}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
+    <section className="section career" aria-label={t.career.kicker}>
+      <div className="container">
+        <Kicker>{t.career.kicker}</Kicker>
+        <ol className="developers">
+          {t.career.developers.map((name, i) => (
+            <li className="developers__name" key={name} data-reveal style={d(i, 0.12)}>
+              {name}
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );
@@ -258,12 +218,6 @@ function Advisory({ t }: { t: Dict }) {
   return (
     <section className="section advisory">
       <div className="container">
-        <div className="advisory__head">
-          <Kicker>{t.advisory.kicker}</Kicker>
-          <h2 className="display h2" data-reveal="mask" style={{ maxWidth: "20ch" }}>
-            {t.advisory.heading}
-          </h2>
-        </div>
         <ol className="advisory__list">
           {t.advisory.items.map((item, i) => (
             <li className="advisory__item" key={item.title} data-reveal style={d(i % 2, 0.15)}>
@@ -278,89 +232,25 @@ function Advisory({ t }: { t: Dict }) {
   );
 }
 
-const GALLERY = [
-  { name: "lounge-teal", shape: "tall", cls: "g1", speed: 0.1 },
-  { name: "singapore", shape: "wide", cls: "g2", speed: 0.18 },
-  { name: "terrace-coat", shape: "square", cls: "g3", speed: 0.12 },
-  { name: "london-street", shape: "tall", cls: "g4", speed: 0.2 },
-  { name: "london-sofa", shape: "wide", cls: "g5", speed: 0.1 },
-] as const;
-
-function Gallery({ t }: { t: Dict }) {
+/** Anonymised deals supplied by the owner. Renders nothing until content/en.ts and ar.ts have items. */
+function Transactions({ t }: { t: Dict }) {
+  if (t.transactions.items.length === 0) return null;
   return (
-    <section className="section gallery">
+    <section className="section transactions">
       <div className="container">
-        <div className="gallery__head">
-          <div>
-            <Kicker>{t.gallery.kicker}</Kicker>
-            <h2 className="display h2" data-reveal="mask">
-              {t.gallery.heading}
-            </h2>
-          </div>
-          <p className="gallery__hint label" aria-hidden="true">
-            {t.gallery.hint}
-            <Arrow />
-          </p>
-        </div>
-        <div className="gallery__grid">
-          {GALLERY.map((g) => {
-            const caption = t.gallery.captions[g.name];
-            return (
-              <figure className={`gallery__fig ${g.cls}`} key={g.name}>
-                <Photo
-                  name={g.name}
-                  alt={caption ? `${t.hero.name}, ${caption}` : t.hero.name}
-                  sizes="(max-width: 860px) 78vw, 45vw"
-                  shape={g.shape}
-                  parallax={g.speed}
-                />
-                {caption && <figcaption className="label">{caption}</figcaption>}
-              </figure>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/**
- * "In good company": photos with notable people. Each photo is supplied by the owner
- * (assets/company/<key>.jpg → npm run media:images). Checked at build time, so the
- * section shows only the photos that exist, and disappears entirely if there are none.
- */
-function Company({ t }: { t: Dict }) {
-  const items = t.company.items.filter((i) =>
-    existsSync(join(process.cwd(), "public", "media", `company-${i.key}-960.webp`)),
-  );
-  if (items.length === 0) return null;
-  return (
-    <section className="section company">
-      <div className="container">
-        <div className="company__head">
-          <Kicker>{t.company.kicker}</Kicker>
-          <h2 className="display h2" data-reveal="mask">
-            {t.company.heading}
-          </h2>
-        </div>
-        <div className="company__grid">
-          {items.map((item, i) => (
-            <figure className="company__fig" key={item.key}>
-              <Photo
-                name={`company-${item.key}`}
-                alt={`${t.hero.name}, ${item.name}`}
-                sizes="(max-width: 860px) 78vw, 30vw"
-                shape="tall"
-                parallax={0.06}
-                delay={i * 0.12}
-              />
-              <figcaption data-reveal style={d(i, 0.12, 0.2)}>
-                <span className="company__name">{item.name}</span>
-                <span className="company__note label">{item.note}</span>
-              </figcaption>
-            </figure>
+        <Kicker>{t.transactions.kicker}</Kicker>
+        <h2 className="display h2" data-reveal="mask">
+          {t.transactions.heading}
+        </h2>
+        <ol className="transactions__list">
+          {t.transactions.items.map((item, i) => (
+            <li className="transactions__item" key={item.title + item.year} data-reveal style={d(i, 0.1)}>
+              <span className="transactions__year label">{item.year}</span>
+              <span className="transactions__title">{item.title}</span>
+              <span className="transactions__detail body">{item.detail}</span>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
@@ -370,23 +260,18 @@ function International({ t }: { t: Dict }) {
   return (
     <section className="section intl">
       <div className="container">
-        <Kicker>{t.international.kicker}</Kicker>
         <h2 className="display h2 intl__heading" data-reveal="mask">
           {t.international.heading}
         </h2>
-        <p className="intl__text label" data-reveal style={d(1, 0.2)}>
-          {t.international.text}
-        </p>
         <div className="intl__globe" aria-hidden="true" data-reveal="fade">
           <canvas />
         </div>
-        <ul className="intl__cities">
-          {t.international.cities.map((c, i) => (
-            <li key={c} style={{ display: "contents" }}>
-              {i > 0 && <span className="intl__sep" aria-hidden="true" data-reveal="fade" style={d(i, 0.1, 0.1)} />}
-              <span className="intl__city" data-reveal style={d(i, 0.1)}>
-                {c}
-              </span>
+        {/* His list, in his order: each country large, its cities small beneath */}
+        <ul className="intl__countries">
+          {t.international.countries.map((c, i) => (
+            <li className="intl__country" key={c.name} data-reveal style={d(i, 0.06)}>
+              <span className="intl__name">{c.name}</span>
+              {c.cities.length > 0 && <span className="intl__cities label">{c.cities.join(" · ")}</span>}
             </li>
           ))}
         </ul>
@@ -395,28 +280,34 @@ function International({ t }: { t: Dict }) {
   );
 }
 
+/** Interviews and articles: one row each. Add items in content/en.ts and ar.ts as he supplies them. */
 function Press({ t }: { t: Dict }) {
+  if (t.press.items.length === 0) return null;
   return (
     <section className="section press">
-      <div className="container press__inner">
-        <div>
-          <Kicker>{t.press.kicker}</Kicker>
-          <p className="press__outlet label" data-reveal>
-            {t.press.outlet}
-          </p>
-          <p className="press__date label" data-reveal style={d(1)}>
-            {t.press.date}
-          </p>
-        </div>
-        <div>
-          <p className="press__title" lang="en" dir="ltr" data-reveal="mask">
-            {t.press.title}
-          </p>
-          <a className="btn btn--ghost" href={site.press.url} target="_blank" rel="noopener noreferrer" data-reveal style={d(2)}>
-            {t.press.cta}
-            <Arrow />
-          </a>
-        </div>
+      <div className="container">
+        <Kicker>{t.press.kicker}</Kicker>
+        {t.press.items.map((item, i) => (
+          <div className="press__inner" key={item.url}>
+            <div>
+              <p className="press__outlet label" data-reveal style={d(i, 0.1)}>
+                {item.outlet}
+              </p>
+              <p className="press__date label" data-reveal style={d(i, 0.1, 0.1)}>
+                {item.date}
+              </p>
+            </div>
+            <div>
+              <p className="press__title" lang="en" dir="ltr" data-reveal="mask">
+                {item.title}
+              </p>
+              <a className="btn btn--ghost" href={item.url} target="_blank" rel="noopener noreferrer" data-reveal style={d(2)}>
+                {t.press.cta}
+                <Arrow />
+              </a>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
