@@ -8,35 +8,17 @@ OUT = ROOT / "public" / "media"
 OUT.mkdir(parents=True, exist_ok=True)
 
 # name -> source. Only photos approved in CONTENT.md.
+# The lifestyle and "In good company" photos were removed at the owner's request (Nov 2026).
 PHOTOS = {
     "portrait": "assets/linkedin-portrait-800.jpg",
-    "lounge-cream": "assets/instagram/hd/Da7t0LWMKy2.jpg",
-    "lounge-teal": "assets/instagram/hd/C71qCQCPmai.jpg",
-    "terrace-coat": "assets/instagram/hd/DCttOEKPtkg.jpg",
-    "london-sofa": "assets/instagram/hd/DHioSA1NuG6.jpg",
-    "singapore": "assets/instagram/hd/DKRdxlJBMVy.jpg",
-    "office": "assets/instagram/hd/DQgNi0XjCOj.jpg",
-    "london-street": "assets/instagram/hd/DGV68BCPdZo.jpg",
-    "london-lawn": "assets/instagram/hd/DGYZ0dLPnLv.jpg",
 }
 WIDTHS = [480, 960, 1440]
 
-# Photos with notable people, supplied by the owner (see assets/company/README.md).
-# Added only when the source file exists: assets/company/<key>.jpg
-for key in ("van-damme", "geiss", "sesay"):
-    src = f"assets/company/{key}.jpg"
-    if (ROOT / src).exists():
-        PHOTOS[f"company-{key}"] = src
-
 for name, src in PHOTOS.items():
     im = ImageOps.exif_transpose(Image.open(ROOT / src)).convert("RGB")
-    if name.startswith("company-"):
-        # Fixed sizes so the site can rely on -480 and -960 existing (small crops are upscaled gently).
-        sizes = [480, 960]
-    else:
-        sizes = [w for w in WIDTHS if w <= im.width]
-        if im.width < WIDTHS[-1] and im.width not in sizes:
-            sizes.append(im.width)  # keep the native size of smaller sources
+    sizes = [w for w in WIDTHS if w <= im.width]
+    if im.width < WIDTHS[-1] and im.width not in sizes:
+        sizes.append(im.width)  # keep the native size of smaller sources
     for w in sizes:
         h = round(im.height * w / im.width)
         im.resize((w, h), Image.LANCZOS).save(OUT / f"{name}-{w}.webp", "WEBP", quality=80, method=6)
