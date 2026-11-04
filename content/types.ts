@@ -6,8 +6,8 @@ export type Dict = {
   meta: { title: string; description: string };
   nav: { switchLabel: string; switchHref: string; switchLang: string; skip: string };
   whatsappMessage: string;
-  /** The words the intro particles gather into at the end. */
-  intro: { words: string };
+  /** The words the intro particles gather into at the end, and the skip hint (touch and mouse wording). */
+  intro: { words: string; skip: { touch: string; click: string } };
   hero: {
     name: string;
     eyebrow: string;
@@ -29,7 +29,12 @@ export type Dict = {
     heading: string;
     items: { title: string; detail: string; year: string }[];
   };
-  international: { heading: string; countries: { name: string; cities: string[] }[] };
+  international: {
+    heading: string;
+    /** How to use the globe: on desktop (hover), on phones (tap), and the swipe cue for the phone row. */
+    hint: { hover: string; tap: string; swipe: string };
+    countries: { name: string; cities: string[] }[];
+  };
   /** Interviews and articles. Add more items as the owner supplies them. */
   press: {
     kicker: string;
