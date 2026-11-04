@@ -1,3 +1,4 @@
+import { site } from "@/site.config";
 import type { Dict } from "./types";
 
 /**
@@ -18,8 +19,7 @@ export const en: Dict = {
   intro: { words: "Let’s talk." },
   hero: {
     name: "Mohamad Issa",
-    nameAlt: "محمد عيسى",
-    eyebrow: "Dubai Real Estate | Investment Advisory",
+    eyebrow: "Dubai & Global Real Estate | Investment Advisory",
     tagline: "A decade of experience. A personal approach to property investment.",
     positioning:
       "Helping investors identify opportunities in Dubai's residential and ultra-luxury property market, from individual acquisitions to bulk transactions.",
@@ -32,44 +32,21 @@ export const en: Dict = {
     scroll: "Scroll",
   },
   links: { linkedin: "LinkedIn", email: "Email", instagram: "Instagram" },
+  // His own words, from his Instagram caption (see CONTENT.md).
   statement: {
-    kicker: "Philosophy",
-    quote: "Success isn't about noise.",
-    body: "It's about consistency, discipline, and faith in what you do.",
+    quote: "From humble beginnings to a portfolio exceeding AED 3 billion.",
+    by: "Mohamad Issa",
   },
-  about: {
-    kicker: "The story",
-    heading: "From Lebanon to Dubai.",
-    paragraphs: [
-      "Mohamad Issa arrived in Dubai in 2015 with no safety net and a simple belief: that hard work, done honestly, compounds.",
-      "Over the decade that followed, he advised investors and led sales teams at some of the city's most respected developers, rising from relationship manager to vice president of sales.",
-      "His approach has never changed. Transparency first, a clear view of the market, and advice built around each investor's long-term goals, whether that is a single residence or an entire portfolio.",
-    ],
-  },
+  // The four developers he asked to list, in his order (owner, Nov 2026).
   career: {
-    kicker: "Career",
-    heading: "A decade at the centre of Dubai's market.",
-    present: "Present",
-    items: [
-      { year: "2016", role: "Relationship Manager", company: "DAMAC Properties" },
-      { year: "2017", role: "Sales Manager", company: "Azizi Developments" },
-      { year: "2019", role: "Sales Manager", company: "Arada" },
-      { year: "2021", role: "Director of Sales, AVP", company: "Sobha Realty" },
-      { year: "2025", role: "Vice President of Sales", company: "The Heart of Europe" },
-      { year: "2026", role: "Sales Director", company: "Binghatti" },
-    ],
+    kicker: "2016 to present",
+    developers: ["Damac Properties", "Arada Developments", "Sobha Realty", "Binghatti Holding"],
   },
   advisory: {
-    kicker: "Advisory",
-    heading: "Considered advice, from first viewing to final signature.",
     items: [
       {
         title: "Off-plan acquisitions",
         text: "Early access to launches from Dubai's leading developers, with an honest view of every project.",
-      },
-      {
-        title: "Ready and secondary",
-        text: "Completed residences selected for location, yield and long-term value.",
       },
       {
         title: "Bulk transactions",
@@ -81,34 +58,39 @@ export const en: Dict = {
       },
     ],
   },
-  // Photos are supplied by the owner (see assets/company/README.md); captions come from his own posts.
-  company: {
-    kicker: "Encounters",
-    heading: "In good company.",
-    items: [
-      { key: "van-damme", name: "Jean-Claude Van Damme", note: "Over a private lunch" },
-      { key: "geiss", name: "Robert and Carmen Geiss", note: "November 2025" },
-      { key: "sesay", name: "H.E. Rashid Sesay", note: "Ambassador of Sierra Leone to the UAE" },
-    ],
+  // Hidden until the owner supplies real, anonymised deals.
+  transactions: {
+    kicker: "Selected transactions",
+    heading: "A record, quietly kept.",
+    items: [],
   },
+  // His list and order, supplied by the owner (Nov 2026).
   international: {
-    kicker: "International",
-    heading: "A client network that spans continents.",
-    text: "Investor roadshows and private meetings across",
-    cities: ["London", "Moscow", "St Petersburg", "Istanbul", "Singapore", "Dubai"],
-  },
-  gallery: {
-    kicker: "In person",
-    heading: "Wherever the opportunity is.",
-    hint: "Swipe",
-    captions: { singapore: "Singapore", "london-sofa": "London", "london-street": "London", "terrace-coat": "Istanbul" },
+    heading: "International Roadshows & Investor Meetings",
+    countries: [
+      { name: "Russia", cities: ["Moscow", "Kaliningrad", "St. Petersburg"] },
+      { name: "United States", cities: ["Los Angeles", "Miami", "Texas"] },
+      { name: "United Kingdom", cities: ["London", "Manchester"] },
+      { name: "Saudi Arabia", cities: ["Riyadh", "Jeddah"] },
+      { name: "Switzerland", cities: ["Zurich", "Geneva"] },
+      { name: "Turkey", cities: ["Istanbul", "Bodrum"] },
+      { name: "Singapore", cities: [] },
+      { name: "Lebanon", cities: [] },
+      { name: "Italy", cities: [] },
+      { name: "Iraq", cities: [] },
+    ],
   },
   press: {
     kicker: "Press",
-    outlet: "UAE Stories",
-    title: "How Mohamad Issa Turned Grit into Real Estate Gold",
-    date: "August 2025",
     cta: "Read the feature",
+    items: [
+      {
+        outlet: "UAE Stories",
+        title: "How Mohamad Issa Turned Grit into Real Estate Gold",
+        date: "August 2025",
+        url: site.press.url,
+      },
+    ],
   },
   consent: {
     text: "This site uses analytics cookies to understand how it is visited.",
