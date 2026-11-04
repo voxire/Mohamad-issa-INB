@@ -4,9 +4,6 @@ import type { CSSProperties, ReactNode } from "react";
 const WIDTHS: Record<string, number[]> = {
   portrait: [480, 800],
   "portrait-hero": [480, 800, 1200],
-  "company-van-damme": [480, 960],
-  "company-geiss": [480, 960],
-  "company-sesay": [480, 960],
 };
 const DEFAULT_WIDTHS = [480, 960, 1440];
 
