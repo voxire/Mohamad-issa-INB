@@ -148,9 +148,28 @@ ul {
   padding-inline: var(--gutter);
 }
 
+/* Every section is one full screen with its content centred; it only grows if a small screen needs more room */
 .section {
   position: relative;
-  padding-block: var(--section);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-block: clamp(96px, 12vh, 140px);
+}
+
+/* Guidance cues show the wording that fits the device: "Hover" / "Click" with a mouse, "Tap" on touch */
+.cue-touch {
+  display: none;
+}
+@media (hover: none), (pointer: coarse) {
+  .cue-touch {
+    display: inline;
+  }
+  .cue-mouse {
+    display: none;
+  }
 }
 
 .label {
@@ -577,20 +596,41 @@ ul {
 }
 
 .hero__scroll {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--ink-2);
+  transition: opacity 0.8s var(--ease);
+}
+.hero__scroll--corner {
   position: absolute;
   z-index: 2;
   inset-block-end: 34px;
   inset-inline-end: var(--gutter);
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  color: var(--ink-3);
 }
+.hero__scroll--inline {
+  display: none;
+}
+/* The line: a hairline track with a light that travels down it */
 .hero__scroll::after {
   content: "";
   width: 1px;
   height: 46px;
-  background: linear-gradient(var(--accent), transparent);
+  background: linear-gradient(var(--accent), var(--accent)) top / 1px 40% no-repeat, var(--line);
+  animation: scroll-cue 2.4s var(--ease) infinite;
+}
+@keyframes scroll-cue {
+  0% {
+    background-position: 0 -40%;
+  }
+  100% {
+    background-position: 0 160%;
+  }
+}
+/* (beats the reveal's .is-in opacity) */
+.js.has-scrolled .hero__scroll[data-reveal] {
+  opacity: 0;
+  pointer-events: none;
 }
 
 @media (max-width: 860px) {
@@ -667,8 +707,16 @@ ul {
   .hero__actions .btn {
     width: 100%;
   }
-  .hero__scroll {
+  .hero__scroll--corner {
     display: none;
+  }
+  .hero__scroll--inline {
+    display: flex;
+    order: 11;
+    margin-block-start: 22px;
+  }
+  .hero__scroll--inline::after {
+    height: 28px;
   }
 }
 
@@ -884,9 +932,35 @@ ul {
   text-align: center;
   overflow: hidden;
 }
+.intl {
+  padding-block: clamp(88px, 11vh, 120px) clamp(40px, 6vh, 72px);
+}
 .intl__heading {
   margin-inline: auto;
-  max-width: 16ch;
+  max-width: 24ch;
+  font-size: clamp(34px, 3.6vw, 60px);
+  text-wrap: balance;
+}
+.intl__hint {
+  margin-block-start: 18px;
+  color: var(--accent);
+  transition: opacity 0.8s var(--ease);
+}
+/* Arabic sets taller (line-height 1.5), so its heading, rows and globe tighten to keep one screen */
+[dir="rtl"] .intl__heading {
+  font-size: clamp(30px, 3vw, 48px);
+  line-height: 1.35;
+}
+[dir="rtl"] .intl__stage {
+  row-gap: clamp(8px, 1.4vh, 18px);
+}
+[dir="rtl"].js .intl__globe,
+.js [dir="rtl"] .intl__globe {
+  width: min(660px, 38vw, calc(100svh - 390px));
+}
+/* After the first focus the visitor knows how it works, so the hint steps away */
+.js .intl.is-explored .intl__hint[data-reveal] {
+  opacity: 0;
 }
 /* Desktop: five countries on each side of the globe. The list is one <ul> in his order;
    display: contents lets its items join the stage grid, so the halves sit either side. */
@@ -899,7 +973,11 @@ ul {
   align-content: center;
   column-gap: clamp(24px, 3.5vw, 64px);
   row-gap: clamp(14px, 2.6vh, 30px);
-  margin-block-start: clamp(32px, 6vh, 72px);
+  margin-block-start: clamp(20px, 3.5vh, 44px);
+}
+/* The swipe cue only exists for the phone row */
+.intl__swipe {
+  display: none;
 }
 .intl__countries {
   display: contents;
@@ -912,16 +990,14 @@ ul {
 }
 .js .intl__globe {
   display: block;
-  width: min(720px, 40vw, 78vh);
+  width: min(700px, 40vw, calc(100vh - 350px));
+  width: min(700px, 40vw, calc(100svh - 350px));
   aspect-ratio: 1;
 }
 .intl__globe canvas {
   display: block;
   width: 100%;
   height: 100%;
-  /* a soft round edge, so the earth never meets the square canvas when it moves in close */
-  -webkit-mask-image: radial-gradient(circle closest-side, #000 90%, transparent 100%);
-  mask-image: radial-gradient(circle closest-side, #000 90%, transparent 100%);
 }
 .intl__globe.is-off {
   display: none;
@@ -1062,7 +1138,12 @@ ul {
 .close {
   position: relative;
   text-align: center;
-  padding-block: calc(var(--section) * 1.1) 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-block: clamp(96px, 12vh, 140px) 0;
   overflow: hidden;
 }
 .close .kicker {
@@ -1077,7 +1158,7 @@ ul {
 .close__heading {
   font-family: var(--serif);
   font-weight: 300;
-  font-size: clamp(64px, 12vw, 200px);
+  font-size: clamp(64px, 10vw, 168px);
   line-height: 0.95;
   letter-spacing: -0.02em;
 }
@@ -1104,11 +1185,11 @@ ul {
 .close__sign {
   display: flex;
   justify-content: center;
-  margin-block-start: clamp(72px, 12vh, 140px);
+  margin-block-start: clamp(36px, 6vh, 72px);
 }
 
 .footer {
-  margin-block-start: clamp(72px, 12vh, 130px);
+  margin-block-start: clamp(36px, 6vh, 72px);
   padding-block: 28px 32px;
   border-block-start: 1px solid var(--line);
   display: flex;
@@ -1305,6 +1386,21 @@ ul {
   background: var(--accent);
   transform: scaleX(0);
 }
+/* "Tap to skip", fading in once the particles start to gather */
+.intro__skip {
+  position: absolute;
+  inset-block-end: max(3vh, 18px);
+  inset-inline: 0;
+  text-align: center;
+  color: var(--ink-3);
+  opacity: 0;
+  animation: skip-in 0.9s var(--ease) 1s forwards;
+}
+@keyframes skip-in {
+  to {
+    opacity: 1;
+  }
+}
 
 /* ---------- Living hero: chrome sheen across the name, every ~10s ---------- */
 
@@ -1346,6 +1442,10 @@ ul {
   :root {
     --section: clamp(80px, 11vh, 104px);
   }
+  /* Full screens on phones too, with room at the bottom for the sticky WhatsApp bar */
+  .section {
+    padding-block: 84px 104px;
+  }
 
   /* Hero: keep the face clear of the copy and the labels legible */
   .hero__portrait {
@@ -1385,15 +1485,76 @@ ul {
     width: min(88vw, 520px);
     margin-inline: auto;
   }
+  .intl {
+    padding-block: 80px 104px;
+  }
+  .intl__heading {
+    font-size: clamp(30px, 8.6vw, 40px);
+  }
+  [dir="rtl"] .intl__heading {
+    font-size: clamp(26px, 7.4vw, 34px);
+  }
+  /* Arabic chips run a little taller, so the globe gives up a few pixels */
+  [dir="rtl"].js .intl__globe,
+  .js [dir="rtl"] .intl__globe {
+    width: min(78vw, 37svh, 480px);
+  }
+
+  /* Advisory: three services in one phone screen */
+  .advisory__item {
+    padding-block: 22px 26px;
+  }
+  .advisory__num {
+    margin-block-end: 12px;
+  }
+  .advisory__title {
+    font-size: 28px;
+    margin-block-end: 10px;
+  }
+  .js .intl__globe {
+    width: min(82vw, 40svh, 520px);
+  }
   .intl__countries {
     display: flex;
     gap: 10px;
     overflow-x: auto;
     scroll-snap-type: x proximity;
-    margin-block-start: 28px;
+    margin-block-start: 20px;
     margin-inline: calc(var(--gutter) * -1);
     padding: 4px var(--gutter);
+    scroll-padding-inline: var(--gutter);
     scrollbar-width: none;
+    /* fades out at the far edge, so it reads as a row that continues */
+    -webkit-mask-image: linear-gradient(to right, #000 82%, transparent);
+    mask-image: linear-gradient(to right, #000 82%, transparent);
+  }
+  [dir="rtl"] .intl__countries {
+    -webkit-mask-image: linear-gradient(to left, #000 82%, transparent);
+    mask-image: linear-gradient(to left, #000 82%, transparent);
+  }
+  .intl__countries.is-swiped {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .intl__swipe {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-block-start: 14px;
+    color: var(--accent);
+    transition: opacity 0.8s var(--ease);
+  }
+  .intl__swipe .btn__arrow {
+    width: 16px;
+    height: 16px;
+    animation: swipe-cue 1.8s var(--ease) infinite;
+  }
+  [dir="rtl"] .intl__swipe .btn__arrow {
+    animation-name: swipe-cue-rtl;
+  }
+  .intl.is-swiped .intl__swipe {
+    opacity: 0;
   }
   .intl__countries::-webkit-scrollbar {
     display: none;
@@ -1407,7 +1568,7 @@ ul {
     gap: 6px;
     padding: 14px 18px;
     border: 1px solid var(--line);
-    scroll-snap-align: center;
+    scroll-snap-align: start;
   }
   .intl__country.is-focused {
     border-color: var(--line-accent);
@@ -1481,5 +1642,31 @@ ul {
   }
   .hero__name.is-live {
     animation: none;
+  }
+}
+
+@keyframes swipe-cue {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(7px);
+  }
+}
+@keyframes swipe-cue-rtl {
+  0%,
+  100% {
+    transform: scaleX(-1) translateX(0);
+  }
+  50% {
+    transform: scaleX(-1) translateX(7px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__scroll::after,
+  .intl__swipe .btn__arrow,
+  .intro__skip {
+    animation: none !important;
   }
 }
