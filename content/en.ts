@@ -16,7 +16,7 @@ export const en: Dict = {
   nav: { switchLabel: "العربية", switchHref: "/ar/", switchLang: "ar", skip: "Skip to content" },
   whatsappMessage:
     "Hi Mohamad, I visited your website and would like to discuss property investment opportunities in Dubai.",
-  intro: { words: "Let’s talk." },
+  intro: { words: "Let’s talk.", skip: { touch: "Tap to skip", click: "Click to skip" } },
   hero: {
     name: "Mohamad Issa",
     eyebrow: "Dubai & Global Real Estate | Investment Advisory",
@@ -67,6 +67,7 @@ export const en: Dict = {
   // His list and order, supplied by the owner (Nov 2026).
   international: {
     heading: "International Roadshows & Investor Meetings",
+    hint: { hover: "Hover a country to explore", tap: "Tap a country to explore", swipe: "Swipe" },
     countries: [
       { name: "Russia", cities: ["Moscow", "Kaliningrad", "St. Petersburg"] },
       { name: "United States", cities: ["Los Angeles", "Miami", "Texas"] },
