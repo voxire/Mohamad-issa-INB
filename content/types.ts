@@ -24,8 +24,10 @@ export type Dict = {
   whyDubai: {
     kicker: string;
     heading: string;
-    items: { figure: string; label: string; text: string }[];
+    /** His points, in his order; each sits under a chapter label (e.g. "Stable"). */
+    items: { chapter: string; figure: string; label: string; text: string }[];
     note: string;
+    swipe: string;
   };
   /** The developers he has worked with, in his order, under a small label and a short heading. */
   career: { kicker: string; heading: string; developers: string[] };
