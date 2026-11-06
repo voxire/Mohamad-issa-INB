@@ -52,9 +52,9 @@ scripts/                             → media pipeline (images, video grading)
 - All copy lives in `content/en.ts` and `content/ar.ts`. Never hardcode user-facing text in components.
 - Every EN string needs an AR counterpart. AR is a draft until Mohamad or a native speaker approves it (see `content/ar.ts` header).
 - Hero copy follows Mohamad's brief verbatim (see `BRIEF.md`).
-- Binghatti appears **only** as "Binghatti Holding" in the developers list (his wording, Nov 2026). Never in the hero, meta tags or elsewhere.
+- Binghatti appears **only** where he named it (Nov 2026): "Binghatti Holding" in the developers list and his Binghatti projects in Selected transactions. Never in the hero, meta tags or elsewhere.
 - The owner removed the story, gallery, "In good company" section and all lifestyle photos (Nov 2026). Do not add them back unless he asks, and never pull photos of him or others from the web.
-- Sections for selected transactions and press render only when `content/en.ts` and `ar.ts` have items. Add only what he supplies.
+- Sections for selected transactions and press render only when `content/en.ts` and `ar.ts` have items. Add only what he supplies (transactions: his four deals; press: empty, he has no interviews to highlight).
 - Do not use family or children photos, or company team shots. Approved photos are listed in `CONTENT.md`.
 - Never invent achievements, clients, awards or press. If a fact is not in `CONTENT.md` or confirmed by the owner, it doesn't ship.
 - Placeholders (WhatsApp number, email, signature) are marked `TODO` in `site.config.ts`. Search for `TODO` before launch.
