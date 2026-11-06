@@ -1,4 +1,3 @@
-import { site } from "@/site.config";
 import type { Dict } from "./types";
 
 /**
@@ -24,7 +23,7 @@ export const ar: Dict = {
       "مساعدة المستثمرين على اكتشاف الفرص في سوق دبي للعقارات السكنية وفائقة الفخامة، من الاستحواذات الفردية إلى الصفقات المجمّعة.",
     stats: [
       { value: "+11", label: "عامًا في عقارات دبي" },
-      { value: "+3 مليار درهم", label: "حجم المبيعات" },
+      { value: "+1 مليار دولار", label: "قيمة الصفقات" },
       { value: "عالمية", label: "شبكة عملاء دولية" },
     ],
     cta: "لنتحدث عبر واتساب",
@@ -58,7 +57,12 @@ export const ar: Dict = {
   transactions: {
     kicker: "صفقات مختارة",
     heading: "سجلٌّ يُحفظ بهدوء.",
-    items: [],
+    items: [
+      { title: "بوغاتي ريزيدنسز من بن غاطي", detail: "صفقة مجمّعة" },
+      { title: "مرسيدس-بنز بليسز من بن غاطي" },
+      { title: "برج خليفة", detail: "مكتب تجاري" },
+      { title: "داماك هيلز", detail: "فلل، صفقة مجمّعة" },
+    ],
   },
   international: {
     heading: "جولات ترويجية دولية ولقاءات مع المستثمرين",
@@ -79,14 +83,7 @@ export const ar: Dict = {
   press: {
     kicker: "الصحافة",
     cta: "اقرأ المقال",
-    items: [
-      {
-        outlet: "UAE Stories",
-        title: "How Mohamad Issa Turned Grit into Real Estate Gold",
-        date: "أغسطس 2025",
-        url: site.press.url,
-      },
-    ],
+    items: [],
   },
   consent: {
     text: "يستخدم هذا الموقع ملفات تعريف الارتباط التحليلية لفهم طريقة زيارته.",
