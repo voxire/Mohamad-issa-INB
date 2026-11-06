@@ -57,6 +57,7 @@ scripts/                             → media pipeline (images, video grading)
 - Sections for selected transactions and press render only when `content/en.ts` and `ar.ts` have items. Add only what he supplies (transactions: his four deals; press: empty, he has no interviews to highlight).
 - Do not use family or children photos, or company team shots. Approved photos are listed in `CONTENT.md`.
 - Never invent achievements, clients, awards or press. If a fact is not in `CONTENT.md` or confirmed by the owner, it doesn't ship.
+- "Why Dubai" carries public market facts; every figure has a source listed in `CONTENT.md`. Refresh the figures yearly and keep the "not financial or tax advice" note.
 - Placeholders (WhatsApp number, email, signature) are marked `TODO` in `site.config.ts`. Search for `TODO` before launch.
 
 ## Working rules
