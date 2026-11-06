@@ -39,6 +39,7 @@ export const en: Dict = {
   // The four developers he asked to list, in his order (owner, Nov 2026).
   career: {
     kicker: "2016 to present",
+    heading: "With Dubai's leading developers.",
     developers: ["Damac Properties", "Arada Developments", "Sobha Realty", "Binghatti Holding"],
   },
   advisory: {
