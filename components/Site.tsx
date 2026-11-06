@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Dict } from "@/content/types";
 import { site, whatsappLink } from "@/site.config";
 import { Arrow, Kicker, Monogram, d, srcSet } from "./ui";
@@ -206,47 +207,57 @@ function Signature() {
 }
 
 /**
- * Why Dubai: his points, in his order, one at a time.
- * Desktop: the screen holds while each point arrives and leaves (Motion.tsx), with a 01 / 20 counter
- * and a filling hairline. Phones, reduced motion and no-JS: a swipe row, one point per screen width.
+ * Why Dubai: his points, in his order, grouped into the four chapters of his brief.
+ * One screen: a tab per chapter, and the chosen chapter's figures in a quiet grid (tabs wired in Motion.tsx).
  * Sources live in CONTENT.md.
  */
 function WhyDubai({ t }: { t: Dict }) {
-  const total = String(t.whyDubai.items.length).padStart(2, "0");
+  const id = `why-${t.locale}`;
   return (
     <section className="section why" aria-label={t.whyDubai.kicker}>
       <div className="container">
-        <div className="why__head">
-          <div>
-            <Kicker>{t.whyDubai.kicker}</Kicker>
-            <h2 className="display h2 why__heading" data-reveal="mask">
-              {t.whyDubai.heading}
-            </h2>
-          </div>
-          <p className="why__count" aria-hidden="true" dir="ltr">
-            <span className="why__current">01</span> / {total}
-          </p>
-        </div>
-        <span className="why__progress" aria-hidden="true" />
-        <ol className="why__points">
-          {t.whyDubai.items.map((item, i) => (
-            <li className="why__point" key={i}>
-              <span className="why__chapter label">{item.chapter}</span>
-              <span className="why__figure" dir="auto">
-                {item.figure}
-              </span>
-              <span className="why__label label">{item.label}</span>
-              <span className="why__text">{item.text}</span>
-            </li>
+        <Kicker>{t.whyDubai.kicker}</Kicker>
+        <h2 className="display h2 why__heading" data-reveal="mask">
+          {t.whyDubai.heading}
+        </h2>
+        <div className="why__tabs" role="tablist" aria-label={t.whyDubai.kicker} data-reveal>
+          {t.whyDubai.chapters.map((c, i) => (
+            <button
+              className="why__tab label"
+              key={c.title}
+              id={`${id}-tab-${i}`}
+              type="button"
+              role="tab"
+              aria-selected={i === 0}
+              aria-controls={`${id}-panel-${i}`}
+              tabIndex={i === 0 ? 0 : -1}
+            >
+              {c.title}
+            </button>
           ))}
-        </ol>
-        <div className="why__foot">
-          <p className="why__note label">{t.whyDubai.note}</p>
-          <p className="why__swipe label" aria-hidden="true">
-            {t.whyDubai.swipe}
-            <Arrow />
-          </p>
         </div>
+        {t.whyDubai.chapters.map((c, i) => (
+          <ul
+            className={`why__grid${i === 0 ? " is-active" : ""}`}
+            key={c.title}
+            id={`${id}-panel-${i}`}
+            role="tabpanel"
+            aria-labelledby={`${id}-tab-${i}`}
+            data-count={c.items.length}
+            hidden={i !== 0}
+          >
+            {c.items.map((item, j) => (
+              <li className="why__item" key={j} style={{ "--i": j } as CSSProperties}>
+                <span className="why__figure" dir="auto">
+                  {item.figure}
+                </span>
+                <span className="why__label label">{item.label}</span>
+                <span className="why__text">{item.text}</span>
+              </li>
+            ))}
+          </ul>
+        ))}
+        <p className="why__note label">{t.whyDubai.note}</p>
       </div>
     </section>
   );
