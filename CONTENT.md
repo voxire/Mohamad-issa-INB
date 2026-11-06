@@ -59,13 +59,14 @@ Top skills: Team Leadership, Team Management, Negotiation, International Sales, 
   11. 157,429 net new residents Jan to Jun 2026 (Dubai Population Clock, DSC) (p.17).
   12. 70% of Fortune 500 regional HQs; 20+ free zones; 71,830 new Dubai Chamber members 2025; about 4 days to set up (Dubai Chamber, Dubai FDI, DET) (p.18).
   13. Golden Visa: AED 2M property, 10 years, family; property investor visa: 2 years, no minimum for a sole buyer (ICP) (p.19).
-  14. Price per sq ft AED 2,020 Jan to Aug 2026, +3.2% on AED 1,957; AED 196.0bn total; recovered from 2008, 2020, 2024 (Emirates Business; DLD) (p.23).
+  14. Price per sq ft AED 2,020 Jan to Aug 2026, +3.2% on AED 1,957; AED 196.0bn total over 96,616 transactions, median AED 1.3mn; 2008 crisis -50% then +100% 2010 to 2014; COVID -10% then +60% by 2022; recovered after the 2024 floods (Emirates Business; DLD) (p.23). Shown as four figures in the Property tab.
   15. Real Estate Sector Strategy 2033: +70% transactions, 33% home ownership; D33; 2040 Master Plan (dubai2040.ae, Dubai Media Office) (p.29).
   16. Operation 300bn: industry to AED 300bn of UAE GDP by 2031 (MoIAT) (p.30).
   17. 2040 plan: 55% of residents within 800 m of main transport, 60% nature reserves, five urban centres (dubai2040.ae) (p.31).
   18. About 13% of the ~1,200 km² urban footprint still available (~160 km²) (dubai2040.ae, Dubai Municipality; derived in his brief) (p.32).
   19. Dubai Rail Network Plan 2032, Etihad Rail, RTA aerial taxi (p.33).
   20. New fourth corridor approved Sept 2026: 80 km, 12 lanes, via Al Maktoum Airport and Etihad Rail (Dubai Media Office, Khaleej Times, RTA) (p.34).
+  - Layout (6 Nov 2026): one screen with a tab per chapter (Stable 1 to 6, People keep coming 7 to 13 with 10 and 11 merged, Property 14, Where Dubai is heading 15 to 20).
   - Left out, to raise with him: p.15 and p.16 (Bloomberg charts of traffic and mall footfall after the March 2026 shock: no headline figure, and p.16 is cut off in the screenshot); "Dubai GDP 2025 AED 937B" on p.05, which conflicts with his p.29 (AED 541bn in 2024).
 - Hero on phones: his portrait sits smaller and higher so the text no longer crosses his chest (his feedback: "The name and text on my photo").
 
