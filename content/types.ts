@@ -20,6 +20,13 @@ export type Dict = {
   links: { linkedin: string; email: string; instagram: string };
   /** A line in his own words, lit up word by word, signed with his name. */
   statement: { quote: string; by: string };
+  /** Why invest in Dubai: a few headline facts, each with a public source (see CONTENT.md). */
+  whyDubai: {
+    kicker: string;
+    heading: string;
+    items: { figure: string; label: string; text: string }[];
+    note: string;
+  };
   /** The developers he has worked with, in his order, under a small label and a short heading. */
   career: { kicker: string; heading: string; developers: string[] };
   advisory: { items: { title: string; text: string }[] };
