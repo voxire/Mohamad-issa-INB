@@ -13,7 +13,7 @@ import { createParticleStory, type ParticleStory } from "./gl/particles";
  *  - Investor globe in the International section (WebGL, lazy-loaded, renders only while on screen)
  *  - Living hero: chrome sheen on the name (CSS), pointer depth on portrait and city, stats count up
  *  - Apple-style pinned zoom-out of the hero on scroll (lighter, unpinned on phones)
- *  - Scroll storytelling: the quote lights up word by word
+ *  - Scroll storytelling: the quote lights up word by word; Why Dubai holds while each of his points takes the stage
  *  - [data-reveal] reveals (IntersectionObserver), [data-parallax] drift, header and dock state
  * Under prefers-reduced-motion everything is shown in its final state and nothing moves.
  */
@@ -189,6 +189,44 @@ export function Motion() {
           .to(".hero__copy", { y: -40, opacity: 0.2, ease: "none" }, 0);
       });
 
+      /* ---------- Why Dubai (desktop): the screen holds while each of his points arrives, then gives way to the next ----------
+         Pins must be created in page order, so later pins (developers, roadshows) account for this one's scroll length. */
+      const why = document.querySelector<HTMLElement>(".why");
+      if (why)
+        mm.add("(min-width: 861px)", () => {
+          const points = gsap.utils.toArray<HTMLElement>(".why__point", why);
+          const current = why.querySelector(".why__current");
+          const n = points.length;
+          if (!n) return;
+          why.classList.add("is-pinned");
+          gsap.set(points.slice(1), { opacity: 0, y: 50 });
+          // Point i arrives at time i, holds, and leaves from i + 0.55; the first is there from the start
+          const tl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
+          points.forEach((el, i) => {
+            if (i > 0) tl.to(el, { opacity: 1, y: 0, duration: 0.45 }, i);
+            if (i < n - 1) tl.to(el, { opacity: 0, y: -50, duration: 0.4 }, i + 0.55);
+          });
+          tl.to({}, { duration: 0.6 }); // rest on the last point before the page moves on
+          ScrollTrigger.create({
+            trigger: why,
+            start: "top top",
+            end: `+=${n * 32}%`,
+            pin: true,
+            scrub: 0.8,
+            animation: tl,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              why.style.setProperty("--p", `${(self.progress * 100).toFixed(1)}%`);
+              const at = Math.min(n - 1, Math.floor(self.progress * tl.duration() + 0.25));
+              if (current) current.textContent = String(at + 1).padStart(2, "0");
+            },
+          });
+          return () => {
+            why.classList.remove("is-pinned");
+            gsap.set(points, { clearProps: "opacity,transform" });
+          };
+        });
+
       /* ---------- Developers: each name arrives large in the centre, then settles into its place ---------- */
       const career = document.querySelector<HTMLElement>(".career");
       if (career)
@@ -358,6 +396,26 @@ export function Motion() {
     };
     row?.addEventListener("scroll", onSwipe, { passive: true });
 
+    /* ---------- Why Dubai as a swipe row (phones, reduced motion): counter, hairline and cue follow the row ---------- */
+    const whyRow = document.querySelector<HTMLElement>(".why__points");
+    const whySection = whyRow?.closest<HTMLElement>(".why");
+    let whyTouched = false;
+    const onWhyTouch = () => (whyTouched = true);
+    const onWhyScroll = () => {
+      if (!whyRow || !whySection || whySection.classList.contains("is-pinned")) return;
+      const items = whyRow.children;
+      const step = (items[0] as HTMLElement | undefined)?.offsetWidth || 1;
+      const at = Math.min(items.length - 1, Math.round(Math.abs(whyRow.scrollLeft) / step));
+      const el = whySection.querySelector(".why__current");
+      if (el) el.textContent = String(at + 1).padStart(2, "0");
+      whySection.style.setProperty("--p", `${(((at + 1) / items.length) * 100).toFixed(1)}%`);
+      if (whyTouched && Math.abs(whyRow.scrollLeft) > 30) whySection.classList.add("is-swiped");
+    };
+    whyRow?.addEventListener("pointerdown", onWhyTouch, { passive: true });
+    whyRow?.addEventListener("wheel", onWhyTouch, { passive: true });
+    whyRow?.addEventListener("scroll", onWhyScroll, { passive: true });
+    onWhyScroll();
+
     /* ---------- Per-frame: header, dock, image parallax ---------- */
     const header = document.querySelector(".header");
     const dock = document.querySelector(".dock");
@@ -404,6 +462,9 @@ export function Motion() {
     return () => {
       disposed = true;
       row?.removeEventListener("scroll", onSwipe);
+      whyRow?.removeEventListener("pointerdown", onWhyTouch);
+      whyRow?.removeEventListener("wheel", onWhyTouch);
+      whyRow?.removeEventListener("scroll", onWhyScroll);
       io.disconnect();
       globeIo.disconnect();
       globeOff?.();
