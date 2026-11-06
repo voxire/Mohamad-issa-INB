@@ -204,16 +204,33 @@ function Signature() {
   );
 }
 
-/** The developers he has worked with, in his order, under "2016 to present". */
+/**
+ * The developers he has worked with, in his order, under "2016 to present".
+ * On scroll the screen holds while each name arrives large in the centre, then settles into its place
+ * in the list (Motion.tsx); a counter and a hairline track the sequence. Ends with all four together.
+ */
 function Career({ t }: { t: Dict }) {
+  const total = String(t.career.developers.length).padStart(2, "0");
   return (
     <section className="section career" aria-label={t.career.kicker}>
       <div className="container">
-        <Kicker>{t.career.kicker}</Kicker>
+        <div className="career__head">
+          <div>
+            <Kicker>{t.career.kicker}</Kicker>
+            <h2 className="display h2 career__heading" data-reveal="mask">
+              {t.career.heading}
+            </h2>
+          </div>
+          <p className="career__count" aria-hidden="true" dir="ltr">
+            <span className="career__current">01</span> / {total}
+          </p>
+        </div>
+        <span className="career__progress" aria-hidden="true" />
         <ol className="developers">
           {t.career.developers.map((name, i) => (
-            <li className="developers__name" key={name} data-reveal style={d(i, 0.12)}>
-              {name}
+            <li className="developers__item" key={name}>
+              <span className="developers__num">{String(i + 1).padStart(2, "0")}</span>
+              <span className="developers__name">{name}</span>
             </li>
           ))}
         </ol>
