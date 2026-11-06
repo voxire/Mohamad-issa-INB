@@ -63,7 +63,7 @@ scripts/                             → media pipeline (images, video grading)
 ## Working rules
 - Plan before multi-file changes; keep the site to one page per locale.
 - Keep the JS bundle small. Prefer CSS over JS for motion.
-- Check every change at 390px (mobile), 1440px (desktop), in both EN and AR.
+- Check every change at 390px (mobile), 1440px (desktop), in both EN and AR. Also check 430x740 (Mohamad's iPhone 15 Pro Max in Safari with the toolbars showing): every section must still fit one screen there.
 - Lighthouse targets: Performance ≥ 90 on mobile, Accessibility ≥ 95.
 - No secrets in the repo. There is no backend, so there should be none.
 
