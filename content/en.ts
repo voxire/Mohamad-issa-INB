@@ -33,8 +33,22 @@ export const en: Dict = {
   links: { linkedin: "LinkedIn", email: "Email", instagram: "Instagram" },
   // His own words, from his Instagram caption (see CONTENT.md).
   statement: {
-    quote: "From humble beginnings to a portfolio exceeding AED 3 billion.",
+    quote: "From humble beginnings to a portfolio exceeding $1 billion.",
     by: "Mohamad Issa",
+  },
+  // Public facts, sourced in CONTENT.md (researched Nov 2026). Review the figures each year.
+  whyDubai: {
+    kicker: "Why Dubai",
+    heading: "A market built for investors.",
+    items: [
+      { figure: "0%", label: "Personal income tax", text: "No tax on salary, rental income or capital gains for individuals." },
+      { figure: "10 years", label: "Golden Visa", text: "Renewable residency for property investors from AED 2 million." },
+      { figure: "6.5–7%", label: "Average gross rental yield", text: "Among the highest of any major city in 2026." },
+      { figure: "$250B", label: "Real estate deals in 2025", text: "A record AED 917 billion, up 20% on 2024." },
+      { figure: "USD peg", label: "Stable currency", text: "The dirham has been fixed at 3.6725 to the dollar since 1997." },
+      { figure: "Top 5", label: "Safest cities", text: "UAE cities lead the 2026 Numbeo safety rankings." },
+    ],
+    note: "Public sources, 2025 and 2026. Not financial or tax advice.",
   },
   // The four developers he asked to list, in his order (owner, Nov 2026).
   career: {
