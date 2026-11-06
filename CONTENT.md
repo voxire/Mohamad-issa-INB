@@ -45,13 +45,28 @@ Top skills: Team Leadership, Team Management, Negotiation, International Sales, 
 - Selected transactions, as he gave them (no sizes or years): Bugatti Residences by Binghatti (bulk deal); Mercedes-Benz Places by Binghatti (multiple units, confirmed 6 Nov 2026); Burj Khalifa (commercial office); Damac Hills (villas, bulk deal).
 - No interviews to highlight: the press section is hidden. Advisory keeps all three services.
 - Voice note (6 Nov 2026): convert "AED 3 billion" to USD (the quote now reads "a portfolio exceeding $1 billion", matching his $1B+ stat); add a "Why Dubai" section; his name and text still overlapped his photo on iPhone (fixed: head-and-shoulders crop that fades out before the text).
-- **Why Dubai** (researched Nov 2026, public sources; review yearly):
-  - 0% personal income tax, no capital gains or rental income tax for individuals (secondary tax guides; confirm at tax.gov.ae).
-  - 10-year Golden Visa for property investors from AED 2 million (developer and legal guides, e.g. famproperties.com, propertyfinder.ae; confirm with ICP/GDRFA).
-  - 6.5 to 7% average gross rental yield in 2026 (Engel & Völkers Aug 2026: 6.5%; Oliva Q1 2026: 6.8%; Khaleej Times: 6 to 8%).
-  - AED 917 billion of real estate transactions in 2025, a record, up 20% (WAM, Dubai Land Department); about $250 billion at 3.6725.
-  - Dirham pegged at 3.6725 to the US dollar since 1997.
-  - UAE cities lead the 2026 Numbeo safety index (Abu Dhabi first; Khaleej Times, Platinumlist).
+- **Why Dubai** (6 Nov 2026): his own points, from the market brief he sent (deck pages 04 to 34), "in this order". They replace the six facts researched earlier. Figures and sources as cited in his brief; review yearly. Binghatti branding and the Binghatti portfolio pages are left out (Binghatti rule).
+  1. UNDRR "Role Model City" for resilience; Dubai Resilience Centre (p.04).
+  2. UAE non-oil sector 79.4% of GDP, Q1 2026; two contractions (2009, 2020) in 2008 to 2025 (FCSC) (p.05).
+  3. UAE first for wealth mobility, 85.3/100, 2026, ahead of Singapore 79.5 (Henley & Partners) (p.06).
+  4. Numbeo Safety Index 2025: Abu Dhabi 88.4, Doha 84.1, Dubai 83.8, Taipei 83.8, Sharjah 83.8 (p.07).
+  5. No personal income, capital gains or residential property tax; VAT 5%, corporate tax 9% (UAE Ministry of Finance, FTA) (p.08).
+  6. ADCOP pipeline Habshan to Fujairah, 406 km, bypasses Hormuz (ADNOC) (p.09).
+  7. 19.6M overnight visitors 2025 (14M 2022, 17.5M 2023, 18.2M 2024); hotel occupancy 81%; DXB 95.2M passengers 2025 (DET, Dubai Airports) (p.11).
+  8. 75% of the world's population within an 8-hour flight (Dubai Chambers) (p.12).
+  9. Population 370,786 (1985) to 4,580,300 (2025), no decade below 85% growth (Dubai Statistics Centre) (p.13).
+  10. +332,100 residents in 2025; 39,700 units handed over; 4.74M population; 999,532 housing units (Dubai Statistics Centre) (p.14).
+  11. 157,429 net new residents Jan to Jun 2026 (Dubai Population Clock, DSC) (p.17).
+  12. 70% of Fortune 500 regional HQs; 20+ free zones; 71,830 new Dubai Chamber members 2025; about 4 days to set up (Dubai Chamber, Dubai FDI, DET) (p.18).
+  13. Golden Visa: AED 2M property, 10 years, family; property investor visa: 2 years, no minimum for a sole buyer (ICP) (p.19).
+  14. Price per sq ft AED 2,020 Jan to Aug 2026, +3.2% on AED 1,957; AED 196.0bn total; recovered from 2008, 2020, 2024 (Emirates Business; DLD) (p.23).
+  15. Real Estate Sector Strategy 2033: +70% transactions, 33% home ownership; D33; 2040 Master Plan (dubai2040.ae, Dubai Media Office) (p.29).
+  16. Operation 300bn: industry to AED 300bn of UAE GDP by 2031 (MoIAT) (p.30).
+  17. 2040 plan: 55% of residents within 800 m of main transport, 60% nature reserves, five urban centres (dubai2040.ae) (p.31).
+  18. About 13% of the ~1,200 km² urban footprint still available (~160 km²) (dubai2040.ae, Dubai Municipality; derived in his brief) (p.32).
+  19. Dubai Rail Network Plan 2032, Etihad Rail, RTA aerial taxi (p.33).
+  20. New fourth corridor approved Sept 2026: 80 km, 12 lanes, via Al Maktoum Airport and Etihad Rail (Dubai Media Office, Khaleej Times, RTA) (p.34).
+  - Left out, to raise with him: p.15 and p.16 (Bloomberg charts of traffic and mall footfall after the March 2026 shock: no headline figure, and p.16 is cut off in the screenshot); "Dubai GDP 2025 AED 937B" on p.05, which conflicts with his p.29 (AED 541bn in 2024).
 - Hero on phones: his portrait sits smaller and higher so the text no longer crosses his chest (his feedback: "The name and text on my photo").
 
 ## Press and media found
