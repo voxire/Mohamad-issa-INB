@@ -49,6 +49,11 @@ export function Motion() {
     observe(document, (el) => !inHero(el)); // the hero waits for the intro
 
     if (reduce) document.querySelectorAll<HTMLVideoElement>("video").forEach((v) => v.pause());
+    // iOS Low Power Mode refuses autoplay: fall back to the graded still behind the video, never a play button
+    if (!reduce)
+      document.querySelectorAll<HTMLVideoElement>(".hero__video").forEach((v) => {
+        v.play()?.catch(() => v.classList.add("is-blocked"));
+      });
 
     /* ---------- Smooth scroll ---------- */
     const lenis = reduce ? null : new Lenis({ duration: 1.25, easing: (t) => 1 - Math.pow(1 - t, 4), smoothWheel: true });
