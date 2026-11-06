@@ -18,6 +18,7 @@ export function Site({ t }: { t: Dict }) {
       <main>
         <Hero t={t} wa={wa} />
         <Statement t={t} />
+        <WhyDubai t={t} />
         <Career t={t} />
         <Advisory t={t} />
         <Transactions t={t} />
@@ -201,6 +202,32 @@ function Signature() {
         <span className="signature__fallback">Mohamad Issa</span>
       )}
     </div>
+  );
+}
+
+/** Why Dubai: six headline facts, figure large, label small, one line beneath. Sources live in CONTENT.md. */
+function WhyDubai({ t }: { t: Dict }) {
+  return (
+    <section className="section why" aria-label={t.whyDubai.kicker}>
+      <div className="container">
+        <Kicker>{t.whyDubai.kicker}</Kicker>
+        <h2 className="display h2 why__heading" data-reveal="mask">
+          {t.whyDubai.heading}
+        </h2>
+        <ul className="why__grid">
+          {t.whyDubai.items.map((item, i) => (
+            <li className="why__item" key={item.label} data-reveal style={d(i % 3, 0.1)}>
+              <span className="why__figure" dir="auto">
+                {item.figure}
+              </span>
+              <span className="why__label label">{item.label}</span>
+              <span className="why__text">{item.text}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="why__note label">{t.whyDubai.note}</p>
+      </div>
+    </section>
   );
 }
 
