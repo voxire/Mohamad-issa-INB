@@ -1,4 +1,3 @@
-import { site } from "@/site.config";
 import type { Dict } from "./types";
 
 /**
@@ -25,7 +24,7 @@ export const en: Dict = {
       "Helping investors identify opportunities in Dubai's residential and ultra-luxury property market, from individual acquisitions to bulk transactions.",
     stats: [
       { value: "11+", label: "Years in Dubai real estate" },
-      { value: "AED 3B+", label: "In sales" },
+      { value: "$1B+", label: "In transactions" },
       { value: "Global", label: "International client network" },
     ],
     cta: "Let's Talk on WhatsApp",
@@ -62,7 +61,13 @@ export const en: Dict = {
   transactions: {
     kicker: "Selected transactions",
     heading: "A record, quietly kept.",
-    items: [],
+    // His deals, as he gave them (WhatsApp, Nov 2026). No sizes or years supplied.
+    items: [
+      { title: "Bugatti Residences by Binghatti", detail: "Bulk deal" },
+      { title: "Mercedes-Benz Places by Binghatti" },
+      { title: "Burj Khalifa", detail: "Commercial office" },
+      { title: "Damac Hills", detail: "Villas, bulk deal" },
+    ],
   },
   // His list and order, supplied by the owner (Nov 2026).
   international: {
@@ -81,17 +86,11 @@ export const en: Dict = {
       { name: "Iraq", cities: [] },
     ],
   },
+  // He has no interviews to highlight (Nov 2026), so the press section stays hidden until items are added.
   press: {
     kicker: "Press",
     cta: "Read the feature",
-    items: [
-      {
-        outlet: "UAE Stories",
-        title: "How Mohamad Issa Turned Grit into Real Estate Gold",
-        date: "August 2025",
-        url: site.press.url,
-      },
-    ],
+    items: [],
   },
   consent: {
     text: "This site uses analytics cookies to understand how it is visited.",
