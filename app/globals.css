@@ -820,39 +820,109 @@ ul {
 .career {
   background: var(--bg-2);
   border-block: 1px solid var(--line);
+  overflow: hidden;
+}
+.career__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+}
+.career__heading {
+  max-width: 16ch;
+}
+/* "01 / 04": which developer the sequence is on */
+.career__count {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 15px;
+  letter-spacing: 0.24em;
+  color: var(--ink-3);
+  white-space: nowrap;
+  font-variant-numeric: lining-nums;
+}
+.career__current {
+  color: var(--accent);
+}
+/* A hairline that fills as the sequence runs */
+.career__progress {
+  display: block;
+  height: 1px;
+  margin-block-start: clamp(28px, 5vh, 56px);
+  background: linear-gradient(var(--accent), var(--accent)) 0 0 / var(--p, 100%) 100% no-repeat, var(--line);
+}
+[dir="rtl"] .career__progress {
+  background-position: 100% 0, 0 0;
 }
 .developers {
+  position: relative; /* the names measure their resting place against the list */
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-block-start: clamp(28px, 5vh, 56px);
-  border-block-start: 1px solid var(--line);
 }
-.developers__name {
+.developers__item {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
   padding-block: clamp(28px, 5vh, 52px);
   padding-inline: clamp(14px, 1.8vw, 30px);
   border-inline-start: 1px solid var(--line);
-  font-family: var(--serif);
-  font-weight: 300;
-  font-size: clamp(24px, 2.3vw, 38px);
-  line-height: 1.15;
+  transition: opacity 0.6s var(--ease);
 }
-.developers__name:first-child {
+.developers__item:first-child {
   border-inline-start: 0;
   padding-inline-start: 0;
+}
+.developers__num {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+}
+.developers__name {
+  display: inline-block;
+  align-self: flex-start;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(26px, 2.5vw, 42px);
+  line-height: 1.15;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  transition: color 0.5s var(--ease);
 }
 [dir="rtl"] .developers__name {
   font-weight: 400;
   line-height: 1.5;
 }
+/* Hover: the name under the pointer lights up and the others step back */
+@media (hover: hover) and (pointer: fine) {
+  .developers.is-settled:hover .developers__item {
+    opacity: 0.35;
+  }
+  .developers.is-settled .developers__item:hover {
+    opacity: 1;
+  }
+  .developers.is-settled .developers__item:hover .developers__name {
+    color: #fffaf0;
+  }
+}
 
 @media (max-width: 860px) {
+  .career__head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
   .developers {
     grid-template-columns: 1fr;
   }
-  .developers__name {
-    padding: 22px 0;
+  .developers__item {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 18px;
+    padding: 18px 0;
     border-inline-start: 0;
     border-block-end: 1px solid var(--line);
+  }
+  .developers__name {
     font-size: clamp(28px, 8vw, 36px);
   }
 }
@@ -869,7 +939,7 @@ ul {
   grid-template-columns: 72px minmax(0, 1fr) auto;
   align-items: baseline;
   gap: 24px;
-  padding-block: clamp(22px, 3.4vh, 34px);
+  padding-block: clamp(18px, 3vh, 32px);
   border-block-end: 1px solid var(--line);
 }
 .transactions__year {
@@ -887,6 +957,10 @@ ul {
 [dir="rtl"] .transactions__title {
   font-weight: 400;
   line-height: 1.6;
+}
+/* Arabic lines run taller: tighter rows keep the four deals on one screen */
+[dir="rtl"] .transactions__item {
+  padding-block: clamp(14px, 2.4vh, 26px);
 }
 .transactions__detail {
   color: var(--ink-3);
