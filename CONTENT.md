@@ -44,6 +44,14 @@ Top skills: Team Leadership, Team Management, Negotiation, International Sales, 
 - Middle hero stat, his wording: "$1 Billion+ in transactions", shown as "$1B+ / In transactions" (replaces "AED 3B+ in sales"). "11+ years" stays.
 - Selected transactions, as he gave them (no sizes or years): Bugatti Residences by Binghatti (bulk deal); Mercedes-Benz Places by Binghatti (multiple units, confirmed 6 Nov 2026); Burj Khalifa (commercial office); Damac Hills (villas, bulk deal).
 - No interviews to highlight: the press section is hidden. Advisory keeps all three services.
+- Voice note (6 Nov 2026): convert "AED 3 billion" to USD (the quote now reads "a portfolio exceeding $1 billion", matching his $1B+ stat); add a "Why Dubai" section; his name and text still overlapped his photo on iPhone (fixed: head-and-shoulders crop that fades out before the text).
+- **Why Dubai** (researched Nov 2026, public sources; review yearly):
+  - 0% personal income tax, no capital gains or rental income tax for individuals (secondary tax guides; confirm at tax.gov.ae).
+  - 10-year Golden Visa for property investors from AED 2 million (developer and legal guides, e.g. famproperties.com, propertyfinder.ae; confirm with ICP/GDRFA).
+  - 6.5 to 7% average gross rental yield in 2026 (Engel & Völkers Aug 2026: 6.5%; Oliva Q1 2026: 6.8%; Khaleej Times: 6 to 8%).
+  - AED 917 billion of real estate transactions in 2025, a record, up 20% (WAM, Dubai Land Department); about $250 billion at 3.6725.
+  - Dirham pegged at 3.6725 to the US dollar since 1997.
+  - UAE cities lead the 2026 Numbeo safety index (Abu Dhabi first; Khaleej Times, Platinumlist).
 - Hero on phones: his portrait sits smaller and higher so the text no longer crosses his chest (his feedback: "The name and text on my photo").
 
 ## Press and media found
