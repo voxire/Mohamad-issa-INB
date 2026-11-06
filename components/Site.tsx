@@ -252,10 +252,11 @@ function Transactions({ t }: { t: Dict }) {
         </h2>
         <ol className="transactions__list">
           {t.transactions.items.map((item, i) => (
-            <li className="transactions__item" key={item.title + item.year} data-reveal style={d(i, 0.1)}>
-              <span className="transactions__year label">{item.year}</span>
+            <li className="transactions__item" key={item.title} data-reveal style={d(i, 0.1)}>
+              {/* The year when he gives one, otherwise a quiet running number */}
+              <span className="transactions__year">{item.year ?? String(i + 1).padStart(2, "0")}</span>
               <span className="transactions__title">{item.title}</span>
-              <span className="transactions__detail body">{item.detail}</span>
+              {item.detail && <span className="transactions__detail label">{item.detail}</span>}
             </li>
           ))}
         </ol>
