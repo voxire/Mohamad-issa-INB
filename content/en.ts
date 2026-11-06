@@ -65,7 +65,7 @@ export const en: Dict = {
     // His deals, as he gave them (WhatsApp, Nov 2026). No sizes or years supplied.
     items: [
       { title: "Bugatti Residences by Binghatti", detail: "Bulk deal" },
-      { title: "Mercedes-Benz Places by Binghatti" },
+      { title: "Mercedes-Benz Places by Binghatti", detail: "Multiple units" },
       { title: "Burj Khalifa", detail: "Commercial office" },
       { title: "Damac Hills", detail: "Villas, bulk deal" },
     ],
