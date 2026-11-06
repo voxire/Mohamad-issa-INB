@@ -27,7 +27,8 @@ export type Dict = {
   transactions: {
     kicker: string;
     heading: string;
-    items: { title: string; detail: string; year: string }[];
+    /** Project name, and optionally the kind of deal and the year, exactly as he gave them. */
+    items: { title: string; detail?: string; year?: string }[];
   };
   international: {
     heading: string;
