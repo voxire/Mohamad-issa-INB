@@ -205,18 +205,33 @@ function Signature() {
   );
 }
 
-/** Why Dubai: six headline facts, figure large, label small, one line beneath. Sources live in CONTENT.md. */
+/**
+ * Why Dubai: his points, in his order, one at a time.
+ * Desktop: the screen holds while each point arrives and leaves (Motion.tsx), with a 01 / 20 counter
+ * and a filling hairline. Phones, reduced motion and no-JS: a swipe row, one point per screen width.
+ * Sources live in CONTENT.md.
+ */
 function WhyDubai({ t }: { t: Dict }) {
+  const total = String(t.whyDubai.items.length).padStart(2, "0");
   return (
     <section className="section why" aria-label={t.whyDubai.kicker}>
       <div className="container">
-        <Kicker>{t.whyDubai.kicker}</Kicker>
-        <h2 className="display h2 why__heading" data-reveal="mask">
-          {t.whyDubai.heading}
-        </h2>
-        <ul className="why__grid">
+        <div className="why__head">
+          <div>
+            <Kicker>{t.whyDubai.kicker}</Kicker>
+            <h2 className="display h2 why__heading" data-reveal="mask">
+              {t.whyDubai.heading}
+            </h2>
+          </div>
+          <p className="why__count" aria-hidden="true" dir="ltr">
+            <span className="why__current">01</span> / {total}
+          </p>
+        </div>
+        <span className="why__progress" aria-hidden="true" />
+        <ol className="why__points">
           {t.whyDubai.items.map((item, i) => (
-            <li className="why__item" key={item.label} data-reveal style={d(i % 3, 0.1)}>
+            <li className="why__point" key={i}>
+              <span className="why__chapter label">{item.chapter}</span>
               <span className="why__figure" dir="auto">
                 {item.figure}
               </span>
@@ -224,8 +239,14 @@ function WhyDubai({ t }: { t: Dict }) {
               <span className="why__text">{item.text}</span>
             </li>
           ))}
-        </ul>
-        <p className="why__note label">{t.whyDubai.note}</p>
+        </ol>
+        <div className="why__foot">
+          <p className="why__note label">{t.whyDubai.note}</p>
+          <p className="why__swipe label" aria-hidden="true">
+            {t.whyDubai.swipe}
+            <Arrow />
+          </p>
+        </div>
       </div>
     </section>
   );
