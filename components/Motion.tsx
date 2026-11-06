@@ -189,6 +189,55 @@ export function Motion() {
           .to(".hero__copy", { y: -40, opacity: 0.2, ease: "none" }, 0);
       });
 
+      /* ---------- Developers: each name arrives large in the centre, then settles into its place ---------- */
+      const career = document.querySelector<HTMLElement>(".career");
+      if (career)
+        mm.add({ desktop: "(min-width: 861px)", phone: "(max-width: 860px)" }, (ctx) => {
+          const phone = !!ctx.conditions?.phone;
+          const list = career.querySelector<HTMLElement>(".developers");
+          const names = gsap.utils.toArray<HTMLElement>(".developers__name", career);
+          const nums = gsap.utils.toArray<HTMLElement>(".developers__num", career);
+          const current = career.querySelector(".career__current");
+          if (!list || !names.length) return;
+          const n = names.length;
+          const scale = phone ? 1.12 : 1.9;
+          // Offsets from a name's resting place to the middle of the list (layout positions, so transforms don't skew them)
+          const dx = (el: HTMLElement) => list.clientWidth / 2 - (el.offsetLeft + el.offsetWidth / 2);
+          const dy = (el: HTMLElement) => list.clientHeight / 2 - (el.offsetTop + el.offsetHeight / 2);
+          const tl = gsap.timeline({
+            defaults: { ease: "power2.inOut" },
+            scrollTrigger: {
+              trigger: career,
+              start: "top top",
+              end: `+=${n * (phone ? 55 : 65)}%`,
+              pin: true,
+              scrub: 0.8,
+              invalidateOnRefresh: true,
+              onUpdate: (self) => {
+                career.style.setProperty("--p", `${(self.progress * 100).toFixed(1)}%`);
+                if (current) current.textContent = String(Math.min(n, Math.floor(self.progress * n) + 1)).padStart(2, "0");
+                list.classList.toggle("is-settled", self.progress > 0.97);
+              },
+            },
+          });
+          names.forEach((el, i) => {
+            const at = i * 1.3;
+            tl.fromTo(
+              el,
+              { opacity: 0, x: () => dx(el), y: () => dy(el) + 40, scale },
+              { opacity: 1, x: () => dx(el), y: () => dy(el), scale, duration: 0.5, ease: "power2.out" },
+              at,
+            )
+              .to(el, { x: 0, y: 0, scale: 1, duration: 0.6 }, at + 0.8)
+              // names already in the list step right back while the new one has the stage, so nothing overlaps
+              .to(names.slice(0, i), { opacity: 0.08, duration: 0.3 }, at)
+              .to(names.slice(0, i), { opacity: 1, duration: 0.4 }, at + 0.9)
+              .fromTo(nums[i], { opacity: 0 }, { opacity: 1, duration: 0.4 }, at + 1.0);
+          });
+          tl.to({}, { duration: 0.4 }); // rest on all four together before the page moves on
+          return () => list.classList.remove("is-settled");
+        });
+
       /* ---------- Roadshows: hold the globe and its lists on screen while you explore (desktop) ---------- */
       mm.add("(min-width: 861px)", () => {
         if (!document.querySelector(".intl")) return;
@@ -290,6 +339,10 @@ export function Motion() {
         destroy();
       };
     }
+
+    // Without the scroll sequence the developers list is simply there, and hover works straight away
+    if (reduce) document.querySelector(".developers")?.classList.add("is-settled");
+    if (reduce) document.querySelectorAll(".career__current").forEach((el) => (el.textContent = String(document.querySelectorAll(".developers__item").length).padStart(2, "0")));
 
     /* ---------- Phones: the roadshow row's swipe cue goes once the row has been swiped ---------- */
     const row = document.querySelector<HTMLElement>(".intl__countries");
