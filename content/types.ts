@@ -20,8 +20,8 @@ export type Dict = {
   links: { linkedin: string; email: string; instagram: string };
   /** A line in his own words, lit up word by word, signed with his name. */
   statement: { quote: string; by: string };
-  /** The developers he has worked with, in order, under one small label. */
-  career: { kicker: string; developers: string[] };
+  /** The developers he has worked with, in his order, under a small label and a short heading. */
+  career: { kicker: string; heading: string; developers: string[] };
   advisory: { items: { title: string; text: string }[] };
   /** Anonymised deals supplied by the owner. The section is hidden while `items` is empty. */
   transactions: {
