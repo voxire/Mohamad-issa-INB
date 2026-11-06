@@ -40,7 +40,11 @@ Top skills: Team Leadership, Team Management, Negotiation, International Sales, 
 - Hero line: "Dubai & Global Real Estate | Investment Advisory". No Arabic name under his name.
 - Removed sections: the story ("From Lebanon to Dubai"), the gallery, "In good company", the old philosophy quote, and "Ready and secondary" in Advisory.
 - New quote, from his own IG caption above: "From humble beginnings to a portfolio exceeding AED 3 billion."
-- Still to collect: selected transactions (anonymised) and any interviews or articles. Their sections stay hidden until he sends them.
+- Contact (WhatsApp, 6 Nov 2026): WhatsApp +971 56 196 9292; email inquire@mohamadissa.com (he is creating the mailbox).
+- Middle hero stat, his wording: "$1 Billion+ in transactions", shown as "$1B+ / In transactions" (replaces "AED 3B+ in sales"). "11+ years" stays.
+- Selected transactions, as he gave them (no sizes or years): Bugatti Residences by Binghatti (bulk deal); Mercedes-Benz Places by Binghatti; Burj Khalifa (commercial office); Damac Hills (villas, bulk deal).
+- No interviews to highlight: the press section is hidden. Advisory keeps all three services.
+- Hero on phones: his portrait sits smaller and higher so the text no longer crosses his chest (his feedback: "The name and text on my photo").
 
 ## Press and media found
 1. UAE Stories, "How Mohamad Issa Turned Grit into Real Estate Gold" (19 Aug 2025): https://uaestories.com/how-mohamad-issa-turned-grit/
