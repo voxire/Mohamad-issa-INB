@@ -10,7 +10,7 @@ Read `BRIEF.md` (agreed creative decisions) and `CONTENT.md` (gathered facts and
 - Fonts are self-hosted via `@fontsource`: Cormorant Garamond (display), Manrope (UI), Noto Naskh Arabic (AR). Nothing loads from Google at runtime.
 - Motion: `gsap` + `ScrollTrigger` (scroll choreography, intro) and `lenis` (smooth scroll, driven by the GSAP ticker). Simple reveals stay on IntersectionObserver + CSS. Don't add other animation libraries without asking.
 - Images are pre-optimised into `public/media/` (WebP, several widths) because static export disables `next/image` optimisation.
-- Hosting: Vercel (static). Domain mohamadissa.com is registered at GoDaddy.
+- Hosting: Vercel (static), live at https://mohamadissa.com since 12 Nov 2026. The domain is registered at GoDaddy (Mohamad's account, delegate access for voxire.tech@gmail.com) and DNS stays at GoDaddy: A @ 216.150.1.1 and CNAME www to Vercel; www redirects (308) to the bare domain. No email records yet.
 
 ## Commands
 ```bash
