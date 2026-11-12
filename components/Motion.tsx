@@ -66,6 +66,18 @@ export function Motion() {
 
     /* ---------- Hero start (after intro) ---------- */
     const hero = document.querySelector<HTMLElement>(".hero");
+
+    /* ---------- Phones: give his portrait all the room above the text (CSS reads --room) ---------- */
+    const heroInner = hero?.querySelector<HTMLElement>(".hero__inner");
+    const heroCopy = hero?.querySelector<HTMLElement>(".hero__copy");
+    const fitPortrait = () => {
+      if (!hero || !heroInner || !heroCopy) return;
+      // layout positions, so the reveal transforms don't skew the measurement
+      hero.style.setProperty("--room", `${heroInner.offsetTop + heroCopy.offsetTop}px`);
+    };
+    fitPortrait();
+    window.addEventListener("resize", fitPortrait);
+    document.fonts?.ready.then(fitPortrait);
     const startHero = () => {
       if (hero) observe(hero, () => true);
       document.querySelector(".hero__name")?.classList.add("is-live");
@@ -433,6 +445,7 @@ export function Motion() {
 
     return () => {
       disposed = true;
+      window.removeEventListener("resize", fitPortrait);
       row?.removeEventListener("scroll", onSwipe);
       whyTabs.forEach((t) => {
         t.removeEventListener("click", onTabClick);
