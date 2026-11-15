@@ -123,7 +123,7 @@ export const en: Dict = {
   },
   // His list and order, supplied by the owner (Nov 2026).
   international: {
-    heading: "International Roadshows & Investor Meetings",
+    heading: "International Roadshows & Business Trips",
     hint: { hover: "Hover a country to explore", tap: "Tap a country to explore", swipe: "Swipe" },
     countries: [
       { name: "Russia", cities: ["Moscow", "Kaliningrad", "St. Petersburg"] },
