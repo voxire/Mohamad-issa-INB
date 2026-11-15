@@ -1277,10 +1277,6 @@ ul {
   row-gap: clamp(14px, 2.6vh, 30px);
   margin-block-start: clamp(20px, 3.5vh, 44px);
 }
-/* The swipe cue only exists for the phone row */
-.intl__swipe {
-  display: none;
-}
 .intl__countries {
   display: contents;
 }
@@ -1791,18 +1787,20 @@ ul {
     margin-inline: -10px;
   }
 
-  /* International: the globe on top, his countries in a swipe row beneath it; tap to focus */
-  .intl__stage {
+  /* International: the globe on top, his countries listed beneath it in two columns; tap to focus */
+  .intl__stage,
+  [dir="rtl"] .intl__stage {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    row-gap: 0;
   }
   .js .intl__globe {
     width: min(88vw, 520px);
     margin-inline: auto;
   }
   .intl {
-    padding-block: 80px 104px;
+    padding-block: 60px 80px;
   }
   .intl__heading {
     font-size: clamp(30px, 8.6vw, 40px);
@@ -1813,7 +1811,7 @@ ul {
   /* Arabic chips run a little taller, so the globe gives up a few pixels */
   [dir="rtl"].js .intl__globe,
   .js [dir="rtl"] .intl__globe {
-    width: min(78vw, 37svh, 480px);
+    width: min(70vw, 26svh, 480px);
   }
 
   /* Advisory: three services in one phone screen */
@@ -1828,69 +1826,35 @@ ul {
     margin-block-end: 10px;
   }
   .js .intl__globe {
-    width: min(82vw, 40svh, 520px);
+    width: min(76vw, 30svh, 520px);
   }
+  /* A plain list, in his order (owner, 14 Nov 2026: "as listed before", not a swipe row) */
   .intl__countries {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    margin-block-start: 20px;
-    margin-inline: calc(var(--gutter) * -1);
-    padding: 4px var(--gutter);
-    scroll-padding-inline: var(--gutter);
-    scrollbar-width: none;
-    /* fades out at the far edge, so it reads as a row that continues */
-    -webkit-mask-image: linear-gradient(to right, #000 82%, transparent);
-    mask-image: linear-gradient(to right, #000 82%, transparent);
-  }
-  [dir="rtl"] .intl__countries {
-    -webkit-mask-image: linear-gradient(to left, #000 82%, transparent);
-    mask-image: linear-gradient(to left, #000 82%, transparent);
-  }
-  .intl__countries.is-swiped {
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-  .intl__swipe {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 16px;
+    row-gap: clamp(10px, 1.8svh, 16px);
     margin-block-start: 14px;
-    color: var(--accent);
-    transition: opacity 0.8s var(--ease);
-  }
-  .intl__swipe .btn__arrow {
-    width: 16px;
-    height: 16px;
-    animation: swipe-cue 1.8s var(--ease) infinite;
-  }
-  [dir="rtl"] .intl__swipe .btn__arrow {
-    animation-name: swipe-cue-rtl;
-  }
-  .intl.is-swiped .intl__swipe {
-    opacity: 0;
-  }
-  .intl__countries::-webkit-scrollbar {
-    display: none;
   }
   .intl__country,
   .intl__country:nth-child(-n + 5),
   .intl__country:nth-child(n + 6) {
-    flex: 0 0 auto;
+    grid-column: auto;
     align-items: center;
     text-align: center;
-    gap: 6px;
-    padding: 14px 18px;
-    border: 1px solid var(--line);
-    scroll-snap-align: start;
+    gap: 2px;
   }
-  .intl__country.is-focused {
-    border-color: var(--line-accent);
+  /* Cities stay small and tight so most fit on one line in a half-width column */
+  .intl__cities {
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
   }
   .intl__name {
-    font-size: 26px;
+    font-size: 24px;
+  }
+  [dir="rtl"] .intl__name {
+    font-size: 20px;
+    line-height: 1.35;
   }
 
 
@@ -1990,7 +1954,7 @@ ul {
   }
   /* Roadshows */
   .intl {
-    padding-block: 64px 92px;
+    padding-block: 52px 76px;
   }
   .intl__heading,
   [dir="rtl"] .intl__heading {
@@ -1999,21 +1963,19 @@ ul {
   .js .intl__globe,
   [dir="rtl"].js .intl__globe,
   .js [dir="rtl"] .intl__globe {
-    width: min(78vw, 33svh);
+    width: min(70vw, 27svh);
+  }
+  /* Arabic rows set taller, so its globe gives up a little more on short phones */
+  [dir="rtl"].js .intl__globe,
+  .js [dir="rtl"] .intl__globe {
+    width: min(64vw, 21svh);
   }
   .intl__countries {
     margin-block-start: 12px;
-  }
-  .intl__country,
-  .intl__country:nth-child(-n + 5),
-  .intl__country:nth-child(n + 6) {
-    padding: 10px 14px;
+    row-gap: 8px;
   }
   .intl__name {
-    font-size: 22px;
-  }
-  .intl__swipe {
-    margin-block-start: 8px;
+    font-size: 21px;
   }
   /* Closing screen */
   .close {
@@ -2058,30 +2020,11 @@ ul {
   }
 }
 
-@keyframes swipe-cue {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(7px);
-  }
-}
-@keyframes swipe-cue-rtl {
-  0%,
-  100% {
-    transform: scaleX(-1) translateX(0);
-  }
-  50% {
-    transform: scaleX(-1) translateX(7px);
-  }
-}
 @media (prefers-reduced-motion: reduce) {
   .js .why__grid.is-active .why__item {
     animation: none;
   }
   .hero__scroll::after,
-  .intl__swipe .btn__arrow,
   .intro__skip {
     animation: none !important;
   }

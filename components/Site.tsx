@@ -343,7 +343,7 @@ function Transactions({ t }: { t: Dict }) {
 
 /**
  * His roadshow list around the globe: the first five countries on one side, the rest on the other
- * (a swipe row under the globe on phones). Each country and city is a button that focuses the globe
+ * (a two-column list under the globe on phones). Each country and city is a button that focuses the globe
  * on its pins (components/gl/globe.ts); a country with no cities has one pin at its main city.
  * Pins are numbered in list order, so they line up with PINS in globe.ts.
  */
@@ -398,10 +398,6 @@ function International({ t }: { t: Dict }) {
               </li>
             ))}
           </ul>
-          <p className="intl__swipe label" aria-hidden="true">
-            {t.international.hint.swipe}
-            <Arrow />
-          </p>
         </div>
       </div>
     </section>

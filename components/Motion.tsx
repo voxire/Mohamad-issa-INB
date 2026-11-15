@@ -321,10 +321,6 @@ export function Motion() {
         const el = e.currentTarget as HTMLElement;
         locked = locked === el ? null : el;
         show(locked ?? el);
-        // Phones: bring the tapped country to the middle of the swipe row
-        if (window.matchMedia("(max-width: 860px)").matches) {
-          el.closest(".intl__country")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", inline: "center", block: "nearest" });
-        }
       };
       const release = (e: MouseEvent) => {
         if (!locked || (e.target as HTMLElement).closest(".intl__globe")) return;
@@ -355,20 +351,6 @@ export function Motion() {
     // Without the scroll sequence the developers list is simply there, and hover works straight away
     if (reduce) document.querySelector(".developers")?.classList.add("is-settled");
     if (reduce) document.querySelectorAll(".career__current").forEach((el) => (el.textContent = String(document.querySelectorAll(".developers__item").length).padStart(2, "0")));
-
-    /* ---------- Phones: the roadshow row's swipe cue goes once the row has been swiped ---------- */
-    const row = document.querySelector<HTMLElement>(".intl__countries");
-    let touched = false; // only a swipe by the visitor counts, not the browser settling the row
-    const onTouch = () => (touched = true);
-    row?.addEventListener("pointerdown", onTouch, { passive: true });
-    row?.addEventListener("wheel", onTouch, { passive: true });
-    const onSwipe = () => {
-      if (!row || !touched || Math.abs(row.scrollLeft) < 30) return;
-      row.classList.add("is-swiped");
-      row.closest(".intl")?.classList.add("is-swiped");
-      row.removeEventListener("scroll", onSwipe);
-    };
-    row?.addEventListener("scroll", onSwipe, { passive: true });
 
     /* ---------- Why Dubai: chapter tabs (click, tap, or arrow keys) ---------- */
     const whyTabs = Array.from(document.querySelectorAll<HTMLButtonElement>(".why__tab"));
@@ -446,7 +428,6 @@ export function Motion() {
     return () => {
       disposed = true;
       window.removeEventListener("resize", fitPortrait);
-      row?.removeEventListener("scroll", onSwipe);
       whyTabs.forEach((t) => {
         t.removeEventListener("click", onTabClick);
         t.removeEventListener("keydown", onTabKey);

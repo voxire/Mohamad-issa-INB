@@ -40,8 +40,8 @@ export type Dict = {
   };
   international: {
     heading: string;
-    /** How to use the globe: on desktop (hover), on phones (tap), and the swipe cue for the phone row. */
-    hint: { hover: string; tap: string; swipe: string };
+    /** How to use the globe: on desktop (hover) and on phones (tap). */
+    hint: { hover: string; tap: string };
     countries: { name: string; cities: string[] }[];
   };
   /** Interviews and articles. Add more items as the owner supplies them. */
