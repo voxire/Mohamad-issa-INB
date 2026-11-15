@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import "@fontsource/cormorant-garamond/300.css";
-import "@fontsource-variable/manrope";
+import "@fontsource-variable/bodoni-moda/wght.css";
+import "@fontsource-variable/inter";
 import "@fontsource/noto-naskh-arabic/400.css";
 import "./globals.css";
 import { Monogram } from "@/components/ui";

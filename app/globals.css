@@ -14,8 +14,8 @@
   --line: rgba(232, 220, 200, 0.12);
   --line-accent: rgba(157, 184, 204, 0.38);
 
-  --serif: "Cormorant Garamond", "Noto Naskh Arabic", "Times New Roman", serif;
-  --sans: "Manrope Variable", "Noto Naskh Arabic", system-ui, -apple-system, sans-serif;
+  --serif: "Bodoni Moda Variable", "Noto Naskh Arabic", "Times New Roman", serif;
+  --sans: "Inter Variable", "Noto Naskh Arabic", system-ui, -apple-system, sans-serif;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --gutter: clamp(20px, 5.2vw, 84px);
@@ -24,8 +24,8 @@
 }
 
 [dir="rtl"] {
-  --serif: "Noto Naskh Arabic", "Cormorant Garamond", serif;
-  --sans: "Noto Naskh Arabic", "Manrope Variable", system-ui, sans-serif;
+  --serif: "Noto Naskh Arabic", "Bodoni Moda Variable", serif;
+  --sans: "Noto Naskh Arabic", "Inter Variable", system-ui, sans-serif;
 }
 
 *,
@@ -415,7 +415,7 @@ ul {
   letter-spacing: 0;
 }
 .header__lang[lang="en"] {
-  font-family: "Manrope Variable", sans-serif;
+  font-family: "Inter Variable", sans-serif;
   font-size: 11px;
   letter-spacing: 0.32em;
 }
@@ -790,7 +790,7 @@ ul {
   color: var(--ink);
 }
 .signature__fallback {
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Bodoni Moda Variable", serif;
   font-style: italic;
   font-weight: 300;
   font-size: 46px;
@@ -1045,7 +1045,7 @@ ul {
 }
 /* "01 / 04": which developer the sequence is on */
 .career__count {
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Bodoni Moda Variable", serif;
   font-size: 15px;
   letter-spacing: 0.24em;
   color: var(--ink-3);
@@ -1084,7 +1084,7 @@ ul {
   padding-inline-start: 0;
 }
 .developers__num {
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Bodoni Moda Variable", serif;
   font-size: 15px;
   letter-spacing: 0.2em;
   color: var(--accent);
@@ -1155,7 +1155,7 @@ ul {
   border-block-end: 1px solid var(--line);
 }
 .transactions__year {
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Bodoni Moda Variable", serif;
   font-size: 15px;
   letter-spacing: 0.2em;
   color: var(--accent);
@@ -1207,7 +1207,7 @@ ul {
 .advisory__num {
   color: var(--accent);
   margin-block-end: 26px;
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Bodoni Moda Variable", serif;
   font-size: 15px;
   letter-spacing: 0.2em;
 }
@@ -1412,7 +1412,7 @@ ul {
   color: var(--ink-3);
 }
 .press__title {
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Bodoni Moda Variable", serif;
   font-style: italic;
   font-weight: 300;
   font-size: clamp(32px, 3.8vw, 58px);
