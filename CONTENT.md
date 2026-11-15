@@ -35,7 +35,7 @@ Top skills: Team Leadership, Team Management, Negotiation, International Sales, 
 - International roadshows (IG): Russia 2022 (Moscow, Kaliningrad, St Petersburg), Singapore 2024, Istanbul, UK. This backs up the "International client network" stat.
 
 ## Confirmed by the owner (WhatsApp, Nov 2026)
-- **International Roadshows & Investor Meetings**, in his order: Russia (Moscow, Kaliningrad, St. Petersburg); United States (Los Angeles, Miami, Texas); United Kingdom (London, Manchester); Saudi Arabia (Riyadh, Jeddah); Switzerland (Zurich, Geneva); Turkey (Istanbul, Bodrum); Singapore; Lebanon; Italy; Iraq.
+- **International Roadshows & Business Trips** (his wording from 14 Nov 2026; it was "& Investor Meetings"), in his order: Russia (Moscow, Kaliningrad, St. Petersburg); United States (Los Angeles, Miami, Texas); United Kingdom (London, Manchester); Saudi Arabia (Riyadh, Jeddah); Switzerland (Zurich, Geneva); Turkey (Istanbul, Bodrum); Singapore; Lebanon; Italy; Iraq.
 - **Developers, 2016 to present** (names only, in his order): Damac Properties, Arada Developments, Sobha Realty, Binghatti Holding. Azizi and The Heart of Europe are left off.
 - Hero line: "Dubai & Global Real Estate | Investment Advisory". No Arabic name under his name.
 - Removed sections: the story ("From Lebanon to Dubai"), the gallery, "In good company", the old philosophy quote, and "Ready and secondary" in Advisory.
@@ -45,6 +45,7 @@ Top skills: Team Leadership, Team Management, Negotiation, International Sales, 
 - Selected transactions, as he gave them (no sizes or years): Bugatti Residences by Binghatti (bulk deal); Mercedes-Benz Places by Binghatti (multiple units, confirmed 6 Nov 2026); Burj Khalifa (commercial office); Damac Hills (villas, bulk deal).
 - No interviews to highlight: the press section is hidden. Advisory keeps all three services.
 - Voice note (6 Nov 2026): convert "AED 3 billion" to USD (the quote now reads "a portfolio exceeding $1 billion", matching his $1B+ stat); add a "Why Dubai" section; his name and text still overlapped his photo on iPhone (fixed: head-and-shoulders crop that fades out before the text).
+- Notes (14 Nov 2026, via Abed): keep "$1 billion" on one line in the quote; the roadshow heading reads "International Roadshows & Business Trips" exactly; on phones the roadshow countries are listed as before, not a swiping row.
 - **Why Dubai** (6 Nov 2026): his own points, from the market brief he sent (deck pages 04 to 34), "in this order". They replace the six facts researched earlier. Figures and sources as cited in his brief; review yearly. Binghatti branding and the Binghatti portfolio pages are left out (Binghatti rule).
   1. UNDRR "Role Model City" for resilience; Dubai Resilience Centre (p.04).
   2. UAE non-oil sector 79.4% of GDP, Q1 2026; two contractions (2009, 2020) in 2008 to 2025 (FCSC) (p.05).
