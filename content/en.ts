@@ -33,7 +33,8 @@ export const en: Dict = {
   links: { linkedin: "LinkedIn", email: "Email", instagram: "Instagram" },
   // His own words, from his Instagram caption (see CONTENT.md).
   statement: {
-    quote: "From humble beginnings to a portfolio exceeding $1 billion.",
+    // A no-break space keeps "$1 billion" together on one line (owner, 14 Nov 2026).
+    quote: "From humble beginnings to a portfolio exceeding $1\u00A0billion.",
     by: "Mohamad Issa",
   },
   // His points from his market brief, in his order (owner, Nov 2026). Sources in CONTENT.md; review yearly.
