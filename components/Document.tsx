@@ -3,10 +3,9 @@ import type { ReactNode } from "react";
 import type { Dict } from "@/content/types";
 import { site } from "@/site.config";
 
-import "@fontsource/cormorant-garamond/300.css";
-import "@fontsource/cormorant-garamond/400.css";
-import "@fontsource/cormorant-garamond/300-italic.css";
-import "@fontsource-variable/manrope";
+import "@fontsource-variable/bodoni-moda/wght.css";
+import "@fontsource-variable/bodoni-moda/wght-italic.css";
+import "@fontsource-variable/inter";
 import "@fontsource/noto-naskh-arabic/400.css";
 import "@fontsource/noto-naskh-arabic/500.css";
 import "@/app/globals.css";
