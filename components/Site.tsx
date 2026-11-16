@@ -5,6 +5,7 @@ import { Arrow, Kicker, Monogram, d, srcSet } from "./ui";
 import { Magnetic } from "./Magnetic";
 import { Motion } from "./Motion";
 import { Analytics } from "./Analytics";
+import { Calculator } from "./Calculator";
 
 /** The whole one-page site, rendered for one locale. */
 export function Site({ t }: { t: Dict }) {
@@ -25,6 +26,8 @@ export function Site({ t }: { t: Dict }) {
         <Transactions t={t} />
         <International t={t} />
         <Press t={t} />
+        {/* Only the calculator strings go to the browser, not the whole dictionary */}
+        <Calculator t={t.calculator} />
         <Close t={t} wa={wa} />
       </main>
       {/* Phones: a small round chat button in the corner, so it never covers the content */}
