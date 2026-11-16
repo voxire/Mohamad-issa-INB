@@ -27,7 +27,16 @@ export const site = {
    * the footer draws it; until then the name is set in italic as a stand-in.
    */
   signaturePath: "" as string,
+
+  /**
+   * Calculator currencies: dirhams per unit. The site has no server, so these are fixed.
+   * USD is the official peg (exact). EUR and GBP are Wise mid-market rates on 16 Nov 2026,
+   * shown to visitors as approximate. Refresh them now and then.
+   */
+  currencies: { AED: 1, USD: 3.6725, EUR: 4.042, GBP: 4.896 },
 } as const;
+
+export type Currency = keyof typeof site.currencies;
 
 export function whatsappLink(message: string) {
   return `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(message)}`;
