@@ -14,7 +14,8 @@ import { context, fit, multiply, perspective, program, release, rotationX, rotat
 /**
  * [lat, lon] of every roadshow pin, in the same order as the countries and cities in content/en.ts
  * (his list, Nov 2026). A country with no cities gets one pin at its main city:
- * Texas: Houston, Singapore, Lebanon: Beirut, Italy: Milan, Iraq: Baghdad.
+ * Texas: Houston, Singapore, Lebanon: Beirut, Italy: Milan, Iraq: Baghdad,
+ * and the three he added on 16 Nov 2026: Armenia: Yerevan, Georgia: Tbilisi, Oman: Muscat.
  */
 const PINS: [number, number][] = [
   [55.75, 37.62], // Moscow
@@ -35,6 +36,9 @@ const PINS: [number, number][] = [
   [33.89, 35.5], // Beirut, Lebanon
   [45.46, 9.19], // Milan, Italy
   [33.31, 44.36], // Baghdad, Iraq
+  [40.18, 44.51], // Yerevan, Armenia
+  [41.72, 44.79], // Tbilisi, Georgia
+  [23.59, 58.41], // Muscat, Oman
 ];
 export const PIN_COUNT = PINS.length;
 /** The globe turns slowly between these longitudes: Dubai, Europe, the Americas, then back. */
