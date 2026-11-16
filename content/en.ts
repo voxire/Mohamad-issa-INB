@@ -148,6 +148,30 @@ export const en: Dict = {
     cta: "Read the feature",
     items: [],
   },
+  // His title for the calculator section (WhatsApp, 16 Nov 2026).
+  calculator: {
+    kicker: "Real Estate Investment Advisory",
+    heading: "Run the numbers before you decide.",
+    currency: "AED",
+    cta: "Discuss these numbers on WhatsApp",
+    note: "An estimate for guidance only. Not financial advice.",
+    message: "Hello Mohamad, I used the calculator on your website ({tool}).\n\n{figures}\n\nI would like to discuss it with you.",
+    yield: {
+      title: "Rental yield",
+      fields: { price: "Purchase price", rent: "Annual rent", other: "Yearly costs, if any" },
+      results: { net: "Net rental yield (ROI)", gross: "Gross yield", income: "Net income per year" },
+    },
+    mortgage: {
+      title: "Mortgage",
+      fields: { price: "Property price", down: "Down payment", rate: "Interest rate", years: "Term in years" },
+      results: { monthly: "Monthly payment", loan: "Loan amount", interest: "Total interest" },
+    },
+    plan: {
+      title: "Payment plan",
+      fields: { price: "Property price", booking: "On booking", construction: "During construction", months: "Construction in months" },
+      results: { monthly: "Monthly instalment", bookingAmount: "Paid on booking", handover: "Paid on handover" },
+    },
+  },
   consent: {
     text: "This site uses analytics cookies to understand how it is visited.",
     accept: "Accept",
