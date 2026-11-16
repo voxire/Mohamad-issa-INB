@@ -22,13 +22,6 @@ export const site = {
   },
 
   /**
-   * TODO: replace with the vectorised handwritten signature.
-   * When `signaturePath` is set (an SVG path "d" string drawn in a 600×200 box),
-   * the footer draws it; until then the name is set in italic as a stand-in.
-   */
-  signaturePath: "" as string,
-
-  /**
    * Calculator currencies: dirhams per unit. The site has no server, so these are fixed.
    * USD is the official peg (exact). EUR and GBP are Wise mid-market rates on 16 Nov 2026,
    * shown to visitors as approximate. Refresh them now and then.
@@ -46,5 +39,5 @@ export const isPlaceholder = {
   whatsapp: false, // his real number, supplied Nov 2026
   email: true, // he is creating contact@mohamadissa.com; set to false once it receives mail
   analytics: site.gaId === "",
-  signature: site.signaturePath === "",
+  signature: false, // his handwritten signature, supplied 16 Nov 2026 (public/media/signature-*.webp)
 };
