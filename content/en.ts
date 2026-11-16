@@ -152,9 +152,10 @@ export const en: Dict = {
   calculator: {
     kicker: "Real Estate Investment Advisory",
     heading: "Run the numbers before you decide.",
-    currency: "AED",
+    currencyLabel: "Currency",
     cta: "Discuss these numbers on WhatsApp",
     note: "An estimate for guidance only. Not financial advice.",
+    rateNote: "Converted at an approximate rate.",
     message: "Hello Mohamad, I used the calculator on your website ({tool}).\n\n{figures}\n\nI would like to discuss it with you.",
     yield: {
       title: "Rental yield",
@@ -164,12 +165,30 @@ export const en: Dict = {
     mortgage: {
       title: "Mortgage",
       fields: { price: "Property price", down: "Down payment", rate: "Interest rate", years: "Term in years" },
-      results: { monthly: "Monthly payment", loan: "Loan amount", interest: "Total interest" },
+      results: {
+        monthly: "Monthly payment",
+        loan: "Loan amount",
+        downAmount: "Down payment",
+        interest: "Total interest",
+        repaid: "Total repaid",
+      },
     },
     plan: {
       title: "Payment plan",
-      fields: { price: "Property price", booking: "On booking", construction: "During construction", months: "Construction in months" },
-      results: { monthly: "Monthly instalment", bookingAmount: "Paid on booking", handover: "Paid on handover" },
+      fields: {
+        price: "Property price",
+        booking: "On booking",
+        construction: "Construction",
+        months: "Over months",
+        post: "After handover",
+        postMonths: "Over months",
+      },
+      results: {
+        monthly: "Monthly during construction",
+        bookingAmount: "Paid on booking",
+        handover: "Paid on handover",
+        postMonthly: "Monthly after handover",
+      },
     },
   },
   consent: {
