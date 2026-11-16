@@ -65,13 +65,19 @@ export type Dict = {
   calculator: {
     kicker: string;
     heading: string;
-    currency: string;
+    /** Accessible name for the currency switch. */
+    currencyLabel: string;
     cta: string;
     note: string;
+    /** Added to the note when EUR or GBP is chosen (fixed, approximate rates). */
+    rateNote: string;
     message: string;
     yield: CalcTool<"price" | "rent" | "other", "net" | "gross" | "income">;
-    mortgage: CalcTool<"price" | "down" | "rate" | "years", "monthly" | "loan" | "interest">;
-    plan: CalcTool<"price" | "booking" | "construction" | "months", "monthly" | "bookingAmount" | "handover">;
+    mortgage: CalcTool<"price" | "down" | "rate" | "years", "monthly" | "loan" | "downAmount" | "interest" | "repaid">;
+    plan: CalcTool<
+      "price" | "booking" | "construction" | "months" | "post" | "postMonths",
+      "monthly" | "bookingAmount" | "handover" | "postMonthly"
+    >;
   };
   consent: { text: string; accept: string; decline: string };
   close: { kicker: string; heading: string; text: string; cta: string; footer: string; location: string };
