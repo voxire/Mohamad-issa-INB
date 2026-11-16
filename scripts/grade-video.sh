@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
-# Builds the hero loop from the clip Mohamad chose (WhatsApp, 13 Nov 2026), kept in assets/video (not committed):
-#   palm-aerial-canva.mp4 = aerial of Palm Jumeirah and Atlantis at dawn, from his Canva Pro account
-#   (11s; the WhatsApp copy is 1024x576. Swap in the original Canva export when he sends it and rerun).
-# Grade: the pink dawn is pulled down and desaturated so the sea and towers sit in his charcoal and beige.
+# Builds the hero loop from the clip Mohamad chose (WhatsApp, 13 Nov 2026, "Please use this one for personal
+# website", confirmed 16 Nov), kept in assets/video (not committed):
+#   burj-downtown-canva.mp4 = Downtown Dubai and the Burj Khalifa at night, from his Canva Pro account
+#   (10s; the WhatsApp copy is 1024x576. Swap in the original Canva export when he sends it and rerun).
+# Grade: softly desaturated with warm highlights and cool shadows, so the city lights read as his beige.
 # Seamless crossfade loop (the tail dissolves into the head).
 # Earlier source (Nov 2026): Pexels #35027116, dubai-night-towers-4k.mp4.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-SRC=${1:-assets/video/palm-aerial-canva.mp4}
+SRC=${1:-assets/video/burj-downtown-canva.mp4}
 OUT=public/media
-GRADE="eq=saturation=0.38:contrast=1.08:brightness=-0.05:gamma=0.92,colorbalance=rs=-0.06:gs=-0.01:bs=0.04:rm=-0.05:bm=0.02:rh=0.02:bh=-0.02"
+GRADE="eq=saturation=0.55:contrast=1.06:gamma=0.95,colorbalance=rs=-0.02:bs=0.05:rh=0.04:gh=0.01:bh=-0.03"
 XF=1.5
 
 loop() { # $1 = input base, $2 = output, $3 = crf, $4 = maxrate
@@ -29,9 +30,9 @@ ffmpeg -v error -y -i "$SRC" \
   -an -c:v libx264 -preset slow -crf 16 /tmp/hero-base-desktop.mp4
 loop /tmp/hero-base-desktop.mp4 $OUT/hero-desktop.mp4 24 2.6M
 
-# Phone: a centred 9:16 crop (the Palm's trunk and Atlantis), at 720x1280
+# Phone: a 9:16 crop that keeps the Burj Khalifa in frame as the camera pans, at 720x1280
 ffmpeg -v error -y -i "$SRC" \
-  -vf "fps=30,crop=ih*9/16:ih:(iw-ih*9/16)/2:0,scale=720:1280:flags=lanczos,setsar=1,$GRADE,format=yuv420p" \
+  -vf "fps=30,crop=ih*9/16:ih:iw*0.15:0,scale=720:1280:flags=lanczos,setsar=1,$GRADE,format=yuv420p" \
   -an -c:v libx264 -preset slow -crf 16 /tmp/hero-base-mobile.mp4
 loop /tmp/hero-base-mobile.mp4 $OUT/hero-mobile.mp4 24 1.8M
 
