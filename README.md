@@ -20,7 +20,7 @@ Read `CLAUDE.md` before changing anything. Copy is in `content/`, and contact de
 - [ ] `site.config.ts`: real WhatsApp number (`whatsappNumber`)
 - [ ] Create `contact@mohamadissa.com` (Google Workspace or Zoho) and add its MX records at GoDaddy
 - [ ] `site.config.ts`: GA4 measurement ID (`gaId`). The consent bar switches on automatically.
-- [ ] `site.config.ts`: signature SVG path (`signaturePath`), from a photo of his signature
+- [x] His handwritten signature in the footer (`public/media/signature-*.webp`, supplied 16 Nov 2026)
 - [ ] Arabic copy reviewed by Mohamad or a native speaker (`content/ar.ts`)
 - [ ] Mohamad approves the stats wording ("11+ years", "AED 3B+ in sales"). See CONTENT.md for the public record.
 - [ ] Replace Instagram photos with originals when available (`assets/`, then `npm run media:images`)
