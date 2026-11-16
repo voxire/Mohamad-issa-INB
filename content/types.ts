@@ -1,5 +1,12 @@
 export type Locale = "en" | "ar";
 
+/** One calculator tab: its name, the input labels and the result labels. */
+export type CalcTool<F extends string, R extends string> = {
+  title: string;
+  fields: Record<F, string>;
+  results: Record<R, string>;
+};
+
 export type Dict = {
   locale: Locale;
   dir: "ltr" | "rtl";
@@ -49,6 +56,22 @@ export type Dict = {
     kicker: string;
     cta: string;
     items: { outlet: string; title: string; date: string; url: string }[];
+  };
+  /**
+   * Real Estate Investment Advisory: a working calculator (rental yield, mortgage, payment plan).
+   * Visitors enter their own figures; the button sends the result to him on WhatsApp.
+   * Placeholders in `message`: {tool} and {figures}.
+   */
+  calculator: {
+    kicker: string;
+    heading: string;
+    currency: string;
+    cta: string;
+    note: string;
+    message: string;
+    yield: CalcTool<"price" | "rent" | "other", "net" | "gross" | "income">;
+    mortgage: CalcTool<"price" | "down" | "rate" | "years", "monthly" | "loan" | "interest">;
+    plan: CalcTool<"price" | "booking" | "construction" | "months", "monthly" | "bookingAmount" | "handover">;
   };
   consent: { text: string; accept: string; decline: string };
   close: { kicker: string; heading: string; text: string; cta: string; footer: string; location: string };
