@@ -27,10 +27,18 @@ export function Site({ t }: { t: Dict }) {
         <Press t={t} />
         <Close t={t} wa={wa} />
       </main>
+      {/* Phones: a small round chat button in the corner, so it never covers the content */}
       <div className="dock">
-        <a className="btn" href={wa} target="_blank" rel="noopener noreferrer">
-          {t.hero.cta}
-          <Arrow />
+        <a className="dock__btn" href={wa} target="_blank" rel="noopener noreferrer" aria-label={t.hero.cta} title={t.hero.cta}>
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+            <path
+              d="M12 3.5c-4.7 0-8.5 3.5-8.5 7.9 0 1.8.6 3.4 1.7 4.7L4.3 20l4.2-1.4c1.1.5 2.3.7 3.5.7 4.7 0 8.5-3.5 8.5-7.9S16.7 3.5 12 3.5z"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+            />
+          </svg>
         </a>
       </div>
       {/* Pass only the consent strings so the whole dictionary isn't shipped to the browser */}
