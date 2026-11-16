@@ -70,6 +70,8 @@ Top skills: Team Leadership, Team Management, Negotiation, International Sales, 
   - Left out, to raise with him: p.15 and p.16 (Bloomberg charts of traffic and mall footfall after the March 2026 shock: no headline figure, and p.16 is cut off in the screenshot); "Dubai GDP 2025 AED 937B" on p.05, which conflicts with his p.29 (AED 541bn in 2024).
 - Hero on phones: his portrait sits smaller and higher so the text no longer crosses his chest (his feedback: "The name and text on my photo").
 
+- WhatsApp, 14 to 15 Nov 2026: roadshows on phones as a list, not swiping; keep "$1 billion" on one line; no dash in "Off plan acquisitions"; roadshows heading renamed "International Roadshows & Business Trips". He keeps the current fonts and style (not the Investment Hub ones).
+
 ## Press and media found
 1. UAE Stories, "How Mohamad Issa Turned Grit into Real Estate Gold" (19 Aug 2025): https://uaestories.com/how-mohamad-issa-turned-grit/
    - The only press feature found. The outlet sells "Sponsored News", so it reads as promotional.
