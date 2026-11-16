@@ -791,9 +791,10 @@ ul {
 .signature {
   color: var(--ink);
 }
+/* Upright, not italic (his request, 16 Nov 2026) */
 .signature__fallback {
   font-family: var(--serif);
-  font-style: italic;
+  font-style: normal;
   font-weight: 300;
   font-size: 46px;
   line-height: 1;
