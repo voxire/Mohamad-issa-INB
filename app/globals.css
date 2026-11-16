@@ -791,18 +791,17 @@ ul {
 .signature {
   color: var(--ink);
 }
-/* Upright, not italic (his request, 16 Nov 2026) */
-.signature__fallback {
-  font-family: var(--serif);
-  font-style: normal;
-  font-weight: 300;
-  font-size: 46px;
-  line-height: 1;
-  letter-spacing: 0.01em;
-}
-.signature svg {
-  width: 260px;
+/* His handwritten signature, kept smaller than the typed name it replaced (his request, 16 Nov 2026) */
+.signature img {
+  display: block;
+  width: 200px;
   height: auto;
+  margin-inline: auto;
+}
+@media (max-width: 860px) {
+  .signature img {
+    width: 160px;
+  }
 }
 .signature path {
   fill: none;
@@ -1288,12 +1287,12 @@ ul {
 .js .intl.is-explored .intl__hint[data-reveal] {
   opacity: 0;
 }
-/* Desktop: five countries on each side of the globe. The list is one <ul> in his order;
+/* Desktop: his countries either side of the globe, seven then six. The list is one <ul> in his order;
    display: contents lets its items join the stage grid, so the halves sit either side. */
 .intl__stage {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  grid-template-rows: repeat(5, auto);
+  grid-template-rows: repeat(7, auto);
   grid-auto-flow: dense;
   align-items: center;
   align-content: center;
@@ -1312,7 +1311,7 @@ ul {
   display: none;
   position: relative;
   grid-column: 2;
-  grid-row: 1 / span 5;
+  grid-row: 1 / span 7;
 }
 .js .intl__globe {
   display: block;
@@ -1350,12 +1349,12 @@ ul {
   gap: 8px;
   transition: opacity 0.6s var(--ease);
 }
-.intl__country:nth-child(-n + 5) {
+.intl__country:nth-child(-n + 7) {
   grid-column: 1;
   align-items: flex-end;
   text-align: end;
 }
-.intl__country:nth-child(n + 6) {
+.intl__country:nth-child(n + 8) {
   grid-column: 3;
   align-items: flex-start;
   text-align: start;
@@ -1870,7 +1869,7 @@ ul {
   .js .intl__globe,
   [dir="rtl"].js .intl__globe,
   .js [dir="rtl"] .intl__globe {
-    width: min(72vw, 32svh, 420px);
+    width: min(64vw, 27svh, 400px);
   }
   /* His countries as a list beneath the globe (his request: a list, not a swipe row), two columns, tap to focus */
   .intl__countries {
@@ -1883,13 +1882,13 @@ ul {
     display: none;
   }
   .intl__country,
-  .intl__country:nth-child(-n + 5),
-  .intl__country:nth-child(n + 6) {
+  .intl__country:nth-child(-n + 7),
+  .intl__country:nth-child(n + 8) {
     grid-column: auto;
     align-items: flex-start;
     text-align: start;
     gap: 2px;
-    padding-block: 8px;
+    padding-block: 6px;
     border-block-start: 1px solid var(--line);
   }
   .intl__country.is-focused {
@@ -2002,15 +2001,15 @@ ul {
   .js .intl__globe,
   [dir="rtl"].js .intl__globe,
   .js [dir="rtl"] .intl__globe {
-    width: min(66vw, 28svh);
+    width: min(58vw, 24svh);
   }
   .intl__countries {
     margin-block-start: 10px;
   }
   .intl__country,
-  .intl__country:nth-child(-n + 5),
-  .intl__country:nth-child(n + 6) {
-    padding-block: 6px;
+  .intl__country:nth-child(-n + 7),
+  .intl__country:nth-child(n + 8) {
+    padding-block: 4px;
   }
   .intl__name {
     font-size: 19px;
@@ -2065,7 +2064,12 @@ ul {
   .js .intl__globe,
   [dir="rtl"].js .intl__globe,
   .js [dir="rtl"] .intl__globe {
-    width: min(60vw, 26svh);
+    width: min(52vw, 21svh);
+  }
+  .intl__country,
+  .intl__country:nth-child(-n + 7),
+  .intl__country:nth-child(n + 8) {
+    padding-block: 3px;
   }
 }
 
@@ -2548,5 +2552,27 @@ ul {
 @media (prefers-reduced-motion: reduce) {
   .calc__body {
     animation: none;
+  }
+}
+
+/* Shorter laptop screens: his thirteen roadshow countries still fit around the globe on one screen */
+@media (min-width: 861px) and (max-height: 860px) {
+  .intl__stage {
+    row-gap: 6px;
+  }
+  .intl__name {
+    font-size: clamp(22px, 1.9vw, 32px);
+  }
+  [dir="rtl"] .intl__name {
+    font-size: clamp(20px, 1.7vw, 28px);
+    line-height: 1.35;
+  }
+  .intl__country {
+    gap: 2px;
+  }
+}
+@media (min-width: 861px) and (max-height: 760px) {
+  .intl__name {
+    font-size: clamp(20px, 1.7vw, 28px);
   }
 }
