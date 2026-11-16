@@ -142,9 +142,10 @@ export const ar: Dict = {
   calculator: {
     kicker: "استشارات الاستثمار العقاري",
     heading: "احسبها قبل أن تقرّر.",
-    currency: "AED",
+    currencyLabel: "العملة",
     cta: "ناقش هذه الأرقام عبر واتساب",
     note: "تقدير للاسترشاد فقط، وليس نصيحة مالية.",
+    rateNote: "التحويل بسعر صرف تقريبي.",
     message: "مرحبًا محمد، استخدمت الحاسبة على موقعك ({tool}).\n\n{figures}\n\nأودّ مناقشتها معك.",
     yield: {
       title: "العائد الإيجاري",
@@ -154,12 +155,30 @@ export const ar: Dict = {
     mortgage: {
       title: "التمويل العقاري",
       fields: { price: "سعر العقار", down: "الدفعة الأولى", rate: "نسبة الفائدة", years: "المدة بالسنوات" },
-      results: { monthly: "القسط الشهري", loan: "مبلغ التمويل", interest: "إجمالي الفائدة" },
+      results: {
+        monthly: "القسط الشهري",
+        loan: "مبلغ التمويل",
+        downAmount: "الدفعة الأولى",
+        interest: "إجمالي الفائدة",
+        repaid: "إجمالي المسدَّد",
+      },
     },
     plan: {
       title: "خطة السداد",
-      fields: { price: "سعر العقار", booking: "عند الحجز", construction: "خلال البناء", months: "مدة البناء بالأشهر" },
-      results: { monthly: "القسط الشهري", bookingAmount: "المدفوع عند الحجز", handover: "المدفوع عند التسليم" },
+      fields: {
+        price: "سعر العقار",
+        booking: "عند الحجز",
+        construction: "خلال البناء",
+        months: "على مدى أشهر",
+        post: "بعد التسليم",
+        postMonths: "على مدى أشهر",
+      },
+      results: {
+        monthly: "القسط الشهري خلال البناء",
+        bookingAmount: "المدفوع عند الحجز",
+        handover: "المدفوع عند التسليم",
+        postMonthly: "القسط الشهري بعد التسليم",
+      },
     },
   },
   consent: {
