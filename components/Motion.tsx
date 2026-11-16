@@ -321,10 +321,6 @@ export function Motion() {
         const el = e.currentTarget as HTMLElement;
         locked = locked === el ? null : el;
         show(locked ?? el);
-        // Phones: bring the tapped country to the middle of the swipe row
-        if (window.matchMedia("(max-width: 860px)").matches) {
-          el.closest(".intl__country")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", inline: "center", block: "nearest" });
-        }
       };
       const release = (e: MouseEvent) => {
         if (!locked || (e.target as HTMLElement).closest(".intl__globe")) return;
