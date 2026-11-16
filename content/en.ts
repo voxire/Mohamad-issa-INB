@@ -140,6 +140,10 @@ export const en: Dict = {
       { name: "Lebanon", cities: [] },
       { name: "Italy", cities: [] },
       { name: "Iraq", cities: [] },
+      // Added at his request, 16 Nov 2026
+      { name: "Armenia", cities: [] },
+      { name: "Georgia", cities: [] },
+      { name: "Oman", cities: [] },
     ],
   },
   // He has no interviews to highlight (Nov 2026), so the press section stays hidden until items are added.
