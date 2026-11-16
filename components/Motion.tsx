@@ -106,7 +106,7 @@ export function Motion() {
         ? createParticleStory(canvas, {
             portrait: intro.dataset.portrait || "",
             words: intro.dataset.words || "",
-            font: rtl ? '"Noto Naskh Arabic", serif' : '"Cormorant Garamond", Georgia, serif',
+            font: rtl ? '"Noto Naskh Arabic", serif' : '"Poppins", system-ui, sans-serif',
             rtl,
           })
         : null;
