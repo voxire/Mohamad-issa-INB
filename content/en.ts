@@ -113,13 +113,13 @@ export const en: Dict = {
   transactions: {
     kicker: "Selected transactions",
     heading: "A record, quietly kept.",
-    // His deals, in his order (WhatsApp, 16 Nov 2026). Amounts as he wrote them; currency to be confirmed.
+    // His deals, in his order (WhatsApp, 16 Nov 2026). Amounts in AED, confirmed by him the same day.
     items: [
       { title: "World Islands, Dubai", detail: "Bulk deals" },
       { title: "Plots across Dubai", detail: "Plots sold" },
       { title: "Burj Khalifa", detail: "Commercial office" },
-      { title: "Sobha, MBR City", detail: "150+ million in personal sales" },
-      { title: "Arada, Sharjah", detail: "200+ million in personal sales" },
+      { title: "Sobha, MBR City", detail: "AED 150M+ in personal sales" },
+      { title: "Arada, Sharjah", detail: "AED 200M+ in personal sales" },
       { title: "Damac Hills", detail: "Villas, bulk deal" },
       { title: "Bugatti Residences by Binghatti", detail: "Bulk deal" },
       { title: "Mercedes-Benz Places by Binghatti", detail: "Multiple units" },
