@@ -203,16 +203,21 @@ function Statement({ t }: { t: Dict }) {
   );
 }
 
+/** His handwritten signature (supplied 16 Nov 2026), in place of his typed name. */
 function Signature() {
   return (
     <div className="signature" aria-hidden="true">
-      {site.signaturePath ? (
-        <svg viewBox="0 0 600 200">
-          <path d={site.signaturePath} />
-        </svg>
-      ) : (
-        <span className="signature__fallback">Mohamad Issa</span>
-      )}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/media/signature-800.webp"
+        srcSet="/media/signature-400.webp 400w, /media/signature-800.webp 800w"
+        sizes="200px"
+        alt=""
+        width={800}
+        height={177}
+        loading="lazy"
+        decoding="async"
+      />
     </div>
   );
 }
@@ -353,8 +358,8 @@ function Transactions({ t }: { t: Dict }) {
 }
 
 /**
- * His roadshow list around the globe: the first five countries on one side, the rest on the other
- * (a swipe row under the globe on phones). Each country and city is a button that focuses the globe
+ * His roadshow list around the globe: the first seven countries on one side, the rest on the other
+ * (a two-column list under the globe on phones). Each country and city is a button that focuses the globe
  * on its pins (components/gl/globe.ts); a country with no cities has one pin at its main city.
  * Pins are numbered in list order, so they line up with PINS in globe.ts.
  */
