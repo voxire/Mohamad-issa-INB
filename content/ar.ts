@@ -132,6 +132,9 @@ export const ar: Dict = {
       { name: "لبنان", cities: [] },
       { name: "إيطاليا", cities: [] },
       { name: "العراق", cities: [] },
+      { name: "أرمينيا", cities: [] },
+      { name: "جورجيا", cities: [] },
+      { name: "عُمان", cities: [] },
     ],
   },
   press: {
