@@ -55,7 +55,7 @@ scripts/                             → media pipeline (images, video grading)
 - Hero copy follows Mohamad's brief verbatim (see `BRIEF.md`).
 - Binghatti appears **only** where he named it (Nov 2026): "Binghatti Holding" in the developers list and his Binghatti projects in Selected transactions. Never in the hero, meta tags or elsewhere.
 - The owner removed the story, gallery, "In good company" section and all lifestyle photos (Nov 2026). Do not add them back unless he asks, and never pull photos of him or others from the web.
-- Sections for selected transactions and press render only when `content/en.ts` and `ar.ts` have items. Add only what he supplies (transactions: his four deals; press: empty, he has no interviews to highlight).
+- Sections for selected transactions and press render only when `content/en.ts` and `ar.ts` have items. Add only what he supplies (transactions: his eight deals in his order, shown in two columns; press: empty, he has no interviews to highlight).
 - Do not use family or children photos, or company team shots. Approved photos are listed in `CONTENT.md`.
 - Never invent achievements, clients, awards or press. If a fact is not in `CONTENT.md` or confirmed by the owner, it doesn't ship.
 - "Why Dubai" carries his own points, in his order, from the market brief he sent (Nov 2026); every figure has a source listed in `CONTENT.md`. Never show the brief's Binghatti branding. Refresh the figures yearly and keep the "not financial or tax advice" note.
