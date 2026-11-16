@@ -72,6 +72,9 @@ Top skills: Team Leadership, Team Management, Negotiation, International Sales, 
 
 - WhatsApp, 14 to 15 Nov 2026: roadshows on phones as a list, not swiping; keep "$1 billion" on one line; no dash in "Off plan acquisitions"; roadshows heading renamed "International Roadshows & Business Trips". He keeps the current fonts and style (not the Investment Hub ones).
 
+- Selected transactions (WhatsApp, 16 Nov 2026, text and voice note), in his order: Bulk deals on the World Islands Dubai; Plots sold across Dubai; Burj Khalifa (commercial office); 150+ million personal sales in Sobha, MBR City, across several projects; crossed 200+ million personal sales at Arada, Sharjah, across multiple projects; Damac Hills bulk; Bugatti; Mercedes. Currency of the 150+ and 200+ million figures not stated (asked).
+- Calculator (16 Nov 2026, voice notes): add the investment calculator from Investment Hub at the end of the site, as an additional free service under a title such as "Free consultancy" or "Free advisory" (not "Services"). He wants the proposal first, then implementation.
+
 ## Press and media found
 1. UAE Stories, "How Mohamad Issa Turned Grit into Real Estate Gold" (19 Aug 2025): https://uaestories.com/how-mohamad-issa-turned-grit/
    - The only press feature found. The outlet sells "Sponsored News", so it reads as promotional.
