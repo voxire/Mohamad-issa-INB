@@ -3,10 +3,10 @@ import type { ReactNode } from "react";
 import type { Dict } from "@/content/types";
 import { site } from "@/site.config";
 
-import "@fontsource/cormorant-garamond/300.css";
-import "@fontsource/cormorant-garamond/400.css";
-import "@fontsource/cormorant-garamond/300-italic.css";
-import "@fontsource-variable/manrope";
+import "@fontsource/poppins/300.css";
+import "@fontsource/poppins/400.css";
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/300-italic.css";
 import "@fontsource/noto-naskh-arabic/400.css";
 import "@fontsource/noto-naskh-arabic/500.css";
 import "@/app/globals.css";
