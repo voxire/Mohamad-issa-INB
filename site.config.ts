@@ -9,7 +9,7 @@ export const site = {
   whatsappNumber: "971561969292",
 
   // His chosen address (Nov 2026). TODO: he is creating this mailbox; confirm it receives mail before launch.
-  email: "inquire@mohamadissa.com",
+  email: "contact@mohamadissa.com",
 
   // TODO: Google Analytics 4 measurement ID (e.g. "G-XXXXXXXXXX"). Empty = analytics and consent bar disabled.
   gaId: "" as string,
@@ -44,7 +44,7 @@ export function whatsappLink(message: string) {
 
 export const isPlaceholder = {
   whatsapp: false, // his real number, supplied Nov 2026
-  email: true, // he is creating inquire@mohamadissa.com; set to false once it receives mail
+  email: true, // he is creating contact@mohamadissa.com; set to false once it receives mail
   analytics: site.gaId === "",
   signature: site.signaturePath === "",
 };
